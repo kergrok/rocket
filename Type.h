@@ -25,7 +25,7 @@ class Part
     // Récupérer la référence du point
     int Getref(){return _ref;};
     // Modifier Ref
-    void Modifyref(int ref) {_ref = ref}
+    void Modifyref(int ref) {_ref = ref;};
 };
 
 /*******************  Stocke les particules présentes et les prop physiques de la maille  *******************/

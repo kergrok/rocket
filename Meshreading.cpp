@@ -8,7 +8,7 @@ using namespace Eigen;
 
 void Mesh::readmesh()
 {
-  ifstream mesh_file(_meshname.data());   
+  ifstream mesh_file(_meshname.data());
   if (!mesh_file.is_open())
   {
     cout << "Impossible d'ouvrir le fichier " << _meshname << endl;
@@ -56,7 +56,8 @@ void Mesh::readmesh()
       {
         mesh_file >> quad[0] >> quad[1] >> quad[2] >> quad[3] >> ref;
         quad[0]--; quad[1]--; quad[2]--; quad[3]--;
-        _medge.push_back(Quad(quad, ref));
+        _mquad.push_back(Quad(quad, ref));
+      }
     }
   }
 }
