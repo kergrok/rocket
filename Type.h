@@ -54,4 +54,52 @@ public:
   void Modifyaverage(double prop) { _prop[1] = prop;};
   // Modifier temp
   void Modifytemp(double prop) { _prop[2] = prop;};
-}
+};
+
+class Quad
+{
+  private:
+    // Indices des 4 sommets composant le quad
+    Eigen::Vector4i _v;
+    // Tag associe au quad
+    int _ref;
+  public:
+    // Constructeur
+    Quad(Eigen::Vector4i v, int ref);
+    // Récupérer le quad
+    Eigen::Vector4i Getquad(){return _v;};
+    // Récupérer la référence du quad
+    int Getref(){return _ref;};
+};
+
+class Point
+{
+  private:
+     // Coordonnees du point ;
+     Eigen::Vector2d _coor;
+     // Tag associe au point
+     int _ref;
+  public:
+    // Constructeur
+    Point(Eigen::Vector2d coor, int ref);
+    // Récupérer coor
+    Eigen::Vector2d Getcoor() {return _coor;};
+    // Récupérer la référence du point
+    int Getref(){return _ref;};
+};
+
+class Edge
+{
+  private:
+    // Indices des 2 sommets composant l'arete
+    Eigen::Vector2i _v;
+    // Tag associe a l'arete
+    int _ref;
+  public:
+    // Constructeur
+    Edge(Eigen::Vector2i v, int ref);
+    // Récupérer l'arête
+    Eigen::Vector2i Getedge(){return _v;};
+    // Récupérer la référence de l'arête
+    int Getref(){return _ref;};
+};
