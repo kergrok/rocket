@@ -13,6 +13,11 @@ class Mesh
     std::string _meshname;
     double _omega;
 
+    // Surface des quadrilatères
+    Eigen::VectorXd _surfaces;
+    // Longueur des arêtes
+    Eigen::VectorXd _lenghts;
+
   public:
     // Constructeur
     Mesh(std::string meshname);
@@ -23,4 +28,10 @@ class Mesh
     double Convertinv(double r, double theta);
     // ------------------ calcul de l'angle d'incidence sur la paroi ----------------
     double Angle(int i);
+    // ------------------ Calcul de la longueur des arêtes -----------------
+    void Buildlenghts();
+    // ------------------ Calcul des surfaces des quad ---------------------
+    void Buildsurfaces();
+    // ----------- Calcul des propriétés dans la maille i --------------
+    void Calc_prop(int i);
 };
