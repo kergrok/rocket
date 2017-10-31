@@ -33,41 +33,53 @@ class Part
 class Maille
 {
 private:
-   // Indices des particules présentent
+   // Indices des particules présentes
    Eigen::VectorXi _indices;
    // Propriétés : Densité Vitesse Température
    Eigen::Vector3d _prop;
+   // Surface de la maille
+   Eigen::Vector3d _average;
+   // Surface de la maille
+   double _surf;
 public:
   // Constructeur
-  Maille(Eigen::VectorXi indices,Eigen::Vector3d prop);
+  Maille(Eigen::VectorXi indices,Eigen::Vector2d prop,Eigen::Vector3d average,double surf);
   // Récupérer indices
   Eigen::VectorXi Getindices() {return _indices;};
   // Récupère la densité
   double Getdensity() {return _prop[0];};
   //Récupère vitesse moyenne
-  double Getaverage() {return _prop[1];};
+  Eigen::Vector3d Getaverage() {return _average;};
   // Récupère la température
-  double Gettemp() {return _prop[2];};
+  double Gettemp() {return _prop[1];};
+  // Récupère la Surface
+  double Getsurf() {return _surf;};
   // Modifier densité
   void Modifydensity(double prop) { _prop[0] = prop;};
   // Modifier vitesse moyenne
-  void Modifyaverage(double prop) { _prop[1] = prop;};
-  // Modifier temp
-  void Modifytemp(double prop) { _prop[2] = prop;};
+  void Modifyaverage(Eigen::Vector3d average) { _average = average;};
+  // Modifier température
+  void Modifytemp(double prop) { _prop[1] = prop;};
+  // Modifier la Surface
+  void Modifysurf(double surf){_surf = surf;};
 };
 
 class Quad
 {
   private:
     // Indices des 4 sommets composant le quad
+    Eigen::Vector4i _p;
+    // Indices des 4 arêtes composant le quad
     Eigen::Vector4i _v;
     // Tag associe au quad
     int _ref;
   public:
     // Constructeur
-    Quad(Eigen::Vector4i v, int ref);
-    // Récupérer le quad
-    Eigen::Vector4i Getquad(){return _v;};
+    Quad(Eigen::Vector4i p,Eigen::Vector4i v, int ref);
+    // Récupérer les sommets du quad
+    Eigen::Vector4i Getquadp(){return _p;};
+    // Récupérer les arêtes du quad
+    Eigen::Vector4i Getquadv(){return _v;};
     // Récupérer la référence du quad
     int Getref(){return _ref;};
 };
