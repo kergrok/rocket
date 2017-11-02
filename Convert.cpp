@@ -6,32 +6,36 @@
 using namespace std;
 using namespace Eigen;
 
-double Mesh::Convert(double x, double y)        // Convertit cartésien en polaire
+Eigen::Vector2d Mesh::Convert(double x, double y)        // Convertit cartésien en polaire
 {
-  double r,theta;
-  r= sqrt(x*x+y*y);
+  // Le vecteur coor_cyl comporte les valeurs de r et theta
+  Eigen::Vector2d coor_cyl;
+  // Calcul de r
+  coor_cyl[0] = sqrt(x*x+y*y);
+  // Calcul de theta
   if ((x==0)&&(y>0))        // Domaine en x>=0 et y >=0
   {
-    theta= acos(1.0)/2;
+    coor_cyl[1] = acos(1.0)/2;
   }
   else if ((x>0)&&(y<=0))
   {
-    theta= atan(y/x);
+    coor_cyl[1] = atan(y/x);
   }
   else
   {
     cout << "Coordonnées pas dans le domaine" << endl;
     abort;
   }
-  return r,theta;
+  return coor_cyl;
 }
 
-double Mesh::Convertinv(double r, double theta)    // Convertit polaire en cartésien
+Eigen::Vector2d Mesh::Convertinv(double r, double theta)    // Convertit polaire en cartésien
 {
-  double x,y;
-  x= r*cos(theta);
-  y= r*sin(theta);
-  return x,y;
+  // Le vecteur coor_pol comporte les valeurs de x et y
+  Eigen::Vector2d coor_pol;
+  coor_pol[0] = r*cos(theta);
+  coor_pol[1] = r*sin(theta);
+  return coor_pol;
 }
 
 double Mesh::Angle(int i)     // Calcul angle incident et prends en entrée l'indice de la particule i

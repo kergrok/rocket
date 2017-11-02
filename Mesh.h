@@ -24,8 +24,8 @@ class Mesh
     // ------------------ Lecture du maillage  ---------------------
     void readmesh();
     // ------------------ Conversion cartésien <-> cylindrique -----------------
-    double Convert(double x, double y);
-    double Convertinv(double r, double theta);
+    Eigen::Vector2d Convert(double x, double y);
+    Eigen::Vector2d Convertinv(double r, double theta);
     // ------------------ calcul de l'angle d'incidence sur la paroi ----------------
     double Angle(int i);
     // ------------------ Calcul de la longueur des arêtes -----------------
