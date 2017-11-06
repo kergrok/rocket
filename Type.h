@@ -75,7 +75,7 @@ class Quad
     int _ref;
   public:
     // Constructeur
-    Quad(Eigen::Vector4i p,Eigen::Vector4i v, int ref);
+    Quad(Eigen::Vector4i p, Eigen::Vector4i v, int ref);
     // Récupérer les sommets du quad
     Eigen::Vector4i Getquadp(){return _p;};
     // Récupérer les arêtes du quad
