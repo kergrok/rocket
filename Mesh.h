@@ -12,7 +12,7 @@ class Mesh
     std::vector<Edge> _medge;
     std::string _meshname;
     double _omega;
-
+    double _dt;
     // Surface des quadrilatères
     Eigen::VectorXd _surfaces;
     // Longueur des arêtes
@@ -34,10 +34,11 @@ class Mesh
     void Buildsurfaces();
     // ----------- Calcul des propriétés dans la maille i --------------
     void Calc_prop(int i);
-
-    void Run(double t_final, );
-
-    double CFL();
+    // ---------------- Calcul dt grâce à la "CFL" ------------------
+    // Pour le moment la vitesse moyenne (Mach 2) est en argument, à modifier
+    void CFL(double vit_moy);
+    // --------- Déplacement des particules jusqu'à t_final -----------
+    void Displacement(double t_final, );
     // ------------------ Calcul des voisins ---------------------
     void Buildvoisins();
 };
