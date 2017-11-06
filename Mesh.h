@@ -34,4 +34,8 @@ class Mesh
     void Buildsurfaces();
     // ----------- Calcul des propriétés dans la maille i --------------
     void Calc_prop(int i);
+
+    void Run(double t_final, );
+
+    double CFL();
 };
