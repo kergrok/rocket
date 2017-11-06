@@ -38,4 +38,6 @@ class Mesh
     void Run(double t_final, );
 
     double CFL();
+    // ------------------ Calcul des voisins ---------------------
+    void Buildvoisins();
 };
