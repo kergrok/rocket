@@ -38,6 +38,7 @@ Mesh::Buildlenght()
 
 // --------- Construction de _surfaces comprenant la surface de chaque maille ----------
 // - /!\ ATTENTION : il faut avoir appelé Mesh::Buildlenght() avant Mesh::Buildsurfaces() /!\ -
+// Attention à vérifier aussi le résultat comme on a fait une approximation
 Mesh::Buildsurfaces()
 {
   _surfaces.resize(_mquad.size());
@@ -80,6 +81,57 @@ Mesh::Buildsurfaces()
             // Si c'est le cas on calcule la surface à partir de l'arête j et de l'arête k
             if (abs(coor_cyl1[1]-coor_cyl2[1])<coor_cyl1[1]*0.00001)
               _surfaces(i) = _lenghts[j]*_lenghts[k];
+          }
+        }
+      }
+    }
+  }
+}
+
+// On cherche les voisins de chaque maille et on les ajoute à _maille
+// On a tous participé à cette fonction sauf Camille qui s'est défilé
+Mesh::Buildvoisins()
+{
+  //edge1 comprend les arêtes du quad donc on cherche les voisins
+  //edge2 comprend les arêtes des quad qu'on teste pour être les voisins
+  Eigen::Vector2i edge1, edge2;
+  // Un vecteur colors qui comprend le nbre de voisins déjà trouvé pour chaque maille
+  Eigen::VectorXi colors;
+  colors.setZero(_mquad.size())
+
+  //Booléen qui permet de stopper les tests sur j si on a trouvé que c'était un voisin
+  bool vois(false);
+
+  // i : quad dont on cherche les voisins
+  for (int i = 0; i < _mquad.size(); i++) {
+    //Si on a pas déjà tout les voisins de i :
+    if (colors[i]!=4) {
+      edge1 = _mquad[i].Getedge();
+      // j : quad qu'on teste sur son voisinage avec i
+      // On teste seulement les quad dont on a pas encore determiné les voisins
+      // c'est pour ça qu'on part de i+1
+      for (int j = i+1; j < _mquad.size(); j++) {
+        //Si on a pas déjà tout les voisins de j :
+        if (colors[j]!=4) {
+          if (i != j) {
+            edge2 = _mquad[j].Getedge();
+            vois = false;
+            // k : on va faire les tests sur les 4 arêtes de i
+            for (int k = 0; k<4; k++) {
+              // Si vois est "true" ça veut dire que j est un voisin, ce n'est pas la peine de continuer la boucle k
+              if (vois == false)
+              if ((edge1[k]==edge2[0])||(edge1[k]==edge2[1])||(edge1[k]==edge2[2])||(edge1[k]==edge2[3])) {
+                // On ajoute à la maille i le voisin j
+                _maille[i].Modifyvoisins(j, colors[i]);
+                // Et vice et versa
+                _maille[j].Modifyvoisins(i, colors[j]);
+                // On ajoute un voisin trouvé pour i et un pour j
+                colors[i]++;
+                colors[j]++;
+                // On fait en sorte de sortir de la boucle k
+                vois = true;
+              }
+            }
           }
         }
       }

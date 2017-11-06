@@ -66,8 +66,9 @@ public:
   void Modifytemp(double prop) { _prop[1] = prop;};
   // Modifier la Surface
   void Modifysurf(double surf){_surf = surf;};
-  // Modifier les voisins
-  void Modifyvoisins(Eigen::Vector4i voisins){_voisins = voisins;};
+  // Modifier le ième voisin avec la ref de voisin
+  // - /!\ i doit être compris entre 0 et 3 /!\ -
+  void Modifyvoisins(int voisin, int i){_voisin[i] = voisin;};
 };
 
 class Quad
