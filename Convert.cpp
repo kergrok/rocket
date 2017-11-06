@@ -40,8 +40,9 @@ Eigen::Vector2d Mesh::Convertinv(double r, double theta)    // Convertit polaire
 
 double Mesh::Angle(int i)     // Calcul angle incident et prends en entrée l'indice de la particule i
 {
-  double r,theta,phi;
-  r,theta=Convert(_part[i].Getcoor()[0],_part[i].Getcoor()[1]);
-  phi=-theta+atan((_part[i].Getvelo()[1])/(_part[i].Getvelo()[0]));
+  double phi;
+  Vector2d cyl;
+  cyl=Convert(_part[i].Getcoor()[0],_part[i].Getcoor()[1]);
+  phi=-cyl[1]+atan((_part[i].Getvelo()[1])/(_part[i].Getvelo()[0]));
   return phi;
 }
