@@ -41,9 +41,11 @@ private:
    Eigen::Vector3d _average;
    // Surface de la maille
    double _surf;
+   // Voisins de la maille
+   Eigen::Vector4i _voisins;
 public:
   // Constructeur
-  Maille(Eigen::VectorXi indices,Eigen::Vector2d prop,Eigen::Vector3d average,double surf);
+  Maille(Eigen::VectorXi indices,Eigen::Vector3d prop,Eigen::Vector3d average,double surf,Eigen::Vector4i voisins);
   // Récupérer indices
   Eigen::VectorXi Getindices() {return _indices;};
   // Récupère la densité
@@ -54,6 +56,8 @@ public:
   double Gettemp() {return _prop[1];};
   // Récupère la Surface
   double Getsurf() {return _surf;};
+  // Récupère les voisins
+  Eigen::Vector4i Getvoisins() {return _voisins;};
   // Modifier densité
   void Modifydensity(double prop) { _prop[0] = prop;};
   // Modifier vitesse moyenne
@@ -62,6 +66,8 @@ public:
   void Modifytemp(double prop) { _prop[1] = prop;};
   // Modifier la Surface
   void Modifysurf(double surf){_surf = surf;};
+  // Modifier les voisins
+  void Modifyvoisins(Eigen::Vector4i voisins){_voisins = voisins;};
 };
 
 class Quad
