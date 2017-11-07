@@ -34,11 +34,14 @@ class Mesh
     void Buildsurfaces();
     // ----------- Calcul des propriétés dans la maille i --------------
     void Calc_prop(int i);
-    // ---------------- Calcul dt grâce à la "CFL" ------------------
-    // Pour le moment la vitesse moyenne (Mach 2) est en argument, à modifier
-    void CFL(double vit_moy);
-    // --------- Déplacement des particules jusqu'à t_final -----------
-    void Displacement(double t_final, );
+
+    void Run(double t_final);
+
+    double CFL();
     // ------------------ Calcul des voisins ---------------------
     void Buildvoisins();
+
+    void Find_Maille(int i);
+
+    bool is_in(int maille, Eigen::Vector2d Position);
 };
