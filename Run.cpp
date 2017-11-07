@@ -44,11 +44,22 @@ Mesh::Displacement()
     in_domain = Find_Maille(i);
     if(not(in_domain))
     {
-      new_coor = coor;
 
     }
   }
 }
 
 
-Mesh::find_
+Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
+{
+
+  double a1,c1,a2,c2;
+  int ref_maille;
+  a1=(coor[1]-new_coor[1])/(coor[0]-new_coor[0]);
+  c1=coor[1]-coor[0]*a1;
+
+  ref_maille = _part[i].Getref();
+  
+
+
+}
