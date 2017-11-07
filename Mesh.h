@@ -35,9 +35,13 @@ class Mesh
     // ----------- Calcul des propriétés dans la maille i --------------
     void Calc_prop(int i);
 
-    void Run(double t_final, );
+    void Run(double t_final);
 
     double CFL();
     // ------------------ Calcul des voisins ---------------------
     void Buildvoisins();
+
+    void Find_Maille(int i);
+
+    bool is_in(int maille, Eigen::Vector2d Position);
 };
