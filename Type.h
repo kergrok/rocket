@@ -69,6 +69,10 @@ public:
   // Modifier le ième voisin avec la ref de voisin
   // - /!\ i doit être compris entre 0 et 3 /!\ -
   void Modifyvoisins(int voisin, int i){_voisins[i] = voisin;};
+  // Modifier les indices des particules présentes dans la maille
+  void Modifyindices(int indice, int i){_indices[i]=indice;};
+  // Ajoute un indice au tableau
+  void Addindices(int indice){_indices.push_back(indice);};
 };
 
 class Quad
