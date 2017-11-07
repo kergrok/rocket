@@ -17,12 +17,17 @@ class Mesh
     Eigen::VectorXd _surfaces;
     // Longueur des arêtes
     Eigen::VectorXd _lenghts;
+    // Les quadrilatères collés aux arêtes
+    // Si _edg_Q2[i] == -1 alors c'est une arête au bord
+    Eigen::VectorXi _edg_Q1, _edg_Q2;
 
   public:
     // Constructeur
     Mesh(std::string meshname);
     // ------------------ Lecture du maillage  ---------------------
     void readmesh();
+    // ------------ Construction des arêtes à l'intérieur du domaine -----------
+    void BuildEdges();
     // ------------------ Conversion cartésien <-> cylindrique -----------------
     Eigen::Vector2d Convert(double x, double y);
     Eigen::Vector2d Convertinv(double r, double theta);
