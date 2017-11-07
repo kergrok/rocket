@@ -40,7 +40,7 @@ class Mesh
     // ----------- Calcul des propriétés dans la maille i --------------
     void Calc_prop(int i);
 
-    void Run(double t_final);
+    void Displacement(double vit_moy);
 
     void CFL();
     // ------------------ Calcul des voisins ---------------------

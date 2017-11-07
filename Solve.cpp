@@ -38,7 +38,9 @@ void Mesh::Calc_prop(int i)
 
 }
 
-void Mesh::Find_Maille(int i) // i numéro de la particule,
+
+
+bool Mesh::Find_Maille(int i) // i numéro de la particule, true si il a trouvé la nouvelle maille
 {
   bool is_found(false);
 
@@ -106,10 +108,14 @@ void Mesh::Find_Maille(int i) // i numéro de la particule,
       }
     }
   }
+
+  return is_found;
 }
 
 bool Mesh::is_in(int maille, Vector2d Position) // True si la particule est dans la maille
 {
+
+
   Vector2d Normale;
   Vector2d Middle_Edge;
   Vector2d MiEdge_Middle;
@@ -139,6 +145,7 @@ bool Mesh::is_in(int maille, Vector2d Position) // True si la particule est dans
   // Pour chaque arete, on vérifie si le produit scalaire
   // Vecteur allant du centre de l'arete à la position de la particule, normale de l'arete
   // A le bon signe ie <0
+
   for(int i=1;i<5;i++)
   {
 
