@@ -94,7 +94,7 @@ class Quad
     // Récupérer la référence du quad
     int Getref(){return _ref;};
     // Modifie les num des aretes du quad
-    void Modifyv(Eigen::Vector4i v){_v = v}
+    void Modifyv(int i, int j){_v[j] = i}
 };
 
 class Point
