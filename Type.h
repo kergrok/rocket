@@ -69,10 +69,10 @@ public:
   // Modifier le ième voisin avec la ref de voisin
   // - /!\ i doit être compris entre 0 et 3 /!\ -
   void Modifyvoisins(int voisin, int i){_voisins[i] = voisin;};
+  // Maj de la taille
+  void Majindices(){_indices.resize(0);};
   // Modifier les indices des particules présentes dans la maille
-  void Modifyindices(int indice, int i){_indices[i]=indice;};
-  // Ajoute un indice au tableau
-  void Addindices(int indice){_indices.push_back(indice);};
+  void Addindice(int indice){_indices.push_back(indice);};
 };
 
 class Quad
@@ -93,6 +93,8 @@ class Quad
     Eigen::Vector4i Getquadv(){return _v;};
     // Récupérer la référence du quad
     int Getref(){return _ref;};
+    // Modifie les num des aretes du quad
+    void Modifyv(Eigen::Vector4i v){_v = v}
 };
 
 class Point
