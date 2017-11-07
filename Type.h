@@ -68,7 +68,7 @@ public:
   void Modifysurf(double surf){_surf = surf;};
   // Modifier le ième voisin avec la ref de voisin
   // - /!\ i doit être compris entre 0 et 3 /!\ -
-  void Modifyvoisins(int voisin, int i){_voisin[i] = voisin;};
+  void Modifyvoisins(int voisin, int i){_voisins[i] = voisin;};
 };
 
 class Quad
