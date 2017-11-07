@@ -88,6 +88,8 @@ void Mesh::readmesh()
   }
   string file_line;
   Vector4d vert; Vector4i quad; Vector2i edg;
+  // Contient les quatres arêtes du quadrilatère
+  Vector4i edges(0,0,0,0);
   int ref(0), loop_pts(1);
   int np;
   int ned;
@@ -128,7 +130,7 @@ void Mesh::readmesh()
       {
         mesh_file >> quad[0] >> quad[1] >> quad[2] >> quad[3] >> ref;
         quad[0]--; quad[1]--; quad[2]--; quad[3]--;
-        _mquad.push_back(Quad(quad, ref));
+        _mquad.push_back(Quad(quad, edges, ref));
       }
     }
   }
@@ -181,6 +183,18 @@ void Mesh::readmesh()
       }
     }
   }
+  // Ajout des arêtes dans la classe Quad
+  VectorXi nb_voisins;
+  nb_voisins.setZero(_mquad.size());
+  for (int i = 0 ; i < _medge.size() ; i++) {
+    _mquad[_edg_Q1[i]].Modifyv(i, nb_voisins[_edg_Q1[i]]);
+    nb_voisins[_edg_Q1[i]]++;
+    if (_edg_Q2[i]!=-1){
+      _mquad[_edg_Q2[i]].Modifyv(i, nb_voisins[_edg_Q2[i]]);
+      nb_voisins[_edg_Q2[i]]++;
+    }
+  }
+
 
   // ------------------- Calcul de la taille des arêtes -----------------------
   Buildlenght();
