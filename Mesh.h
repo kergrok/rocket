@@ -39,9 +39,9 @@ class Mesh
     void Buildsurfaces();
     // ----------- Calcul des propriétés dans la maille i --------------
     void Calc_prop(int i);
-
+    // ------- Déplace toutes les particules pour un pas de temps -------
     void Displacement(double vit_moy);
-
+    // ---------------- Calcul dt grâce à la "CFL" --------------------
     void CFL();
     // ------------------ Calcul des voisins ---------------------
     void Buildvoisins();

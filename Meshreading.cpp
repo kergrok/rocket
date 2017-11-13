@@ -12,7 +12,7 @@ void Mesh::BuildEdges()
   int nb_edges = (4*_mquad.size() + _medge.size())/2;
   _medge.clear();
 
-  double purcent = 0;
+  double purcent = 0;  // Sert à quoi ?
   // Boucle sur les quadrilatères
   for (int i = 0 ; i < _mquad.size() ; ++i)
   {
