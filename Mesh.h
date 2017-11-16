@@ -60,4 +60,6 @@ class Mesh
     void Create_particules(int maille, int arete);
 
     void Create_in_Flow();
+    // ------------- Ecriture des arêtes dans un fichier --------------
+    void WriteEdgesAndAssociatedQuad()
 };

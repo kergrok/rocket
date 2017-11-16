@@ -27,7 +27,7 @@ void Mesh::BuildEdges()
       Eigen::VectorXi p1_p2(2); p1_p2 << p[k] , p[(k+1)%4];
       Edge edge(p1_p2,0);
 
-      // Est ce que l'arête est déjà dans le vecteur _edges ?
+      // Est ce que l'arête est déjà dans le vecteur _medge ?
       bool edge_found = false;
       for (int l = 0 ; l < _medge.size() ; ++l)
       {
@@ -49,27 +49,27 @@ void Mesh::BuildEdges()
     }
   }
 
-  for (int i = 0 ; i < _edges.size() ; ++i)
+  for (int i = 0 ; i < _medge.size() ; ++i)
   {
     Eigen::Vector2i points;
     int r1,r2 ;
-    points = _edges[i].Getedge();
+    points = _medge[i].Getedge();
     r1 = _mpoint[points[0]].Getref();
     r2 = _mpoint[points[1]].Getref();
     if ((r1 == 0) || (r2 == 0))
-      _edges[i].Modifyref(0);
+      _medge[i].Modifyref(0);
     else if (r1 == r2)
-      _edges[i].Modifyref(r1);
-    else _edges[i].Modifyref(min(r1,r2));
+      _medge[i].Modifyref(r1);
+    else _medge[i].Modifyref(min(r1,r2));
   }
 
   if ((nb_edges != _medge.size()) || (nb_edges != _edg_Q1.size()) || (nb_edges != _edg_Q2.size()))
     cout << "Problem with the edges building !" << endl;
 
-    WriteEdgesAndAssociatedTriangles();
+    WriteEdgesAndAssociatedQuad();
 }
 
-void Mesh::WriteEdgesAndAssociatedTriangles()
+void Mesh::WriteEdgesAndAssociatedQuad()
 {
   string edges_file_name = _meshname.substr(0,_meshname.size()-5)+"_edges.txt";
   std::ofstream out_file (edges_file_name);
@@ -84,7 +84,7 @@ void Mesh::WriteEdgesAndAssociatedTriangles()
   {
     out_file << _edg_Q1[i] << " ";
   }
-  out_file << endl;
+  out_file <<_maille[i].Modifyref(14); endl;
   out_file << "EdgesQ2" << endl;
   for (int i = 0 ; i < _medge.size() ; ++i)
   {
@@ -105,7 +105,7 @@ void Mesh::readmesh()
   // Contient les quatres arêtes du quadrilatère
   Vector4i edges(0,0,0,0);
   int ref(0), loop_pts(1);
-  int np;
+  int np;_maille[i].Modifyref(14);
   int ned;
   int nqua;
 
@@ -114,7 +114,7 @@ void Mesh::readmesh()
     getline(mesh_file, file_line);
     if ((file_line.find("Vertices") != string::npos)&&(loop_pts))
     {
-      mesh_file >> np;
+      mesh_file >> n_maille[i].Modifyref(14);p;
       cout << "Nombre de points  (" << np << ")" << endl;
       for (int i = 0 ; i < np ; ++i)
       {
@@ -210,6 +210,41 @@ void Mesh::readmesh()
     }
   }
 
+  for (int i = 0 ; i < _mquad.size() ; i++)
+  {
+    Vector4i edges = _maille[i].Getquadv();
+    int ref_maille = 0;
+    int nb_mailles_bord = 0;
+    for (int j = 0 ; j< 4 ; j++)
+    {
+      ref_quad += edges[j].Getref();
+      if (ref_quad != 0) nb_mailles_bord++;
+    }
+    if (ref_maille == 0 || ref_maille == 1 || ref_maille == 2 || ref_maille == 4) {
+      _maille[i].Modifyref(ref_maille);
+    }
+    else
+    {
+      if (nb_mailles_bord == 1) _maille[i].Modifyref(3);
+      else if ((ref_maille == 3) && (nb_mailles_bord == 2)) _maille[i].Modifyref(12);
+      else if ((ref_maille == 7) && (nb_mailles_bord == 2)) _maille[i].Modifyref(34);
+      else
+      {
+        for (int j = 0; j < 4; j++) {
+          if (edges[j].Getref() == 4)
+          {
+            _maille[i].Modifyref(14);
+            break;
+          }
+          else
+          {
+            _maille[i].Modifyref(23);
+            break;
+          }
+        }
+      }
+    }
+  }
 
   // ------------------- Calcul de la taille des arêtes -----------------------
   Buildlenght();
