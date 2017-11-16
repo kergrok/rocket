@@ -1,7 +1,7 @@
 #include <vector>
 #include <string>
 #include "Dense"
-#include <algorithm> 
+#include <algorithm>
 
 class Part
 {
@@ -35,7 +35,7 @@ class Maille
 {
 private:
    // Indices des particules présentes
-   Eigen::VectorXi _indices;
+   std::vector<int> _indices;
    // Propriétés : Densité Vitesse Température
    Eigen::Vector3d _prop;
    // Surface de la maille
@@ -44,11 +44,13 @@ private:
    double _surf;
    // Voisins de la maille
    Eigen::Vector4i _voisins;
+   // Ref de la maille (si elle est au bord)
+   int _ref;
 public:
   // Constructeur
   Maille(Eigen::VectorXi indices,Eigen::Vector3d prop,Eigen::Vector3d average,double surf,Eigen::Vector4i voisins);
   // Récupérer indices
-  Eigen::VectorXi Getindices() {return _indices;};
+  std::vector<int>  Getindices() {return _indices;};
   // Récupère la densité
   double Getdensity() {return _prop[0];};
   //Récupère vitesse moyenne
@@ -74,6 +76,8 @@ public:
   void Majindices(){_indices.resize(0);};
   // Modifier les indices des particules présentes dans la maille
   void Addindice(int indice){_indices.push_back(indice);};
+  // Modifier Ref
+  void Modifyref(int ref) {_ref = ref;};
 };
 
 class Quad
@@ -95,7 +99,7 @@ class Quad
     // Récupérer la référence du quad
     int Getref(){return _ref;};
     // Modifie les num des aretes du quad
-    void Modifyv(int i, int j){_v[j] = i}
+    void Modifyv(int i, int j){_v[j] = i;};
 };
 
 class Point
@@ -129,5 +133,5 @@ class Edge
     // Récupérer la référence de l'arête
     int Getref(){return _ref;};
     // Modifie la référence
-    void Modifyref(int i){_ref = i}
+    void Modifyref(int i){_ref = i;};
 };

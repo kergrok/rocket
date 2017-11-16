@@ -8,7 +8,7 @@ using namespace Eigen;
 
 // ---------------- Calcul dt grâce à la "CFL" ------------------
 // CFL définie par u * dt << dx
-Mesh::CFL(double vit_moy)
+void Mesh::CFL(double vit_moy)
 {
   // Recherche de la plus petite arête pour définir le dx
   double dx = _lenghts[0];
@@ -22,12 +22,72 @@ Mesh::CFL(double vit_moy)
   _dt = dx/(10. * vit_moy);
 }
 
+void Mesh::Create_in_Flow()
+{
+  Vector4i Edges;
+  for(int i=0;i<_maille.size();i++)
+  {
+    if(_maille[i].Getref()== 4) //Positionnée sur le bord
+    {
+      Edges=_maille[i].Getquadv();
+      for(int j=0;j<4;j++)
+      {
+        if(_medge(Edges[j]).Getref()==4)
+        {
+          for(int k=0;k<_N;k++)
+            Create_particules(i,Edges[j]);
+        }
+      }
+    }
+  }
+}
+
+
+void Mesh::Create_particules(int maille, int arete)
+{
+  int j=0;
+  for(int i=0; i<_N;i++)
+  {
+    while((_TF[j]) && (j<_part.size()))
+    {
+      j=j+1;
+    }
+
+    if(j == _part.size())
+    {
+      _part.push_back();
+      _TF.push_back(true);
+    }
+    else
+    {
+      _TF[j]=true;
+    }
+
+    Vector3d Vitesse;
+    Vector2d Position;
+
+    Position[0] = 0.5*(_mpoint[_medge[arete].Getedge()[0]].Getcoor()[0]+_mpoint[_medge[arete].Getedge()[1]].Getcoor()[0]);
+    Position[1] = 0.5*(_mpoint[_medge[arete].Getedge()[0]].Getcoor()[1]+_mpoint[_medge[arete].Getedge()[1]].Getcoor()[1]);
+    Vitesse[0] = sqrt(_gamma*_Ma*8.314*_T)+sqrt(8.314*_T)*alea(0,1);
+    Vitesse[1] = sqrt(8.314*_T)*alea(0,1);
+    Vitesse[2] = sqrt(8.314*_T)*alea(0,1);
+
+    _part[j].Modifyvelo(Vitesse);
+    _part[j].Modifycoor(Position);
+    _part[j].Modifyref(maille);
+
+  }
+
+
+}
+
+
 
 // Déplace toutes les particules pour un pas de temps
 // Ne met à jour que la position, la mise à jour de la référence de la maille se fait dans une autre fonction
 // En commentaire la fonction pour éffectuer la mise à jour sur plusieurs pas de temps
 
-Mesh::Displacement()
+void Mesh::Displacement()
 {
   Eigen::Vector2d new_coor;
   Eigen::Vector3d vitesse;
@@ -50,7 +110,7 @@ Mesh::Displacement()
 }
 
 
-Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
+void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
 {
 
   double a1,c1,a2,c2;
@@ -74,11 +134,9 @@ Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
   // On cherche par quelle arete sort la particule
   for(int i=0,i<4,i++)
   {
-    if( _medge[ref_edges[i]].Getref() == _border_tag_stay_in) // FAIRE BORDER_TAG
+    if(( _medge[ref_edges[i]].Getref() == 1)||( _medge[ref_edges[i]].Getref() == 2)||( _medge[ref_edges[i]].Getref() == 3)) // FAIRE BORDER_TAG
     {
       impact_edge = ref_edges[i];
-    }
-  }
 
   // Coordonnées des sommets de l'arete par laquelle sort la particule
   sommets = _medge[impact_edge].Getedge();
@@ -123,10 +181,16 @@ Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
   // Theta2 est forcément entre -pi/2 et pi/2, le vecteur allant de la gauche vers la droite
 
   theta1=acos(produit_scalaire(vector_deplacement,vector_edge)/Norme(vector_edge)/distance_parcourue);
-  theta2=atan(vector_edge[1]/vector_edge[0]);
+  if(vector_edge[0]==0){
+    theta2=vector_edge[1]/abs(vector_edge[1])*3.14159266/2;
+  }
+  else
+  {
+    theta2=atan(vector_edge[1]/vector_edge[0]);
+  }
   theta3=theta1+theta2;
 
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
 
@@ -141,9 +205,20 @@ Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
   VeloAbs=sqrt(Velo[0]**2+Velo[1]**2);
 
   //Calcul des nouvelles composantes de la vitesse
-  NewVelo[0] = VeloAbs*cos(Theta3);
-  NewVelo[1] = VeloAbs*sin(Theta3);
-  NewVelo[2] = Velo[2];
+
+  if(_methode=="Speculaire"){
+    NewVelo[0] = VeloAbs*cos(Theta3);
+    NewVelo[1] = VeloAbs*sin(Theta3);
+    NewVelo[2] = Velo[2];
+  }
+  else if(_methode == "Maxwellien"){
+    NewVelo[0] = VeloAbs*cos(Theta3)+sqrt(_maille[ref_maille].Gettemp()*8.314)*alea(0,1);
+    NewVelo[1] = VeloAbs*sin(Theta3)+sqrt(_maille[ref_maille].Gettemp()*8.314)*alea(0,1);
+    NewVelo[2] = Velo[2];
+  }
+  else{
+    cout<<"Pas possible: méthode non existante"<<endl;
+  }
 
   //Modification de la vitesse
   _part[i].Modifyvelo(NewVelo);
@@ -154,21 +229,27 @@ Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
 
   // Modification des coordonnées
   _part[i].Modifycoor(new_coor);
+  }
+  else if( _medge[ref_edges[i]].Getref() == 4)             // Si la particule sort du domaine
+  {
+    _TF[i]=false;
+  }
+}
 
 
 }
 
 double Norme_entre(Vector2d Vec1, Vector2d Vec2)
 {
-  return sqrt((Vec1[0]-Vec2[0])**2+(Vec1[1]-Vec2[1])**2);
+  return sqrt(pow((Vec1[0]-Vec2[0]),2)+pow((Vec1[1]-Vec2[1]),2));
 }
 
 double Norme(Vector2d Vec)
 {
-  return sqrt(Vec[0]**2+Vec[1]**2)
+  return sqrt(pow(Vec[0],2)+pow(Vec[1],2));
 }
 
 double produit_scalaire(Vector2d Vec1, Vector2d Vec2)
 {
-  return Vec1[1]*Vec2[1]+Vec1[0]*Vec2[0]
+  return Vec1[1]*Vec2[1]+Vec1[0]*Vec2[0];
 }

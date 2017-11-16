@@ -6,14 +6,14 @@
 using namespace std;
 
 
-double alea(double sigma, double median )
+double alea(double median, double sigma)
 {
 
   random_device generator;
   normal_distribution<double> distribution(median,sigma);
-  
+
   double number = distribution(generator);/* Nombre généré suivant loi normale (median,sigma)*/
-   
+
   return number
-  
+
 }

@@ -19,7 +19,7 @@ Mesh::Mesh(string meshname): _meshname(meshname)
 {}
 
 // --------- Construction de _lenghts comprenant la taille de chaque arête ----------
-Mesh::Buildlenght()
+void Mesh::Buildlenghts()
 {
   _lenghts.resize(_medge.size());
   // edge comprend les réferences des deux points de l'arête
@@ -30,16 +30,16 @@ Mesh::Buildlenght()
     // On récupère les numéros des points des extrémités de l'arête
     edge = _medge[i].Getedge();
     // On récupère les coordonnees de ces points
-    coor1 = edge[0].Getcoor();
-    coor2 = edge[1].Getcoor();
-    _lenghts[i] = sqrt(pow((coor1[0]-coor2[0]),2)+pow((coor1[1]-coor2[1]),2)));
+    coor1 = _mpoint[edge[0]].Getcoor();
+    coor2 = _mpoint[edge[1]].Getcoor();
+    _lenghts[i] = sqrt(pow((coor1[0]-coor2[0]),2)+pow((coor1[1]-coor2[1]),2));
   }
 }
 
 // --------- Construction de _surfaces comprenant la surface de chaque maille ----------
 // - /!\ ATTENTION : il faut avoir appelé Mesh::Buildlenght() avant Mesh::Buildsurfaces() /!\ -
 // Attention à vérifier aussi le résultat comme on a fait une approximation
-Mesh::Buildsurfaces()
+void Mesh::Buildsurfaces()
 {
   _surfaces.resize(_mquad.size());
   // quad_edge comprend les quatre arêtes du quadrilatère
@@ -57,10 +57,10 @@ Mesh::Buildsurfaces()
     // (supposition que la hauteur du trapèze est négligeable)
     for (int j = 0; j < 4; j++) {
       // On récupère les numéros des points des extrémités de l'arête
-      edge = quad_edge[j].Getedge();
+      edge = _medge[quad_edge[j]].Getedge();
       // On récupère les coordonnees de ces points
-      coor1 = edge[0].Getcoor();
-      coor2 = edge[1].Getcoor();
+      coor1 = _mpoint[edge[0]].Getcoor();
+      coor2 = _mpoint[edge[1]].Getcoor();
       // On passe les coordonnées en cylindrique
       coor_cyl1 = Mesh::Convert(coor1[0], coor1[1]);
       coor_cyl2 = Mesh::Convert(coor2[0], coor2[1]);
@@ -70,10 +70,10 @@ Mesh::Buildsurfaces()
         for (int k = 0; k < 4; k++) {
           if (k!=j) {
             // On récupère les numéros des points des extrémités de l'arête
-            edge = quad_edge[k].Getedge();
+            edge = _medge[quad_edge[k]].Getedge();
             // On récupère les coordonnees de ces points
-            coor1 = edge[0].Getcoor();
-            coor2 = edge[1].Getcoor();
+            coor1 = _mpoint[edge[0]].Getcoor();
+            coor2 = _mpoint[edge[1]].Getcoor();
             // On passe les coordonnées en cylindrique
             coor_cyl1 = Mesh::Convert(coor1[0], coor1[1]);
             coor_cyl2 = Mesh::Convert(coor2[0], coor2[1]);
@@ -90,14 +90,14 @@ Mesh::Buildsurfaces()
 
 // On cherche les voisins de chaque maille et on les ajoute à _maille
 // On a tous participé à cette fonction sauf Camille qui s'est défilé
-Mesh::Buildvoisins()
+void Mesh::Buildvoisins()
 {
   //edge1 comprend les arêtes du quad donc on cherche les voisins
   //edge2 comprend les arêtes des quad qu'on teste pour être les voisins
-  Eigen::Vector2i edge1, edge2;
+  Eigen::Vector4i edge1, edge2;
   // Un vecteur colors qui comprend le nbre de voisins déjà trouvé pour chaque maille
   Eigen::VectorXi colors;
-  colors.setZero(_mquad.size())
+  colors.setZero(_mquad.size());
 
   //Booléen qui permet de stopper les tests sur j si on a trouvé que c'était un voisin
   bool vois(false);
@@ -106,7 +106,7 @@ Mesh::Buildvoisins()
   for (int i = 0; i < _mquad.size(); i++) {
     //Si on a pas déjà tout les voisins de i :
     if (colors[i]!=4) {
-      edge1 = _mquad[i].Getedge();
+      edge1 = _mquad[i].Getquadv();
       // j : quad qu'on teste sur son voisinage avec i
       // On teste seulement les quad dont on a pas encore determiné les voisins
       // c'est pour ça qu'on part de i+1
@@ -114,7 +114,7 @@ Mesh::Buildvoisins()
         //Si on a pas déjà tout les voisins de j :
         if (colors[j]!=4) {
           if (i != j) {
-            edge2 = _mquad[j].Getedge();
+            edge2 = _mquad[j].Getquadv();
             vois = false;
             // k : on va faire les tests sur les 4 arêtes de i
             for (int k = 0; k<4; k++) {

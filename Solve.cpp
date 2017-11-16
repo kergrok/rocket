@@ -10,7 +10,7 @@ using namespace Eigen;
 void Mesh::Calc_prop(int i)
 {
   double surface = _maille[i].Getsurf();
-  VectorXi part = _maille[i].Getindices();
+  vector<int> part = _maille[i].Getindices();
   int nb_part = part.size();
 
   double density = nb_part * _omega / surface;

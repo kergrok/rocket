@@ -11,6 +11,11 @@ class Mesh
     std::vector<Maille> _maille;
     std::vector<Edge> _medge;
     std::string _meshname;
+    int _N;
+    double _T;
+    double _Ma;
+    double _gamma;
+    std::vector<bool> _TF;
     double _omega;
     double _dt;
     // Surface des quadrilatères
@@ -42,11 +47,17 @@ class Mesh
     // ------- Déplace toutes les particules pour un pas de temps -------
     void Displacement(double vit_moy);
     // ---------------- Calcul dt grâce à la "CFL" --------------------
-    void CFL();
+    void CFL(double vit_moy);
     // ------------------ Calcul des voisins ---------------------
     void Buildvoisins();
 
-    void Find_Maille(int i);
+    bool Find_Maille(int i);
+
+    void find_impact(int i, Eigen::Vector2d coor, Eigen::Vector2d new_coor);
 
     bool is_in(int maille, Eigen::Vector2d Position);
+
+    void Create_particules(int maille, int arete);
+
+    void Create_in_Flow();
 };
