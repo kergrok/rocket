@@ -49,6 +49,20 @@ void Mesh::BuildEdges()
     }
   }
 
+  for (int i = 0 ; i < _edges.size() ; ++i)
+  {
+    Eigen::Vector2i points;
+    int r1,r2 ;
+    points = _edges[i].Getedge();
+    r1 = _mpoint[points[0]].Getref();
+    r2 = _mpoint[points[1]].Getref();
+    if ((r1 == 0) || (r2 == 0))
+      _edges[i].Modifyref(0);
+    else if (r1 == r2)
+      _edges[i].Modifyref(r1);
+    else _edges[i].Modifyref(min(r1,r2));
+  }
+
   if ((nb_edges != _medge.size()) || (nb_edges != _edg_Q1.size()) || (nb_edges != _edg_Q2.size()))
     cout << "Problem with the edges building !" << endl;
 
@@ -118,7 +132,8 @@ void Mesh::readmesh()
       {
         mesh_file >> edg[0] >> edg[1] >> ref;
         edg[0]--; edg[1]--;
-        // v, ref, exist, inmesh
+        //A condition que dans le .geo on ait la ref de la surface valant 6 :
+        if (ref == 6) ref = 0; //Tout les points à 0 sont des points milieux
         _medge.push_back(Edge(edg, ref));
       }
     }

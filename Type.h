@@ -1,6 +1,7 @@
 #include <vector>
 #include <string>
 #include "Dense"
+#include <algorithm> 
 
 class Part
 {
@@ -127,4 +128,6 @@ class Edge
     Eigen::Vector2i Getedge(){return _v;};
     // Récupérer la référence de l'arête
     int Getref(){return _ref;};
+    // Modifie la référence
+    void Modifyref(int i){_ref = i}
 };
