@@ -84,7 +84,7 @@ void Mesh::WriteEdgesAndAssociatedQuad()
   {
     out_file << _edg_Q1[i] << " ";
   }
-  out_file <<_maille[i].Modifyref(14); endl;
+  out_file << endl;
   out_file << "EdgesQ2" << endl;
   for (int i = 0 ; i < _medge.size() ; ++i)
   {
@@ -105,7 +105,7 @@ void Mesh::readmesh()
   // Contient les quatres arêtes du quadrilatère
   Vector4i edges(0,0,0,0);
   int ref(0), loop_pts(1);
-  int np;_maille[i].Modifyref(14);
+  int np;
   int ned;
   int nqua;
 
@@ -114,7 +114,7 @@ void Mesh::readmesh()
     getline(mesh_file, file_line);
     if ((file_line.find("Vertices") != string::npos)&&(loop_pts))
     {
-      mesh_file >> n_maille[i].Modifyref(14);p;
+      mesh_file >> np;
       cout << "Nombre de points  (" << np << ")" << endl;
       for (int i = 0 ; i < np ; ++i)
       {
@@ -212,13 +212,13 @@ void Mesh::readmesh()
 
   for (int i = 0 ; i < _mquad.size() ; i++)
   {
-    Vector4i edges = _maille[i].Getquadv();
+    Vector4i edges = _mquad[i].Getquadv();
     int ref_maille = 0;
     int nb_mailles_bord = 0;
     for (int j = 0 ; j< 4 ; j++)
     {
-      ref_quad += edges[j].Getref();
-      if (ref_quad != 0) nb_mailles_bord++;
+      ref_maille += _medge[edges[j]].Getref();
+      if (ref_maille != 0) nb_mailles_bord++;
     }
     if (ref_maille == 0 || ref_maille == 1 || ref_maille == 2 || ref_maille == 4) {
       _maille[i].Modifyref(ref_maille);
@@ -231,7 +231,7 @@ void Mesh::readmesh()
       else
       {
         for (int j = 0; j < 4; j++) {
-          if (edges[j].Getref() == 4)
+          if (_medge[edges[j]].Getref() == 4)
           {
             _maille[i].Modifyref(14);
             break;
@@ -247,7 +247,7 @@ void Mesh::readmesh()
   }
 
   // ------------------- Calcul de la taille des arêtes -----------------------
-  Buildlenght();
+  Buildlenghts();
   // ------------------- Calcul des surfaces des quad -----------------------
   Buildsurfaces();
 }

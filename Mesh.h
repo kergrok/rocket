@@ -61,5 +61,5 @@ class Mesh
 
     void Create_in_Flow();
     // ------------- Ecriture des arêtes dans un fichier --------------
-    void WriteEdgesAndAssociatedQuad()
+    void WriteEdgesAndAssociatedQuad();
 };
