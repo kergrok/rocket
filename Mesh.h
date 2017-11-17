@@ -17,6 +17,7 @@ class Mesh
     double _gamma;
     std::vector<bool> _TF;
     double _omega;
+    double _Temps_final;
     double _dt;
     // Surface des quadrilatères
     Eigen::VectorXd _surfaces;
@@ -45,7 +46,7 @@ class Mesh
     // ----------- Calcul des propriétés dans la maille i --------------
     void Calc_prop(int i);
     // ------- Déplace toutes les particules pour un pas de temps -------
-    void Displacement(double vit_moy);
+    void Displacement();
     // ---------------- Calcul dt grâce à la "CFL" --------------------
     void CFL();
     // ------------------ Calcul des voisins ---------------------

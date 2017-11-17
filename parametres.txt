@@ -8,3 +8,5 @@ Mach
 2
 Gamma
 1.4
+Temps Final
+10
