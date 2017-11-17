@@ -62,4 +62,6 @@ class Mesh
     void Create_in_Flow();
     // ------------- Ecriture des arêtes dans un fichier --------------
     void WriteEdgesAndAssociatedQuad();
+
+    void write(std::string Nom_Fichier, Eigen::VectorXd U);
 };
