@@ -8,9 +8,5 @@ int main()
   mesh->readmesh();
   mesh->initialize();
   mesh->compute();
-
-
-
-
   return 0;
 }

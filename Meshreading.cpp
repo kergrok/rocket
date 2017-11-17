@@ -286,5 +286,10 @@ void Mesh::ReadParameter()
     {
       mesh_file >> _gamma;
     }
+    if ((file_line.find("Temps Final") != string::npos)&&(loop_pts))
+    {
+      mesh_file >> _Temps_final;
+    }
+
   }
 }
