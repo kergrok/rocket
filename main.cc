@@ -6,5 +6,11 @@ int main()
 {
   Mesh* mesh = new Mesh("test.mesh");
   mesh->readmesh();
+  mesh->initialize();
+  mesh->compute();
+
+
+
+
   return 0;
 }

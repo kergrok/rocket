@@ -8,7 +8,7 @@ using namespace Eigen;
 
 // ---------------- Calcul dt grâce à la "CFL" ------------------
 // CFL définie par u * dt << dx
-void Mesh::CFL(double vit_moy)
+void Mesh::CFL()
 {
   // Recherche de la plus petite arête pour définir le dx
   double dx = _lenghts[0];
@@ -19,7 +19,7 @@ void Mesh::CFL(double vit_moy)
   }
 
   // Pour que la CFL soit vérifiée, on définit _dt comme suit :
-  _dt = dx/(10. * vit_moy);
+  _dt = dx/(10. * sqrt(_gamma*8.314*_T*_Ma));
 }
 
 void Mesh::Create_in_Flow()

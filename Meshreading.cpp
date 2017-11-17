@@ -101,13 +101,14 @@ void Mesh::readmesh()
     abort();
   }
   string file_line;
-  Vector4d vert; Vector4i quad; Vector2i edg;
+  Vector2d vert; Vector4i quad; Vector2i edg;
   // Contient les quatres arêtes du quadrilatère
   Vector4i edges(0,0,0,0);
   int ref(0), loop_pts(1);
   int np;
   int ned;
   int nqua;
+  double z;
 
   while (!mesh_file.eof())
   {
@@ -118,7 +119,7 @@ void Mesh::readmesh()
       cout << "Nombre de points  (" << np << ")" << endl;
       for (int i = 0 ; i < np ; ++i)
       {
-        mesh_file >> vert[0] >> vert[1] >> vert[2] >> ref;
+        mesh_file >> vert[0] >> vert[1] >> z >> ref;
         // coor, ref, exist, nxt = 0, tmp = 0
         _mpoint.push_back(Point(vert, ref));
       }
@@ -250,4 +251,40 @@ void Mesh::readmesh()
   Buildlenghts();
   // ------------------- Calcul des surfaces des quad -----------------------
   Buildsurfaces();
+}
+
+
+void Mesh::ReadParameter()
+{
+  ifstream mesh_file("parametres.txt");
+  if (!mesh_file.is_open())
+  {
+    cout << "Impossible d'ouvrir le fichier " << _meshname << endl;
+    abort();
+  }
+
+  while (!mesh_file.eof())
+  {
+    getline(mesh_file, file_line);
+    if ((file_line.find("Température") != string::npos)&&(loop_pts))
+    {
+      mesh_file >> _T;
+    }
+    if ((file_line.find("Densité") != string::npos)&&(loop_pts))
+    {
+      mesh_file >> _rho;
+    }
+    if ((file_line.find("N") != string::npos)&&(loop_pts))
+    {
+      mesh_file >> _N;
+    }
+    if ((file_line.find("Mach") != string::npos)&&(loop_pts))
+    {
+      mesh_file >> _Ma;
+    }
+    if ((file_line.find("Gamma") != string::npos)&&(loop_pts))
+    {
+      mesh_file >> _gamma;
+    }
+  }
 }

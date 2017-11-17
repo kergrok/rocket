@@ -47,7 +47,7 @@ class Mesh
     // ------- Déplace toutes les particules pour un pas de temps -------
     void Displacement(double vit_moy);
     // ---------------- Calcul dt grâce à la "CFL" --------------------
-    void CFL(double vit_moy);
+    void CFL();
     // ------------------ Calcul des voisins ---------------------
     void Buildvoisins();
 
@@ -64,4 +64,10 @@ class Mesh
     void WriteEdgesAndAssociatedQuad();
 
     void write(std::string Nom_Fichier, Eigen::VectorXd U);
+    // Lit les parametres dans un fichier
+    void ReadParameter();
+    // Initialisation du Problem
+    void initialize();
+    // boucle en tps du Problem
+    void compute();
 };
