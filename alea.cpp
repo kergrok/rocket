@@ -14,6 +14,6 @@ double alea(double median, double sigma)
 
   double number = distribution(generator);/* Nombre généré suivant loi normale (median,sigma)*/
 
-  return number
+  return number;
 
 }
