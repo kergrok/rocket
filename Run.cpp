@@ -2,6 +2,7 @@
 #include <string>
 #include "Mesh.h"
 #include "Dense"
+#include <iostream>
 
 using namespace std;
 using namespace Eigen;
@@ -45,6 +46,8 @@ void Mesh::Create_in_Flow()
 
 void Mesh::Create_particules(int maille, int arete)
 {
+  Vector3d Vitesse;
+  Vector2d Position;
   int j=0;
   for(int i=0; i<_N;i++)
   {
@@ -55,8 +58,8 @@ void Mesh::Create_particules(int maille, int arete)
 
     if(j == _part.size())
     {
-      Part newpart;
-      _part.push_back(newpart);
+      Part part1(Position,Vitesse,1);
+      _part.push_back(part1);
       _TF.push_back(true);
     }
     else
@@ -64,8 +67,7 @@ void Mesh::Create_particules(int maille, int arete)
       _TF[j]=true;
     }
 
-    Vector3d Vitesse;
-    Vector2d Position;
+
 
     Position[0] = 0.5*(_mpoint[_medge[arete].Getedge()[0]].Getcoor()[0]+_mpoint[_medge[arete].Getedge()[1]].Getcoor()[0]);
     Position[1] = 0.5*(_mpoint[_medge[arete].Getedge()[0]].Getcoor()[1]+_mpoint[_medge[arete].Getedge()[1]].Getcoor()[1]);
@@ -90,7 +92,7 @@ void Mesh::Create_particules(int maille, int arete)
 
 void Mesh::Displacement()
 {
-  Eigen::Vector2d new_coor;
+  Eigen::Vector2d new_coor,coor;
   Eigen::Vector3d vitesse;
   bool in_domain;
 
@@ -133,7 +135,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
 
   // ATTENTION EN CAS DE 2 ARETES DE BORD----------------------------------------------------------------------------------
   // On cherche par quelle arete sort la particule
-  for(int i=0,i<4,i++)
+  for(int i=0;i<4;i++)
   {
     if(( _medge[ref_edges[i]].Getref() == 1)||( _medge[ref_edges[i]].Getref() == 2)||( _medge[ref_edges[i]].Getref() == 3)) // FAIRE BORDER_TAG
     {
@@ -181,7 +183,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
   // Ces trois lignes sont à vérifier proprement !!!!
   // Theta2 est forcément entre -pi/2 et pi/2, le vecteur allant de la gauche vers la droite
 
-  theta1=acos(produit_scalaire(vector_deplacement,vector_edge)/Norme(vector_edge)/distance_parcourue);
+  theta1=acos(vector_deplacement.dot(vector_edge)/Norme(vector_edge)/distance_parcourue);
   if(vector_edge[0]==0){
     theta2=vector_edge[1]/abs(vector_edge[1])*3.14159266/2;
   }
@@ -199,22 +201,22 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
 
 
   //Valeur absolue de la vitesse
-  vector3d Velo, NewVelo;
+  Vector3d Velo, NewVelo;
   double VeloAbs;
 
   Velo=_part[i].Getvelo();
-  VeloAbs=sqrt(Velo[0]**2+Velo[1]**2);
+  VeloAbs=sqrt(pow(Velo[0],2)+pow(Velo[1],2));
 
   //Calcul des nouvelles composantes de la vitesse
 
   if(_methode=="Speculaire"){
-    NewVelo[0] = VeloAbs*cos(Theta3);
-    NewVelo[1] = VeloAbs*sin(Theta3);
+    NewVelo[0] = VeloAbs*cos(theta3);
+    NewVelo[1] = VeloAbs*sin(theta3);
     NewVelo[2] = Velo[2];
   }
   else if(_methode == "Maxwellien"){
-    NewVelo[0] = VeloAbs*cos(Theta3)+sqrt(_maille[ref_maille].Gettemp()*8.314)*alea(0,1);
-    NewVelo[1] = VeloAbs*sin(Theta3)+sqrt(_maille[ref_maille].Gettemp()*8.314)*alea(0,1);
+    NewVelo[0] = VeloAbs*cos(theta3)+sqrt(_maille[ref_maille].Gettemp()*8.314)*alea(0,1);
+    NewVelo[1] = VeloAbs*sin(theta3)+sqrt(_maille[ref_maille].Gettemp()*8.314)*alea(0,1);
     NewVelo[2] = Velo[2];
   }
   else{
@@ -225,8 +227,8 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
   _part[i].Modifyvelo(NewVelo);
 
   //Calcul des nouvelles coordonnées
-  new_coor[0]=coorImpact[0]+(distance_a_parcourir-distance_parcourue)*cos(Theta3);
-  new_coor[1]=coorImpact[1]+(distance_a_parcourir-distance_parcourue)*sin(Theta3);
+  new_coor[0]=coorImpact[0]+(distance_a_parcourir-distance_parcourue)*cos(theta3);
+  new_coor[1]=coorImpact[1]+(distance_a_parcourir-distance_parcourue)*sin(theta3);
 
   // Modification des coordonnées
   _part[i].Modifycoor(new_coor);
@@ -240,17 +242,12 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
 
 }
 
-double Norme_entre(Vector2d Vec1, Vector2d Vec2)
+double Mesh::Norme_entre(Vector2d Vec1, Vector2d Vec2)
 {
   return sqrt(pow((Vec1[0]-Vec2[0]),2)+pow((Vec1[1]-Vec2[1]),2));
 }
 
-double Norme(Vector2d Vec)
+double Mesh::Norme(Vector2d Vec)
 {
   return sqrt(pow(Vec[0],2)+pow(Vec[1],2));
-}
-
-double produit_scalaire(Vector2d Vec1, Vector2d Vec2)
-{
-  return Vec1[1]*Vec2[1]+Vec1[0]*Vec2[0];
 }

@@ -10,3 +10,5 @@ Gamma
 1.4
 Temps Final
 10
+Methode
+Speculaire
