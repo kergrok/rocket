@@ -257,6 +257,8 @@ void Mesh::readmesh()
 void Mesh::ReadParameter()
 {
   ifstream mesh_file("parametres.txt");
+  string file_line;
+  int loop_pts(1);
   if (!mesh_file.is_open())
   {
     cout << "Impossible d'ouvrir le fichier " << _meshname << endl;

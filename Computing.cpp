@@ -21,11 +21,11 @@ void Mesh::compute()
   while (t<_Temps_final)
   {
     Displacement();
-    do (int i=0; i<_maille.size();i++)
+    for(int i=0; i<_maille.size();i++)
     {
       Calc_prop(i);
     }
-    Create_in_Flow(); 
+    Create_in_Flow();
     t+=_dt;
   }
 }
