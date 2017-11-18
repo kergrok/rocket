@@ -181,9 +181,9 @@ void Mesh::MajMailleParticule()
   }
 
   // Ajout des particules dans chaque maille
-  for (int i = 0; i < _mpart.size(); i++) {
-    ref_part = _mpart[i].Getref();
-    _maille[ref_part].Addindice(i)
+  for (int i = 0; i < _part.size(); i++) {
+    ref_part = _part[i].Getref();
+    _maille[ref_part].Addindice(i);
   }
 
 }
