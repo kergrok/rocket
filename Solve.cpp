@@ -171,10 +171,10 @@ bool Mesh::is_in(int maille, Vector2d Position) // True si la particule est dans
   return true;
 }
 
-void MajMailleParticule()
+void Mesh::MajMailleParticule()
 {
   int ref_part;
-  
+
   // Remet à 0 les particules présentes dans chaque maille
   for (int i = 0; i < _maille.size(); i++) {
     _maille[i].Majindices();
