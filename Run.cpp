@@ -29,10 +29,10 @@ void Mesh::Create_in_Flow()
   {
     if(_maille[i].Getref()== 4) //Positionnée sur le bord
     {
-      Edges=_maille[i].Getquadv();
+      Edges=_mquad[i].Getquadv();
       for(int j=0;j<4;j++)
       {
-        if(_medge(Edges[j]).Getref()==4)
+        if(_medge[Edges[j]].Getref()==4)
         {
           for(int k=0;k<_N;k++)
             Create_particules(i,Edges[j]);
@@ -55,7 +55,8 @@ void Mesh::Create_particules(int maille, int arete)
 
     if(j == _part.size())
     {
-      _part.push_back();
+      Part newpart;
+      _part.push_back(newpart);
       _TF.push_back(true);
     }
     else

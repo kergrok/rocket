@@ -21,7 +21,7 @@ void Mesh::compute()
   while (t<_Temps_final)
   {
     Displacement();
-    for(int i=0; i<_maille.size();i++)
+    do (int i=0; i<_maille.size();i++)
     {
       Calc_prop(i);
     }

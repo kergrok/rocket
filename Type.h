@@ -78,6 +78,8 @@ public:
   void Addindice(int indice){_indices.push_back(indice);};
   // Modifier Ref
   void Modifyref(int ref) {_ref = ref;};
+
+  int Getref() {return _ref;};
 };
 
 class Quad
