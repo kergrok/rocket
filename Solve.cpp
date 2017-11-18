@@ -6,7 +6,6 @@
 using namespace std;
 using namespace Eigen;
 
-/* A terminer */
 void Mesh::Calc_prop(int i)
 {
   double surface = _maille[i].Getsurf();
@@ -170,5 +169,21 @@ bool Mesh::is_in(int maille, Vector2d Position) // True si la particule est dans
   }
   // Si on a pas trouvé d'arete fausse, c'est bon
   return true;
+}
+
+void MajMailleParticule()
+{
+  int ref_part;
+  
+  // Remet à 0 les particules présentes dans chaque maille
+  for (int i = 0; i < _maille.size(); i++) {
+    _maille[i].Majindices();
+  }
+
+  // Ajout des particules dans chaque maille
+  for (int i = 0; i < _mpart.size(); i++) {
+    ref_part = _mpart[i].Getref();
+    _maille[ref_part].Addindice(i)
+  }
 
 }

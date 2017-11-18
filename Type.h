@@ -23,7 +23,7 @@ class Part
     void Modifycoor(Eigen::Vector2d coor) { _coor = coor;};
     // Modifier velo
     void Modifyvelo(Eigen::Vector3d velo) { _velo = velo;};
-    // Récupérer la référence du point
+    // Récupérer la référence de la particule
     int Getref(){return _ref;};
     // Modifier Ref
     void Modifyref(int ref) {_ref = ref;};
@@ -44,7 +44,8 @@ private:
    double _surf;
    // Voisins de la maille
    Eigen::Vector4i _voisins;
-   // Ref de la maille (si elle est au bord)
+   // Ref de la maille : 0 si elle est au centre du maillage, 1, 2, 3 ou 4 si
+   // elle est sur un bord
    int _ref;
 public:
   // Constructeur
