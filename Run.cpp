@@ -58,8 +58,8 @@ void Mesh::Create_particules(int maille, int arete)
 
     if(j == _part.size())
     {
-      Part part1(Position,Vitesse,1);
-      _part.push_back(part1);
+      Part part(Position,Vitesse,1);
+      _part.push_back(part);
       _TF.push_back(true);
     }
     else

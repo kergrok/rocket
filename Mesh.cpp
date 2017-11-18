@@ -12,6 +12,9 @@ Point::Point(Eigen::Vector2d coor, int ref) : _coor(coor), _ref(ref)
 Edge::Edge(Eigen::Vector2i v, int ref) : _v(v), _ref(ref)
 {}
 
+Part::Part(Eigen::Vector2d coor,Eigen::Vector3d velo, int ref) : _coor(coor), _velo(velo), _ref(ref)
+{}
+
 Quad::Quad(Eigen::Vector4i p, Eigen::Vector4i v, int ref) : _p(p), _v(v), _ref(ref)
 {}
 

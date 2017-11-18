@@ -7,7 +7,7 @@
 using namespace std;
 
 
-double alea(double median, double sigma)
+double Mesh::alea(double median, double sigma)
 {
 
   random_device generator;
