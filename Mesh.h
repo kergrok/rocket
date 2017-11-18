@@ -27,6 +27,7 @@ class Mesh
     // Les quadrilatères collés aux arêtes
     // Si _edg_Q2[i] == -1 alors c'est une arête au bord
     Eigen::VectorXi _edg_Q1, _edg_Q2;
+    std::string _methode;
 
   public:
     // Constructeur
@@ -72,4 +73,13 @@ class Mesh
     void initialize();
     // boucle en tps du Problem
     void compute();
+
+    double alea(double a,double b);
+
+    void MajMailleParticule();
+
+    double Norme_entre(Eigen::Vector2d Vec1, Eigen::Vector2d Vec2);
+
+    double Norme(Eigen::Vector2d Vec);
+
 };

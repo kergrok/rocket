@@ -292,6 +292,10 @@ void Mesh::ReadParameter()
     {
       mesh_file >> _Temps_final;
     }
+    if ((file_line.find("Methode") != string::npos)&&(loop_pts))
+    {
+      mesh_file >> _methode;
+    }
 
   }
 }

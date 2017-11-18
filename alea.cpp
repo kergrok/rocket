@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <random>
+#include "Mesh.h"
 
 using namespace std;
 
