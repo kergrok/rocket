@@ -25,6 +25,7 @@ void Mesh::compute()
     for (int i=0; i<_maille.size();i++)
     {
       Calc_prop(i);
+      write("solDens"+to_string(i)+".inp");
     }
     Create_in_Flow();
     t+=_dt;
