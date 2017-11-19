@@ -131,6 +131,11 @@ bool Mesh::is_in(int maille, Vector2d Position) // True si la particule est dans
     Middle[1] += _mpoint[Sommets[j]].Getcoor()[1]/4;
   }
 
+  if(maille==-1)
+  {
+    return false;
+  }
+
 
   // Pour chaque arete, on vérifie si le produit scalaire
   // Vecteur allant du centre de l'arete à la position de la particule, normale de l'arete
