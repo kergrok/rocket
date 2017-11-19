@@ -88,6 +88,8 @@ void Mesh::Buildsurfaces()
         }
       }
     }
+    //On stocke en double la surface donc il faudrait voir pour supprimer _surfaces
+    _maille[i].Modifysurf(_surfaces(i));
   }
 }
 
