@@ -74,8 +74,8 @@ void Mesh::Buildsurfaces()
       coor1 = _mpoint[edge[0]].Getcoor();
       coor2 = _mpoint[edge[1]].Getcoor();
       // On passe les coordonnées en cylindrique
-      coor_cyl1 = Mesh::Convert(coor1[0], coor1[1]);
-      coor_cyl2 = Mesh::Convert(coor2[0], coor2[1]);
+      coor_cyl1 = Convert(coor1[0], coor1[1]);
+      coor_cyl2 = Convert(coor2[0], coor2[1]);
       // On regarde si l'arête est en haut/bas du quadrilatère
       if (abs(coor_cyl1[0]-coor_cyl2[0])<coor_cyl1[0]*0.00001) {
         // On fait une boucle sur les trois autres arêtes
@@ -87,8 +87,8 @@ void Mesh::Buildsurfaces()
             coor1 = _mpoint[edge[0]].Getcoor();
             coor2 = _mpoint[edge[1]].Getcoor();
             // On passe les coordonnées en cylindrique
-            coor_cyl1 = Mesh::Convert(coor1[0], coor1[1]);
-            coor_cyl2 = Mesh::Convert(coor2[0], coor2[1]);
+            coor_cyl1 = Convert(coor1[0], coor1[1]);
+            coor_cyl2 = Convert(coor2[0], coor2[1]);
             // On regarde si l'arête est sur le côté du quadrilatère
             // Si c'est le cas on calcule la surface à partir de l'arête j et de l'arête k
             if (abs(coor_cyl1[1]-coor_cyl2[1])<coor_cyl1[1]*0.00001)
@@ -136,6 +136,7 @@ void Mesh::Buildvoisins()
               if (vois == false)
               if ((edge1[k]==edge2[0])||(edge1[k]==edge2[1])||(edge1[k]==edge2[2])||(edge1[k]==edge2[3])) {
                 // On ajoute à la maille i le voisin j
+                cout<< " on a : "<<_maille[i].Getvoisins().size()<<" Voisins et j,colors= "<<j<<" "<<colors[i]<<endl;
                 _maille[i].Modifyvoisins(j, colors[i]);
                 // Et vice et versa
                 _maille[j].Modifyvoisins(i, colors[j]);
