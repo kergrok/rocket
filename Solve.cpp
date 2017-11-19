@@ -115,6 +115,13 @@ bool Mesh::is_in(int maille, Vector2d Position) // True si la particule est dans
   Vector2d MiEdge_Position;
 
   Vector4i Aretes;
+
+
+
+  if(maille==-1)
+  {
+    return false;
+  }
   Aretes=_mquad[maille].Getquadv();
 
   //On récupère les numéros des sommets du quad testé
@@ -131,10 +138,7 @@ bool Mesh::is_in(int maille, Vector2d Position) // True si la particule est dans
     Middle[1] += _mpoint[Sommets[j]].Getcoor()[1]/4;
   }
 
-  if(maille==-1)
-  {
-    return false;
-  }
+
 
 
   // Pour chaque arete, on vérifie si le produit scalaire
