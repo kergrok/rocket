@@ -16,7 +16,6 @@ void Mesh::BuildEdges()
   // Boucle sur les quadrilatères
   for (int i = 0 ; i < _mquad.size() ; ++i)
   {
-    cout << "bite" << endl;
     if (i%500 == 0) // 500 à modifier suivant le nombre d'edges de notre maillage
     {
       cout << 100*i/_mquad.size() << "% of edges are built ..." << endl;
@@ -32,7 +31,8 @@ void Mesh::BuildEdges()
       bool edge_found = false;
       for (int l = 0 ; l < _medge.size() ; ++l)
       {
-        if (_medge[l].Getedge() == edge.Getedge())
+        if (((_medge[l].Getedge()[0] == edge.Getedge()[0]) && (_medge[l].Getedge()[1] == edge.Getedge()[1])) ||
+        ((_medge[l].Getedge()[0] == edge.Getedge()[1]) && (_medge[l].Getedge()[1] == edge.Getedge()[0])) )
         {
           edge_found = true;
           _edg_Q2[l] = i;
