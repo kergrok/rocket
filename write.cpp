@@ -26,7 +26,7 @@ void Mesh::write(string Nom_Fichier)
 
           for(int i=0;i<_maille.size();i++)
           {
-            fichier<< i+1<< " 0 quad "<< _mquad[i].Getquadp()[0]<<" "<< _mquad[i].Getquadp()[1]<<" "<<_mquad[i].Getquadp()[2]<<" "<< _mquad[i].Getquadp()[3]<<endl;
+            fichier<< i+1<< " 0 quad "<< _mquad[i].Getquadp()[0]+1<<" "<< _mquad[i].Getquadp()[1]+1<<" "<<_mquad[i].Getquadp()[2]+1<<" "<< _mquad[i].Getquadp()[3]+1<<endl;
           }
           fichier<<"1 1"<<endl;
           fichier<<"sol, NA"<<endl;
