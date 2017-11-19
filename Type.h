@@ -49,7 +49,7 @@ private:
    int _ref;
 public:
   // Constructeur
-  Maille(Eigen::VectorXi indices,Eigen::Vector3d prop,Eigen::Vector3d average,double surf,Eigen::Vector4i voisins);
+  Maille(std::vector<int> indices,Eigen::Vector3d prop,Eigen::Vector3d average,double surf,Eigen::Vector4i voisins);
   // Récupérer indices
   std::vector<int>  Getindices() {return _indices;};
   // Récupère la densité

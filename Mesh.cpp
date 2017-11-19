@@ -18,6 +18,15 @@ Part::Part(Eigen::Vector2d coor,Eigen::Vector3d velo, int ref) : _coor(coor), _v
 Quad::Quad(Eigen::Vector4i p, Eigen::Vector4i v, int ref) : _p(p), _v(v), _ref(ref)
 {}
 
+Maille::Maille(vector<int> indices,Eigen::Vector3d prop,Eigen::Vector3d average,double surf,Eigen::Vector4i voisins)
+{
+  _indices=indices;
+  _prop=prop;
+  _average=average;
+  _surf=surf;
+  _voisins=voisins;
+}
+
 Mesh::Mesh(string meshname): _meshname(meshname)
 {}
 

@@ -139,6 +139,10 @@ void Mesh::readmesh()
         _medge.push_back(Edge(edg, ref));
       }
     }
+    vector<int> indices;
+    Vector3d prop,average;
+    Vector4i Voisins;
+    double surf;
     if (file_line.find("Quadrilaterals") != string::npos)
     {
       mesh_file >> nqua;
@@ -148,6 +152,7 @@ void Mesh::readmesh()
         mesh_file >> quad[0] >> quad[1] >> quad[2] >> quad[3] >> ref;
         quad[0]--; quad[1]--; quad[2]--; quad[3]--;
         _mquad.push_back(Quad(quad, edges, ref));
+        _maille.push_back(Maille(indices,prop,average,surf,Voisins));
       }
     }
   }
