@@ -57,10 +57,12 @@ void Mesh::BuildEdges()
     points = _medge[i].Getedge();
     r1 = _mpoint[points[0]].Getref();
     r2 = _mpoint[points[1]].Getref();
+    if (r1 == 6) r1 = 0;
+    if (r2 == 6) r2 = 0;
     if ((r1 == 0) || (r2 == 0))
       _medge[i].Modifyref(0);
-    else if (r1 == r2)
-      _medge[i].Modifyref(r1);
+    else if (r1 == r2) {
+      _medge[i].Modifyref(r1);}
     else _medge[i].Modifyref(min(r1,r2));
   }
 
@@ -204,6 +206,24 @@ void Mesh::readmesh()
         }
       }
     }
+
+//Est aussi dans la fonction buildedge, il faudrait l'écrire une seule fois pour les deux cas
+// (a voir où bien la placer)
+    for (int i = 0 ; i < _medge.size() ; ++i)
+    {
+      Eigen::Vector2i points;
+      int r1,r2 ;
+      points = _medge[i].Getedge();
+      r1 = _mpoint[points[0]].Getref();
+      r2 = _mpoint[points[1]].Getref();
+      if (r1 == 6) r1 = 0;
+      if (r2 == 6) r2 = 0;
+      if ((r1 == 0) || (r2 == 0))
+        _medge[i].Modifyref(0);
+      else if (r1 == r2) {
+        _medge[i].Modifyref(r1);}
+      else _medge[i].Modifyref(min(r1,r2));
+    }
   }
   // Ajout des arêtes dans la classe Quad
   VectorXi nb_voisins;
@@ -219,13 +239,15 @@ void Mesh::readmesh()
 
   for (int i = 0 ; i < _mquad.size() ; i++)
   {
+    bool if_found = false;
     Vector4i edges = _mquad[i].Getquadv();
     int ref_maille = 0;
     int nb_mailles_bord = 0;
     for (int j = 0 ; j< 4 ; j++)
     {
+      if (_medge[edges[j]].Getref() == 6) _medge[edges[j]].Modifyref(0);
       ref_maille += _medge[edges[j]].Getref();
-      if (ref_maille != 0) nb_mailles_bord++;
+      if (_medge[edges[j]].Getref() != 0) nb_mailles_bord++;
     }
     if (ref_maille == 0 || ref_maille == 1 || ref_maille == 2 || ref_maille == 4) {
       _maille[i].Modifyref(ref_maille);
@@ -241,13 +263,12 @@ void Mesh::readmesh()
           if (_medge[edges[j]].Getref() == 4)
           {
             _maille[i].Modifyref(14);
-            break;
+            if_found = true;
           }
-          else
-          {
-            _maille[i].Modifyref(23);
-            break;
-          }
+        }
+        if (if_found == false)
+        {
+          _maille[i].Modifyref(23);
         }
       }
     }
