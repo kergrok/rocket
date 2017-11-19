@@ -61,8 +61,8 @@ void Mesh::BuildEdges()
     if (r2 == 6) r2 = 0;
     if ((r1 == 0) || (r2 == 0))
       _medge[i].Modifyref(0);
-    else if (r1 == r2) {
-      _medge[i].Modifyref(r1);}
+    else if (r1 == r2)
+      _medge[i].Modifyref(r1);
     else _medge[i].Modifyref(min(r1,r2));
   }
 
