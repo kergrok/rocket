@@ -106,7 +106,7 @@ void Mesh::Buildsurfaces()
 // On a tous participé à cette fonction sauf Camille qui s'est défilé
 void Mesh::Buildvoisins()
 {
-  //edge1 comprend les arêtes du quad donc on cherche les voisins
+  //edge1 comprend les arêtes du quad dont on cherche les voisins
   //edge2 comprend les arêtes des quad qu'on teste pour être les voisins
   Eigen::Vector4i edge1, edge2;
   // Un vecteur colors qui comprend le nbre de voisins déjà trouvé pour chaque maille
@@ -136,7 +136,7 @@ void Mesh::Buildvoisins()
               if (vois == false)
               if ((edge1[k]==edge2[0])||(edge1[k]==edge2[1])||(edge1[k]==edge2[2])||(edge1[k]==edge2[3])) {
                 // On ajoute à la maille i le voisin j
-                cout<< " on a : "<<_maille[i].Getvoisins().size()<<" Voisins et j,colors= "<<j<<" "<<colors[i]<<endl;
+                // cout<< " on a : "<<_maille[i].Getvoisins().size()<<" Voisins et j,colors= "<<j<<" "<<colors[i]<<endl;
                 _maille[i].Modifyvoisins(j, colors[i]);
                 // Et vice et versa
                 _maille[j].Modifyvoisins(i, colors[j]);
@@ -151,5 +151,18 @@ void Mesh::Buildvoisins()
         }
       }
     }
+  }
+  // Si la maille a juste 2 ou 3 voisins, on complete le vecteur de -1
+  for (int i = 0; i < _mquad.size(); i++)
+  {
+      if (colors[i]==3)
+      {
+        _maille[i].Modifyvoisins(-1,3);
+      }
+      else if (colors[i]==2)
+      {
+        _maille[i].Modifyvoisins(-1,2);
+        _maille[i].Modifyvoisins(-1,3);
+      }
   }
 }

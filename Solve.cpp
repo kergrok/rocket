@@ -19,20 +19,29 @@ void Mesh::Calc_prop(int i)
   velocity_moy.setZero();
   for (int j = 0; j < nb_part; j++)
   {
-    velocity_moy += _part[j].Getvelo();
-    velocity_moy = _omega*velocity_moy/surface;
+    for(int k=0; k<3;k++)
+    {
+      velocity_moy[k] += _part[part[j]].Getvelo()[k];
+    }
   }
+
+  for(int k=0; k<3;k++)
+  {
+    velocity_moy[k] = _omega*velocity_moy[k]/surface;
+  }
+
   _maille[i].Modifyaverage(velocity_moy);
   double temp = 0;
   double R = 8.314;
   for (int j = 0; j < nb_part; j++)
   {
-    temp += pow(_part[j].Getvelo()[0]-_maille[i].Getaverage()[0],2);
-    temp += pow(_part[j].Getvelo()[1]-_maille[i].Getaverage()[1],2);
-    temp += pow(_part[j].Getvelo()[2]-_maille[i].Getaverage()[2],2);
+    temp += pow(_part[part[j]].Getvelo()[0]-velocity_moy[0],2);
+    temp += pow(_part[part[j]].Getvelo()[1]-velocity_moy[1],2);
+    temp += pow(_part[part[j]].Getvelo()[2]-velocity_moy[2],2);
   }
   temp = (_omega/3)*temp/(surface*R);
   _maille[i].Modifytemp(temp);
+  cout << "maille : " << i << "; vitesse moyenne = " << sqrt(pow(velocity_moy[0],2)+pow(velocity_moy[1],2)+pow(velocity_moy[2],2)) << endl;
 }
 
 
@@ -56,7 +65,7 @@ bool Mesh::Find_Maille(int i) // i numéro de la particule, true si il a trouvé
   // On commence à chercher dans les mailles ayant une arete commune
   if(not(is_in(maille_initiale,Position)))
   {
-    for(int j=1; j<5; j++)
+    for(int j=0; j<4; j++)
     {
       if(is_in(mailles_a_tester[j],Position))
       {
@@ -79,26 +88,30 @@ bool Mesh::Find_Maille(int i) // i numéro de la particule, true si il a trouvé
   if(not(is_found))
   {
     // Pour chaque voisin...
-    for(int k=1;k=5;k++)
+    for(int k=0;k<4;k++)
     {
+      // cout << mailles_a_tester[k] << endl;
       //... on cherche le voisin...
-      mailles_a_tester2=_maille[mailles_a_tester[k]].Getvoisins();
-      // ... et on teste
-      for(int j=1; j<5; j++)
+      if (mailles_a_tester[k]!=-1)
       {
-        if(is_in(mailles_a_tester2[j],Position))
+        mailles_a_tester2=_maille[mailles_a_tester[k]].Getvoisins();
+        // ... et on teste
+        for(int j=0; j<4; j++)
         {
-          _part[i].Modifyref(mailles_a_tester2[j]);
-          is_found=true;
+          if(is_in(mailles_a_tester2[j],Position))
+          {
+            _part[i].Modifyref(mailles_a_tester2[j]);
+            is_found=true;
+          }
+          if(is_found)
+          {
+            break;
+          }
         }
         if(is_found)
         {
           break;
         }
-      }
-      if(is_found)
-      {
-        break;
       }
     }
   }
@@ -118,10 +131,11 @@ bool Mesh::is_in(int maille, Vector2d Position) // True si la particule est dans
 
 
 
-  if(maille==-1)
+  if(maille==(-1))
   {
     return false;
   }
+
   Aretes=_mquad[maille].Getquadv();
 
   //On récupère les numéros des sommets du quad testé
@@ -132,20 +146,17 @@ bool Mesh::is_in(int maille, Vector2d Position) // True si la particule est dans
   Vector2d Middle;
   Middle.setZero();
 
-  for(int j=1; j<5;j++)
+  for(int j=0; j<4;j++)
   {
     Middle[0] += _mpoint[Sommets[j]].Getcoor()[0]/4;
     Middle[1] += _mpoint[Sommets[j]].Getcoor()[1]/4;
   }
 
-
-
-
   // Pour chaque arete, on vérifie si le produit scalaire
   // Vecteur allant du centre de l'arete à la position de la particule, normale de l'arete
   // A le bon signe ie <0
 
-  for(int i=1;i<5;i++)
+  for(int i=0;i<4;i++)
   {
 
     Sommets[0]=_medge[Aretes[i]].Getedge()[0];

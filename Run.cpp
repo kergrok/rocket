@@ -20,7 +20,7 @@ void Mesh::CFL()
   }
 
   // Pour que la CFL soit vérifiée, on définit _dt comme suit :
-  _dt = dx/(10. * sqrt(_gamma*8.314*_T*_Ma));
+  _dt = dx/(2. * sqrt(_gamma*8.314*_T*_Ma));
 }
 
 void Mesh::Create_in_Flow()
@@ -85,7 +85,7 @@ void Mesh::Create_particules(int maille, int arete)
 
     Position[0] = 0.5*(_mpoint[_medge[arete].Getedge()[0]].Getcoor()[0]+_mpoint[_medge[arete].Getedge()[1]].Getcoor()[0]);
     Position[1] = 0.5*(_mpoint[_medge[arete].Getedge()[0]].Getcoor()[1]+_mpoint[_medge[arete].Getedge()[1]].Getcoor()[1]);
-    Vitesse[0] = sqrt(_gamma*_Ma*8.314*_T)+sqrt(8.314*_T)*alea(0,1);
+    Vitesse[0] = _Ma*sqrt(_gamma*8.314*_T)+sqrt(8.314*_T)*alea(0,1);
     Vitesse[1] = sqrt(8.314*_T)*alea(0,1);
     Vitesse[2] = sqrt(8.314*_T)*alea(0,1);
 
