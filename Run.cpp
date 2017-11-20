@@ -49,18 +49,32 @@ void Mesh::Create_particules(int maille, int arete)
   Vector3d Vitesse;
   Vector2d Position;
   int j=0;
+
+
   for(int i=0; i<_N;i++)
   {
-    while((_TF[j]) && (j<_part.size()))
+
+    while((j<_part.size()) && (_TF[j]) )
     {
       j=j+1;
     }
+
+
+
+
+
+
+
+
+
 
     if(j == _part.size())
     {
       Part part(Position,Vitesse,1);
       _part.push_back(part);
       _TF.push_back(true);
+
+
     }
     else
     {
