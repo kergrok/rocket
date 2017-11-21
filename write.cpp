@@ -37,5 +37,5 @@ void Mesh::write(string Nom_Fichier)
 
         }
 
-        fichier.close();
+  fichier.close();
 }

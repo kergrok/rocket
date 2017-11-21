@@ -40,7 +40,7 @@ void Mesh::compute()
     {
       Calc_prop(i);
     }
-    write("solDens"+to_string(k)+".inp");
+    write("Resultats/solDens"+to_string(k)+".inp");
     Create_in_Flow();
     t+=_dt;
   }
