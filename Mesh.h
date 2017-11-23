@@ -21,6 +21,7 @@ class Mesh
     double _Temps_final;
     double _dt;
     double _Mp;  // masse d'une particule de N2
+    double _tau; // temps charactéristique pour les injections
     // Surface des quadrilatères
     Eigen::VectorXd _surfaces;
     //Surface du domaine
@@ -84,5 +85,7 @@ class Mesh
     double Norme_entre(Eigen::Vector2d Vec1, Eigen::Vector2d Vec2);
 
     double Norme(Eigen::Vector2d Vec);
+
+    double Create_tau();
 
 };

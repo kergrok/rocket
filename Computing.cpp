@@ -22,6 +22,7 @@ void Mesh::initialize()
   CFL();
   cout << "pas de temps: " << _dt << endl;
   Create_in_Flow();
+  Create_tau();
 }
 
 void Mesh::compute()
@@ -30,6 +31,7 @@ void Mesh::compute()
   t=0.;
   cout << "--------------------Computing-----------------------" << endl;
   int k = 0;
+  int l=1;
 
   while (t<_Temps_final)
   {
@@ -42,7 +44,11 @@ void Mesh::compute()
       Calc_prop(i);
     }
     write("Resultats/solDens"+to_string(k)+".inp");
-    Create_in_Flow();
+    if(t>l*_tau)     // Pour savoir quand est ce qu'on ajoute un inflow
+    {
+      Create_in_Flow();
+      k+=1;
+    }
     t+=_dt;
   }
 }
