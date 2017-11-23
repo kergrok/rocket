@@ -86,6 +86,6 @@ class Mesh
 
     double Norme(Eigen::Vector2d Vec);
 
-    double Create_tau();
+    void Create_tau();
 
 };

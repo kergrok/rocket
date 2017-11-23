@@ -265,3 +265,10 @@ double Mesh::Norme(Vector2d Vec)
 {
   return sqrt(pow(Vec[0],2)+pow(Vec[1],2));
 }
+
+void Mesh::Create_tau()
+{
+  double visc;
+  visc = 8.8848*pow(10,-15)*pow(_T,3)-3.2398*pow(10,-11)*_T*_T+6.2657*pow(10,-8)*_T+2.3543*pow(10,-6);
+  _tau=visc/(_gamma*287*_T);
+}
