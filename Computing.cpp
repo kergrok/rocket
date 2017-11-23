@@ -12,7 +12,8 @@ void Mesh::initialize()
 {
   ReadParameter();
   cout << "-------------------Initialisation---------------------" << endl;
-  _omega=/*_rho*0.7/_N;*/ 0.00001;               /********* A revoir !!! ***************/
+  _omega=_rho*_surf_tot/_N;
+  _Mp=4.65*pow(10,-23);
   cout << "Mach = " << _Ma
   << "; rho = " << _rho
   << "; température = " << _T << endl;

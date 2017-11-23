@@ -27,19 +27,25 @@ void Mesh::Calc_prop(int i)
 
   for(int k=0; k<3;k++)
   {
-    velocity_moy[k] = _omega*velocity_moy[k]/surface;
+    if(nb_part!=0)
+      velocity_moy[k] = velocity_moy[k]/nb_part;
+    else
+      velocity_moy[k]=0;
   }
 
   _maille[i].Modifyaverage(velocity_moy);
   double temp = 0;
-  double R = 8.314;
+  double R = 287;
   for (int j = 0; j < nb_part; j++)
   {
     temp += pow(_part[part[j]].Getvelo()[0]-velocity_moy[0],2);
     temp += pow(_part[part[j]].Getvelo()[1]-velocity_moy[1],2);
     temp += pow(_part[part[j]].Getvelo()[2]-velocity_moy[2],2);
   }
-  temp = (_omega/3)*temp/(surface*R);
+  if(nb_part!=0)
+    temp = (1./3)*temp/(nb_part*R);
+  else
+    temp = 0;
   _maille[i].Modifytemp(temp);
   cout << "maille : " << i << "; vitesse moyenne = " << sqrt(pow(velocity_moy[0],2)+pow(velocity_moy[1],2)+pow(velocity_moy[2],2)) << endl;
 }

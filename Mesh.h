@@ -20,6 +20,7 @@ class Mesh
     double _omega;
     double _Temps_final;
     double _dt;
+    double _Mp;  // masse d'une particule de N2
     // Surface des quadrilatères
     Eigen::VectorXd _surfaces;
     //Surface du domaine

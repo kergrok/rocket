@@ -20,7 +20,7 @@ void Mesh::CFL()
   }
 
   // Pour que la CFL soit vérifiée, on définit _dt comme suit :
-  _dt = dx/(2. * sqrt(_gamma*8.314*_T*_Ma));
+  _dt = dx/(2. * sqrt(_gamma*287*_T*_Ma));
 }
 
 void Mesh::Create_in_Flow()
@@ -85,9 +85,9 @@ void Mesh::Create_particules(int maille, int arete)
 
     Position[0] = 0.5*(_mpoint[_medge[arete].Getedge()[0]].Getcoor()[0]+_mpoint[_medge[arete].Getedge()[1]].Getcoor()[0]);
     Position[1] = 0.5*(_mpoint[_medge[arete].Getedge()[0]].Getcoor()[1]+_mpoint[_medge[arete].Getedge()[1]].Getcoor()[1]);
-    Vitesse[0] = _Ma*sqrt(_gamma*8.314*_T)+sqrt(8.314*_T)*alea(0,1);
-    Vitesse[1] = sqrt(8.314*_T)*alea(0,1);
-    Vitesse[2] = sqrt(8.314*_T)*alea(0,1);
+    Vitesse[0] = _Ma*sqrt(_gamma*287*_T)+sqrt(287*_T)*alea(0,1);
+    Vitesse[1] = sqrt(287*_T)*alea(0,1);
+    Vitesse[2] = sqrt(287*_T)*alea(0,1);
 
     _part[j].Modifyvelo(Vitesse);
     _part[j].Modifycoor(Position);
@@ -229,8 +229,8 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
     NewVelo[2] = Velo[2];
   }
   else if(_methode == "Maxwellien"){
-    NewVelo[0] = VeloAbs*cos(theta3)+sqrt(_maille[ref_maille].Gettemp()*8.314)*alea(0,1);
-    NewVelo[1] = VeloAbs*sin(theta3)+sqrt(_maille[ref_maille].Gettemp()*8.314)*alea(0,1);
+    NewVelo[0] = VeloAbs*cos(theta3)+sqrt(_maille[ref_maille].Gettemp()*287)*alea(0,1);
+    NewVelo[1] = VeloAbs*sin(theta3)+sqrt(_maille[ref_maille].Gettemp()*287)*alea(0,1);
     NewVelo[2] = Velo[2];
   }
   else{
