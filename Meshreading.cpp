@@ -69,7 +69,7 @@ void Mesh::BuildEdges()
   if ((nb_edges != _medge.size()) || (nb_edges != _edg_Q1.size()) || (nb_edges != _edg_Q2.size()))
     cout << "Problem with the edges building !" << endl;
 
-    WriteEdgesAndAssociatedQuad();
+    //WriteEdgesAndAssociatedQuad();
 }
 
 void Mesh::WriteEdgesAndAssociatedQuad()
