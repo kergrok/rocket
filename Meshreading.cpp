@@ -148,8 +148,8 @@ void Mesh::readmesh()
     if (file_line.find("Quadrilaterals") != string::npos)
     {
       mesh_file >> nqua;
-      cout << "Nombre de quad (" << ned << ")" << endl;
-      for (int i = 0 ; i < ned ; ++i)
+      cout << "Nombre de quad (" << nqua << ")" << endl;
+      for (int i = 0 ; i < nqua ; ++i)
       {
         mesh_file >> quad[0] >> quad[1] >> quad[2] >> quad[3] >> ref;
         quad[0]--; quad[1]--; quad[2]--; quad[3]--;
