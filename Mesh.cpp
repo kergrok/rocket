@@ -60,6 +60,7 @@ void Mesh::Buildsurfaces()
   Eigen::Vector2i edge;
   Eigen::Vector2d coor1, coor2;
   Eigen::Vector2d coor_cyl1, coor_cyl2;
+  _surf_tot = 0.;
 
   for (int i = 0; i < _mquad.size(); i++) {
     // On récupère les arêtes
@@ -99,6 +100,7 @@ void Mesh::Buildsurfaces()
     }
     //On stocke en double la surface donc il faudrait voir pour supprimer _surfaces
     _maille[i].Modifysurf(_surfaces(i));
+    _surf_tot +=_surfaces(i);
   }
 }
 

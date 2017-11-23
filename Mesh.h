@@ -22,6 +22,8 @@ class Mesh
     double _dt;
     // Surface des quadrilatères
     Eigen::VectorXd _surfaces;
+    //Surface du domaine
+    double _surf_tot;
     // Longueur des arêtes
     Eigen::VectorXd _lenghts;
     // Les quadrilatères collés aux arêtes
