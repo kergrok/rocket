@@ -28,7 +28,7 @@ void Mesh::Create_in_Flow()
   Vector4i Edges;
   for(int i=0;i<_maille.size();i++)
   {
-    if(_maille[i].Getref()== 4) //Positionnée sur le bord
+    if(_maille[i].Getref()== 4 || _maille[i].Getref()== 34 || _maille[i].Getref()== 14) //Positionnée sur le bord
     {
       Edges=_mquad[i].Getquadv();
       for(int j=0;j<4;j++)
