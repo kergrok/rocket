@@ -23,6 +23,11 @@ void Mesh::initialize()
   cout << "pas de temps: " << _dt << endl;
   Create_in_Flow();
   Create_tau();
+  for (int i=0; i<_maille.size();i++)
+  {
+    Calc_prop(i);
+  }
+  write("Resultats/solDens0.inp");
 }
 
 void Mesh::compute()

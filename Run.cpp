@@ -14,7 +14,7 @@ void Mesh::CFL()
   // Recherche de la plus petite arête pour définir le dx
   double dx = _lenghts[0];
   for (int i = 1; i < _lenghts.size() ; i++) {
-    if (_lenghts[i] > dx) {
+    if (_lenghts[i] < dx) {
       dx = _lenghts[i];
     }
   }
