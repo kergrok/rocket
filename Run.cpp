@@ -59,29 +59,16 @@ void Mesh::Create_particules(int maille, int arete)
       j=j+1;
     }
 
-
-
-
-
-
-
-
-
-
     if(j == _part.size())
     {
       Part part(Position,Vitesse,1);
       _part.push_back(part);
       _TF.push_back(true);
-
-
     }
     else
     {
       _TF[j]=true;
     }
-
-
 
     Position[0] = 0.5*(_mpoint[_medge[arete].Getedge()[0]].Getcoor()[0]+_mpoint[_medge[arete].Getedge()[1]].Getcoor()[0]);
     Position[1] = 0.5*(_mpoint[_medge[arete].Getedge()[0]].Getcoor()[1]+_mpoint[_medge[arete].Getedge()[1]].Getcoor()[1]);
@@ -112,16 +99,18 @@ void Mesh::Displacement()
 
   for (int i = 0; i < _part.size() ; i++) {
 
-    new_coor = _part[i].Getcoor();
-    coor = _part[i].Getcoor();
-    vitesse = _part[i].Getvelo();
-    new_coor[0]+=vitesse[0]*_dt;
-    new_coor[1]+=vitesse[1]*_dt;
-    _part[i].Modifycoor(new_coor);
-    in_domain = Find_Maille(i);
-    if(not(in_domain))
-    {
-      find_impact(i,coor,new_coor);
+    if (_TF[i] == true) {
+      new_coor = _part[i].Getcoor();
+      vitesse = _part[i].Getvelo();
+      new_coor[0]-=vitesse[0]*_dt;
+      new_coor[1]-=vitesse[1]*_dt;
+      _part[i].Modifycoor(new_coor);
+      in_domain = Find_Maille(i);
+      if(not(in_domain))
+      {
+        //find_impact(i,coor,new_coor);
+        _TF[i] = false;
+      }
     }
   }
 }

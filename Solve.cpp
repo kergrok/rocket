@@ -47,7 +47,9 @@ void Mesh::Calc_prop(int i)
   else
     temp = 0;
   _maille[i].Modifytemp(temp);
-  cout << "maille : " << i << "; vitesse moyenne = " << sqrt(pow(velocity_moy[0],2)+pow(velocity_moy[1],2)+pow(velocity_moy[2],2)) << endl;
+
+
+  //cout << "maille : " << i << "; vitesse moyenne = " << sqrt(pow(velocity_moy[0],2)+pow(velocity_moy[1],2)+pow(velocity_moy[2],2)) << endl;
 }
 
 
@@ -86,7 +88,7 @@ bool Mesh::Find_Maille(int i) // i numéro de la particule, true si il a trouvé
   }
   else
   {
-    is_found=false;
+    is_found=true;
   }
 
   // Si on a pas trouvé, on cherche dans les mailles ayant une arete commune avec les voisins
@@ -208,8 +210,9 @@ void Mesh::MajMailleParticule()
 
   // Ajout des particules dans chaque maille
   for (int i = 0; i < _part.size(); i++) {
-    ref_part = _part[i].Getref();
-    _maille[ref_part].Addindice(i);
+    if (_TF[i] == true) {
+      ref_part = _part[i].Getref();
+      _maille[ref_part].Addindice(i);
+    }
   }
-
 }
