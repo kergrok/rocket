@@ -15,8 +15,6 @@ using namespace std;
 void Mesh::write(string Nom_Fichier, string Nom_Fichier1, string Nom_Fichier2)
 {
   ofstream fichier(Nom_Fichier, ios::out | ios::trunc);
-  ofstream fichier1(Nom_Fichier1, ios::out | ios::trunc);
-  ofstream fichier2(Nom_Fichier2, ios::out | ios::trunc);
 
   if(fichier)
         {
@@ -41,6 +39,8 @@ void Mesh::write(string Nom_Fichier, string Nom_Fichier1, string Nom_Fichier2)
 
   fichier.close();
 
+  ofstream fichier1(Nom_Fichier1, ios::out | ios::trunc);
+
   if(fichier1)
         {
           fichier1<< _mpoint.size()<<" "<< _maille.size()<<" 0 1 0"<< endl;
@@ -63,6 +63,8 @@ void Mesh::write(string Nom_Fichier, string Nom_Fichier1, string Nom_Fichier2)
         }
 
   fichier1.close();
+
+  ofstream fichier2(Nom_Fichier2, ios::out | ios::trunc);
 
   if(fichier2)
         {

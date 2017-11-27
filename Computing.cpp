@@ -53,7 +53,7 @@ void Mesh::compute()
     if(t>l*dt_inj)     // Pour savoir quand est ce qu'on ajoute un inflow
     {
       Create_in_Flow();
-      k+=1;
+      l+=1;
     }
     t+=_dt;
   }
