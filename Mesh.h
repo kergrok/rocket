@@ -70,7 +70,7 @@ class Mesh
     // ------------- Ecriture des arêtes dans un fichier --------------
     void WriteEdgesAndAssociatedQuad();
 
-    void write(std::string Nom_Fichier);
+    void write(std::string Nom_Fichier, std::string Nom_Fichier1, std::string Nom_Fichier2);
     // Lit les parametres dans un fichier
     void ReadParameter();
     // Initialisation du Problem
