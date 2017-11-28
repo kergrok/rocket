@@ -33,6 +33,7 @@ class Mesh
     Eigen::VectorXi _edg_Q1, _edg_Q2;
     std::string _methode;
 
+
   public:
     // Constructeur
     Mesh(std::string meshname);
@@ -87,7 +88,7 @@ class Mesh
     double Norme(Eigen::Vector2d Vec);
 
     void Create_tau();
-    // Collision pour l'ensemble des particules 
+    // Collision pour l'ensemble des particules
     void collision();
 
 };
