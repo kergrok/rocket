@@ -101,6 +101,7 @@ void Mesh::Displacement()
 
     if (_TF[i] == true) {
       new_coor = _part[i].Getcoor();
+      coor = _part[i].Getcoor();
       vitesse = _part[i].Getvelo();
       new_coor[0]-=vitesse[0]*_dt;
       new_coor[1]-=vitesse[1]*_dt;

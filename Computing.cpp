@@ -52,9 +52,12 @@ void Mesh::compute()
     write("Resultats/solDens"+to_string(k)+".inp","Resultats/solTemp"+to_string(k)+".inp","Resultats/solVelo"+to_string(k)+".inp");
     if(t>l*dt_inj)     // Pour savoir quand est ce qu'on ajoute un inflow
     {
-      //Create_in_Flow();
+      Create_in_Flow();
       l+=1;
     }
     t+=_dt;
+    //for (int i=0; i<_part.size();i++) {
+
+    //}
   }
 }

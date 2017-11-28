@@ -48,7 +48,6 @@ void Mesh::Calc_prop(int i)
     temp = 0;
   _maille[i].Modifytemp(temp);
 
-
   //cout << "maille : " << i << "; vitesse moyenne = " << sqrt(pow(velocity_moy[0],2)+pow(velocity_moy[1],2)+pow(velocity_moy[2],2)) << endl;
 }
 
@@ -185,11 +184,12 @@ bool Mesh::is_in(int maille, Vector2d Position) // True si la particule est dans
     // On vérifie le sens de la normale pour qu'elle soit vers l'extérieur
     if(Normale[0]*MiEdge_Middle[0]+Normale[1]*MiEdge_Middle[1]>0)
     {
-      Normale=-Normale;
+      Normale[0]=-Normale[0];
+      Normale[1]=-Normale[1];
     }
 
     // On vérifie si la position est du bon coté de l'arete
-    if(MiEdge_Position[0]*Normale[0]+MiEdge_Position[0]*Normale[0]>0)
+    if(MiEdge_Position[0]*Normale[0]+MiEdge_Position[1]*Normale[1]>0)
     {
       return false;
     }
