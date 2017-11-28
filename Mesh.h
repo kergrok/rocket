@@ -87,5 +87,7 @@ class Mesh
     double Norme(Eigen::Vector2d Vec);
 
     void Create_tau();
+    // Collision pour l'ensemble des particules 
+    void collision();
 
 };
