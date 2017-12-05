@@ -178,6 +178,18 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
         vector_edge[0]=coorS1[0]-coorS2[0];
         vector_edge[1]=coorS1[1]-coorS2[1];
       }
+      else if(coorS2[0]==coorS1[0])      // si vect vertical : du bas vers le haut
+      {
+        vector_edge[0]=0;
+        if(coorS1[1]<coorS2[1])
+        {
+          vector_edge[1]=coorS2[1]-coorS1[1];
+        }
+        else
+        {
+          vector_edge[1]=coorS1[1]-coorS2[1];
+        }
+      }
       else
       {
         vector_edge[0]=coorS2[0]-coorS1[0];
@@ -202,6 +214,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
       // Theta2 est forcément entre -pi/2 et pi/2, le vecteur allant de la gauche vers la droite
 
       theta1=acos(vector_deplacement.dot(vector_edge)/Norme(vector_edge)/distance_parcourue);
+
       // cout << "norme " << Norme(vector_edge) << " dist parc " << distance_parcourue << endl;
       // cout << "theta1 : " << theta1 << endl;
       if(vector_edge[0]==0){
