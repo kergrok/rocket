@@ -3,7 +3,7 @@ Température
 Densité
 0.0001
 N
-1
+10
 Mach
 2
 Gamma
