@@ -6,6 +6,7 @@
 using namespace std;
 using namespace Eigen;
 
+
 void Mesh::collision(){
   for (int i = 0; i < _part.size(); i++) {
     collision_or_not = rand() % 10;
