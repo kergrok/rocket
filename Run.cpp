@@ -273,20 +273,144 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
   //     _TF[i]=false;
   //   }
   // }
-
-  for(int j=0;j<4;j++)
+  if((_part[i].Getref()!=12) && (_part[i].Getref()!=23) && (_part[i].Getref()!=14))
   {
-    if(_medge[ref_edges[j]].Getref() == 4)             // Si la particule sort du domaine
+    for(int j=0;j<4;j++)
     {
-      _TF[i]=false;
+      if(_medge[ref_edges[j]].Getref() == 1)
+      {
+        impact_edge = ref_edges[j];
+        // Coordonnées des sommets de l'arete par laquelle sort la particule
+        sommets = _medge[impact_edge].Getedge();
+        coorS1 = _mpoint[sommets[0]].Getcoor();
+        coorS2 = _mpoint[sommets[1]].Getcoor();
+
+        //Coefficient de la droite passant par l'arete
+        if(coorS1[0]!=coorS2[0])
+        {
+          a2 = (coorS1[1]-coorS2[1])/(coorS1[0]-coorS2[0]);
+          c2 = coorS1[1]-coorS1[0]*a2;
+
+          // Coordonnées de l'impact
+          cout << "a1 a2 " << a1 << " " << a2 << endl;
+          coorImpact[0] = (c2-c1)/(a1-a2);
+          coorImpact[1] = a1*coorImpact[0]+c1;
+        }
+        else
+        {
+          coorImpact[0]=coorS1[0];
+          coorImpact[1]=a1*coorImpact[0]+c1;
+        }
+        cout << "coorImpact " << coorImpact[0] << " " << coorImpact[1] << endl;
+
+        // Calcul de distances
+        distance_a_parcourir=Norme_entre(new_coor,coor);
+        distance_parcourue=Norme_entre(coor,coorImpact);
+
+        double dt_rest;
+        Vector3d newvelo;
+        // Nouvelle vitesse Vx=-Vx
+        newvelo[0]=_part[i].Getvelo()[0];
+        newvelo[1]=-_part[i].Getvelo()[1];
+        newvelo[2]=_part[i].Getvelo()[2];
+        // Calcul des nouvelles coor
+        dt_rest=_dt-distance_parcourue/sqrt(pow(_part[i].Getvelo()[0],2)+pow(_part[i].Getvelo()[1],2)); // dt_rest correspond au temps restant après impact (compris entre 0 et _dt)
+        _part[i].Modifyvelo(newvelo);
+        coorImpact[0]-=newvelo[0]*dt_rest;
+        coorImpact[1]-=newvelo[1]*dt_rest;
+        _part[i].Modifycoor(coorImpact);
+      }
+      if(_medge[ref_edges[j]].Getref() == 2)
+      {
+        impact_edge = ref_edges[j];
+        // Coordonnées des sommets de l'arete par laquelle sort la particule
+        sommets = _medge[impact_edge].Getedge();
+        coorS1 = _mpoint[sommets[0]].Getcoor();
+        coorS2 = _mpoint[sommets[1]].Getcoor();
+
+        //Coefficient de la droite passant par l'arete
+        if(coorS1[0]!=coorS2[0])
+        {
+          a2 = (coorS1[1]-coorS2[1])/(coorS1[0]-coorS2[0]);
+          c2 = coorS1[1]-coorS1[0]*a2;
+
+          // Coordonnées de l'impact
+          cout << "a1 a2 " << a1 << " " << a2 << endl;
+          coorImpact[0] = (c2-c1)/(a1-a2);
+          coorImpact[1] = a1*coorImpact[0]+c1;
+        }
+        else
+        {
+          coorImpact[0]=coorS1[0];
+          coorImpact[1]=a1*coorImpact[0]+c1;
+        }
+        cout << "coorImpact " << coorImpact[0] << " " << coorImpact[1] << endl;
+
+        // Calcul de distances
+        distance_a_parcourir=Norme_entre(new_coor,coor);
+        distance_parcourue=Norme_entre(coor,coorImpact);
+
+        Vector2d cyl, velocyl;
+        Vector3d newvelo;
+        cyl=Convert(coorImpact[0],coorImpact[1]);       //coordonnées cylindrique du point d'impact
+        // vitesse incidente en cylindrique
+        velocyl[0]=_part[i].Getvelo()[0]*cos(cyl[1])+_part[i].Getvelo()[1]*sin(cyl[1]);
+        velocyl[1]=_part[i].Getvelo()[1]*cos(cyl[1])-_part[i].Getvelo()[0]*sin(cyl[1]);
+        // vitesse selon r = -vitesse selon r (rebond)  --> Nouvelle vitesse
+        velocyl[0]=-velocyl[0];
+        // passage en cartésien de la nouvelle vitesse
+        newvelo[0]=velocyl[0]*cos(cyl[1])-velocyl[1]*sin(cyl[1]);
+        newvelo[1]=velocyl[1]*cos(cyl[1])+velocyl[0]*sin(cyl[1]);
+        newvelo[2]=_part[i].Getvelo()[2];
+        // Calcul de la nouvelle coor
+        double dt_rest=_dt-distance_parcourue/sqrt(pow(_part[i].Getvelo()[0],2)+pow(_part[i].Getvelo()[1],2)); // dt_rest correspond au temps restant après impact (compris entre 0 et _dt)
+        _part[i].Modifyvelo(newvelo);
+        coorImpact[0]-=newvelo[0]*dt_rest;
+        coorImpact[1]-=newvelo[1]*dt_rest;
+        _part[i].Modifycoor(coorImpact);
+
+      }
+      if(_medge[ref_edges[j]].Getref() == 4)             // Si la particule sort du domaine
+      {
+        _TF[i]=false;
+      }
+      if(_medge[ref_edges[j]].Getref() == 3)
+      {
+        _TF[i]=false;
+      }
     }
-    else if(_medge[ref_edges[j]].Getref() == 3)
+  }
+
+
+
+  else if (_part[i].Getref()==12)
+  {
+    Vector2d vect_dir,vect_lim,coor_coin;
+    Vector4i points;
+    points = _mquad[ref_maille].Getquadp();
+    for(int j=0;j<4;j++)
     {
-      _TF[i]=false;
+      if(_mpoint[points(j)].Getref()==40)
+        coor_coin=_mpoint[points(j)].Getcoor();
     }
-    else if(_medge[ref_edges[j]].Getref() == 1)
+    vect_lim[0]=(coor_coin[0]-coor[0]);
+    vect_lim[1]=(coor_coin[1]-coor[1]);
+    double norm;
+    norm=Norme(vect_lim);
+    vect_lim[0]/=norm;
+    vect_lim[1]/=norm;
+    vect_dir[0]=(new_coor[0]-coor[0]);
+    vect_dir[1]=(new_coor[1]-coor[1]);
+    norm=Norme(vect_dir);
+    vect_dir[0]/=norm;
+    vect_dir[1]/=norm;
+    if(vect_dir[1]<vect_lim[1]) // vers le bas 1
     {
-      impact_edge = ref_edges[j];
+      for(int j=0;j<4;j++)
+      {
+        if(_medge[ref_edges[j]].Getref() == 1)
+          impact_edge = ref_edges[j];
+      }
       // Coordonnées des sommets de l'arete par laquelle sort la particule
       sommets = _medge[impact_edge].Getedge();
       coorS1 = _mpoint[sommets[0]].Getcoor();
@@ -323,13 +447,74 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
       // Calcul des nouvelles coor
       dt_rest=_dt-distance_parcourue/sqrt(pow(_part[i].Getvelo()[0],2)+pow(_part[i].Getvelo()[1],2)); // dt_rest correspond au temps restant après impact (compris entre 0 et _dt)
       _part[i].Modifyvelo(newvelo);
+      coor=coorImpact;
       coorImpact[0]-=newvelo[0]*dt_rest;
       coorImpact[1]-=newvelo[1]*dt_rest;
       _part[i].Modifycoor(coorImpact);
+      new_coor=coorImpact;
+      bool in_domain;
+      in_domain = Find_Maille(i);
+      if(not(in_domain))
+      {
+        for(int j=0;j<4;j++)
+        {
+          if(_medge[ref_edges[j]].Getref() == 2)
+            impact_edge = ref_edges[j];
+        }
+        // Coordonnées des sommets de l'arete par laquelle sort la particule
+        sommets = _medge[impact_edge].Getedge();
+        coorS1 = _mpoint[sommets[0]].Getcoor();
+        coorS2 = _mpoint[sommets[1]].Getcoor();
+
+        //Coefficient de la droite passant par l'arete
+        if(coorS1[0]!=coorS2[0])
+        {
+          a2 = (coorS1[1]-coorS2[1])/(coorS1[0]-coorS2[0]);
+          c2 = coorS1[1]-coorS1[0]*a2;
+
+          // Coordonnées de l'impact
+          cout << "a1 a2 " << a1 << " " << a2 << endl;
+          coorImpact[0] = (c2-c1)/(a1-a2);
+          coorImpact[1] = a1*coorImpact[0]+c1;
+        }
+        else
+        {
+          coorImpact[0]=coorS1[0];
+          coorImpact[1]=a1*coorImpact[0]+c1;
+        }
+        cout << "coorImpact " << coorImpact[0] << " " << coorImpact[1] << endl;
+
+        // Calcul de distances
+        distance_a_parcourir=Norme_entre(new_coor,coor);
+        distance_parcourue=Norme_entre(coor,coorImpact);
+
+        Vector2d cyl, velocyl;
+        Vector3d newvelo;
+        cyl=Convert(coorImpact[0],coorImpact[1]);       //coordonnées cylindrique du point d'impact
+        // vitesse incidente en cylindrique
+        velocyl[0]=_part[i].Getvelo()[0]*cos(cyl[1])+_part[i].Getvelo()[1]*sin(cyl[1]);
+        velocyl[1]=_part[i].Getvelo()[1]*cos(cyl[1])-_part[i].Getvelo()[0]*sin(cyl[1]);
+        // vitesse selon r = -vitesse selon r (rebond)  --> Nouvelle vitesse
+        velocyl[0]=-velocyl[0];
+        // passage en cartésien de la nouvelle vitesse
+        newvelo[0]=velocyl[0]*cos(cyl[1])-velocyl[1]*sin(cyl[1]);
+        newvelo[1]=velocyl[1]*cos(cyl[1])+velocyl[0]*sin(cyl[1]);
+        newvelo[2]=_part[i].Getvelo()[2];
+        // Calcul de la nouvelle coor
+        double dt_rest=_dt-distance_parcourue/sqrt(pow(_part[i].Getvelo()[0],2)+pow(_part[i].Getvelo()[1],2)); // dt_rest correspond au temps restant après impact (compris entre 0 et _dt)
+        _part[i].Modifyvelo(newvelo);
+        coorImpact[0]-=newvelo[0]*dt_rest;
+        coorImpact[1]-=newvelo[1]*dt_rest;
+        _part[i].Modifycoor(coorImpact);
+      }
     }
-    else if(_medge[ref_edges[j]].Getref() == 2)
+    else
     {
-      impact_edge = ref_edges[j];
+      for(int j=0;j<4;j++)
+      {
+        if(_medge[ref_edges[j]].Getref() == 2)
+          impact_edge = ref_edges[j];
+      }
       // Coordonnées des sommets de l'arete par laquelle sort la particule
       sommets = _medge[impact_edge].Getedge();
       coorS1 = _mpoint[sommets[0]].Getcoor();
@@ -372,10 +557,237 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
       // Calcul de la nouvelle coor
       double dt_rest=_dt-distance_parcourue/sqrt(pow(_part[i].Getvelo()[0],2)+pow(_part[i].Getvelo()[1],2)); // dt_rest correspond au temps restant après impact (compris entre 0 et _dt)
       _part[i].Modifyvelo(newvelo);
+      coor=coorImpact;
       coorImpact[0]-=newvelo[0]*dt_rest;
       coorImpact[1]-=newvelo[1]*dt_rest;
       _part[i].Modifycoor(coorImpact);
+      new_coor=coorImpact;
+      bool in_domain;
+      in_domain = Find_Maille(i);
+      if(not(in_domain))
+      {
+        for(int j=0;j<4;j++)
+        {
+          if(_medge[ref_edges[j]].Getref() == 1)
+            impact_edge = ref_edges[j];
+        }
+        // Coordonnées des sommets de l'arete par laquelle sort la particule
+        sommets = _medge[impact_edge].Getedge();
+        coorS1 = _mpoint[sommets[0]].Getcoor();
+        coorS2 = _mpoint[sommets[1]].Getcoor();
 
+        //Coefficient de la droite passant par l'arete
+        if(coorS1[0]!=coorS2[0])
+        {
+          a2 = (coorS1[1]-coorS2[1])/(coorS1[0]-coorS2[0]);
+          c2 = coorS1[1]-coorS1[0]*a2;
+
+          // Coordonnées de l'impact
+          cout << "a1 a2 " << a1 << " " << a2 << endl;
+          coorImpact[0] = (c2-c1)/(a1-a2);
+          coorImpact[1] = a1*coorImpact[0]+c1;
+        }
+        else
+        {
+          coorImpact[0]=coorS1[0];
+          coorImpact[1]=a1*coorImpact[0]+c1;
+        }
+        cout << "coorImpact " << coorImpact[0] << " " << coorImpact[1] << endl;
+
+        // Calcul de distances
+        distance_a_parcourir=Norme_entre(new_coor,coor);
+        distance_parcourue=Norme_entre(coor,coorImpact);
+
+        double dt_rest;
+        Vector3d newvelo;
+        // Nouvelle vitesse Vx=-Vx
+        newvelo[0]=_part[i].Getvelo()[0];
+        newvelo[1]=-_part[i].Getvelo()[1];
+        newvelo[2]=_part[i].Getvelo()[2];
+        // Calcul des nouvelles coor
+        dt_rest=_dt-distance_parcourue/sqrt(pow(_part[i].Getvelo()[0],2)+pow(_part[i].Getvelo()[1],2)); // dt_rest correspond au temps restant après impact (compris entre 0 et _dt)
+        _part[i].Modifyvelo(newvelo);
+        coorImpact[0]-=newvelo[0]*dt_rest;
+        coorImpact[1]-=newvelo[1]*dt_rest;
+        _part[i].Modifycoor(coorImpact);
+      }
+    }
+  }
+
+
+
+  else if (_part[i].Getref()==23)
+  {
+    Vector2d vect_dir,vect_lim,coor_coin;
+    Vector4i points;
+    points = _mquad[ref_maille].Getquadp();
+    for(int j=0;j<4;j++)
+    {
+      if(_mpoint[points(j)].Getref()==50)
+      coor_coin=_mpoint[points(j)].Getcoor();
+    }
+    vect_lim[0]=(coor_coin[0]-coor[0]);
+    vect_lim[1]=(coor_coin[1]-coor[1]);
+    double norm;
+    norm=Norme(vect_lim);
+    vect_lim[0]/=norm;
+    vect_lim[1]/=norm;
+    vect_dir[0]=(new_coor[0]-coor[0]);
+    vect_dir[1]=(new_coor[1]-coor[1]);
+    norm=Norme(vect_dir);
+    vect_dir[0]/=norm;
+    vect_dir[1]/=norm;
+    if(vect_dir[1]<vect_lim[1])
+    {
+      for(int j=0;j<4;j++)
+      {
+        if(_medge[ref_edges[j]].Getref() == 1)
+          impact_edge = ref_edges[j];
+      }
+      // Coordonnées des sommets de l'arete par laquelle sort la particule
+      sommets = _medge[impact_edge].Getedge();
+      coorS1 = _mpoint[sommets[0]].Getcoor();
+      coorS2 = _mpoint[sommets[1]].Getcoor();
+
+      //Coefficient de la droite passant par l'arete
+      if(coorS1[0]!=coorS2[0])
+      {
+        a2 = (coorS1[1]-coorS2[1])/(coorS1[0]-coorS2[0]);
+        c2 = coorS1[1]-coorS1[0]*a2;
+
+        // Coordonnées de l'impact
+        cout << "a1 a2 " << a1 << " " << a2 << endl;
+        coorImpact[0] = (c2-c1)/(a1-a2);
+        coorImpact[1] = a1*coorImpact[0]+c1;
+      }
+      else
+      {
+        coorImpact[0]=coorS1[0];
+        coorImpact[1]=a1*coorImpact[0]+c1;
+      }
+      cout << "coorImpact " << coorImpact[0] << " " << coorImpact[1] << endl;
+
+      // Calcul de distances
+      distance_a_parcourir=Norme_entre(new_coor,coor);
+      distance_parcourue=Norme_entre(coor,coorImpact);
+
+      Vector2d cyl, velocyl;
+      Vector3d newvelo;
+      cyl=Convert(coorImpact[0],coorImpact[1]);       //coordonnées cylindrique du point d'impact
+      // vitesse incidente en cylindrique
+      velocyl[0]=_part[i].Getvelo()[0]*cos(cyl[1])+_part[i].Getvelo()[1]*sin(cyl[1]);
+      velocyl[1]=_part[i].Getvelo()[1]*cos(cyl[1])-_part[i].Getvelo()[0]*sin(cyl[1]);
+      // vitesse selon r = -vitesse selon r (rebond)  --> Nouvelle vitesse
+      velocyl[0]=-velocyl[0];
+      // passage en cartésien de la nouvelle vitesse
+      newvelo[0]=velocyl[0]*cos(cyl[1])-velocyl[1]*sin(cyl[1]);
+      newvelo[1]=velocyl[1]*cos(cyl[1])+velocyl[0]*sin(cyl[1]);
+      newvelo[2]=_part[i].Getvelo()[2];
+      // Calcul de la nouvelle coor
+      double dt_rest=_dt-distance_parcourue/sqrt(pow(_part[i].Getvelo()[0],2)+pow(_part[i].Getvelo()[1],2)); // dt_rest correspond au temps restant après impact (compris entre 0 et _dt)
+      _part[i].Modifyvelo(newvelo);
+      coor=coorImpact;
+      coorImpact[0]-=newvelo[0]*dt_rest;
+      coorImpact[1]-=newvelo[1]*dt_rest;
+      _part[i].Modifycoor(coorImpact);
+      new_coor=coorImpact;
+      bool in_domain;
+      in_domain = Find_Maille(i);
+      if(not(in_domain))
+      {
+        _TF[i]=false;
+      }
+    }
+    else
+    {
+      _TF[i]=false;
+    }
+  }
+
+
+
+  else if (_part[i].Getref()==14)
+  {
+    Vector2d vect_dir,vect_lim,coor_coin;
+    Vector4i points;
+    points = _mquad[ref_maille].Getquadp();
+    for(int j=0;j<4;j++)
+    {
+      if(_mpoint[points(j)].Getref()==10)
+      {
+        coor_coin=_mpoint[points(j)].Getcoor();
+      }
+      cout << _mpoint[points(j)].Getref() << endl;
+    }
+    vect_lim[0]=(coor_coin[0]-coor[0]);
+    vect_lim[1]=(coor_coin[1]-coor[1]);
+    double norm;
+    norm=Norme(vect_lim);
+    vect_lim[0]/=norm;
+    vect_lim[1]/=norm;
+    vect_dir[0]=(new_coor[0]-coor[0]);
+    vect_dir[1]=(new_coor[1]-coor[1]);
+    norm=Norme(vect_dir);
+    vect_dir[0]/=norm;
+    vect_dir[1]/=norm;
+    if(vect_dir[1]<vect_lim[1]) // vers le bas 1
+    {
+      for(int j=0;j<4;j++)
+      {
+        if(_medge[ref_edges[j]].Getref() == 1)
+          impact_edge = ref_edges[j];
+      }
+      // Coordonnées des sommets de l'arete par laquelle sort la particule
+      sommets = _medge[impact_edge].Getedge();
+      coorS1 = _mpoint[sommets[0]].Getcoor();
+      coorS2 = _mpoint[sommets[1]].Getcoor();
+
+      //Coefficient de la droite passant par l'arete
+      if(coorS1[0]!=coorS2[0])
+      {
+        a2 = (coorS1[1]-coorS2[1])/(coorS1[0]-coorS2[0]);
+        c2 = coorS1[1]-coorS1[0]*a2;
+
+        // Coordonnées de l'impact
+        cout << "a1 a2 " << a1 << " " << a2 << endl;
+        coorImpact[0] = (c2-c1)/(a1-a2);
+        coorImpact[1] = a1*coorImpact[0]+c1;
+      }
+      else
+      {
+        coorImpact[0]=coorS1[0];
+        coorImpact[1]=a1*coorImpact[0]+c1;
+      }
+      cout << "coorImpact " << coorImpact[0] << " " << coorImpact[1] << endl;
+
+      // Calcul de distances
+      distance_a_parcourir=Norme_entre(new_coor,coor);
+      distance_parcourue=Norme_entre(coor,coorImpact);
+
+      double dt_rest;
+      Vector3d newvelo;
+      // Nouvelle vitesse Vx=-Vx
+      newvelo[0]=_part[i].Getvelo()[0];
+      newvelo[1]=-_part[i].Getvelo()[1];
+      newvelo[2]=_part[i].Getvelo()[2];
+      // Calcul des nouvelles coor
+      dt_rest=_dt-distance_parcourue/sqrt(pow(_part[i].Getvelo()[0],2)+pow(_part[i].Getvelo()[1],2)); // dt_rest correspond au temps restant après impact (compris entre 0 et _dt)
+      _part[i].Modifyvelo(newvelo);
+      coor=coorImpact;
+      coorImpact[0]-=newvelo[0]*dt_rest;
+      coorImpact[1]-=newvelo[1]*dt_rest;
+      _part[i].Modifycoor(coorImpact);
+      new_coor=coorImpact;
+      bool in_domain;
+      in_domain = Find_Maille(i);
+      if(not(in_domain))
+      {
+        _TF[i]=false;
+      }
+      else
+      {
+        _TF[i]=false;
+      }
     }
   }
 }
