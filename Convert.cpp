@@ -30,20 +30,20 @@ Eigen::Vector2d Mesh::Convert(double x, double y)        // Convertit cartésien
   return coor_cyl;
 }
 
-Eigen::Vector2d Mesh::Convertinv(double r, double theta)    // Convertit polaire en cartésien
-{
-  // Le vecteur coor_pol comporte les valeurs de x et y
-  Eigen::Vector2d coor_pol;
-  coor_pol[0] = r*cos(theta);
-  coor_pol[1] = r*sin(theta);
-  return coor_pol;
-}
-
-double Mesh::Angle(int i)     // Calcul angle incident et prends en entrée l'indice de la particule i
-{
-  double phi;
-  Vector2d cyl;
-  cyl=Convert(_part[i].Getcoor()[0],_part[i].Getcoor()[1]);
-  phi=-cyl[1]+atan((_part[i].Getvelo()[1])/(_part[i].Getvelo()[0]));
-  return phi;
-}
+// Eigen::Vector2d Mesh::Convertinv(double r, double theta)    // Convertit polaire en cartésien
+// {
+//   // Le vecteur coor_pol comporte les valeurs de x et y
+//   Eigen::Vector2d coor_pol;
+//   coor_pol[0] = r*cos(theta);
+//   coor_pol[1] = r*sin(theta);
+//   return coor_pol;
+// }
+//
+// double Mesh::Angle(int i)     // Calcul angle incident et prends en entrée l'indice de la particule i
+// {
+//   double phi;
+//   Vector2d cyl;
+//   cyl=Convert(_part[i].Getcoor()[0],_part[i].Getcoor()[1]);
+//   phi=-cyl[1]+atan((_part[i].Getvelo()[1])/(_part[i].Getvelo()[0]));
+//   return phi;
+// }

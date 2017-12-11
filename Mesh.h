@@ -2,6 +2,7 @@
 #include <string>
 #include "Type.h"
 
+
 class Mesh
 {
   private:
@@ -32,6 +33,7 @@ class Mesh
     // Si _edg_Q2[i] == -1 alors c'est une arête au bord
     Eigen::VectorXi _edg_Q1, _edg_Q2;
     std::string _methode;
+
 
   public:
     // Constructeur
@@ -87,5 +89,7 @@ class Mesh
     double Norme(Eigen::Vector2d Vec);
 
     void Create_tau();
+    // Collision pour l'ensemble des particules
+    void collision();
 
 };

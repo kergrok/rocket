@@ -72,28 +72,28 @@ void Mesh::BuildEdges()
     //WriteEdgesAndAssociatedQuad();
 }
 
-void Mesh::WriteEdgesAndAssociatedQuad()
-{
-  string edges_file_name = _meshname.substr(0,_meshname.size()-5)+"_edges.txt";
-  std::ofstream out_file (edges_file_name);
-  out_file << "Edges" << endl;
-  for (int i = 0 ; i < _medge.size() ; ++i)
-  {
-    out_file << _medge[i].Getedge()[0] << " " << _medge[i].Getedge()[1] << " ";
-  }
-  out_file << endl;
-  out_file << "EdgesQ1" << endl;
-  for (int i = 0 ; i < _medge.size() ; ++i)
-  {
-    out_file << _edg_Q1[i] << " ";
-  }
-  out_file << endl;
-  out_file << "EdgesQ2" << endl;
-  for (int i = 0 ; i < _medge.size() ; ++i)
-  {
-    out_file << _edg_Q2[i] << " ";
-  }
-}
+// void Mesh::WriteEdgesAndAssociatedQuad()
+// {
+//   string edges_file_name = _meshname.substr(0,_meshname.size()-5)+"_edges.txt";
+//   std::ofstream out_file (edges_file_name);
+//   out_file << "Edges" << endl;
+//   for (int i = 0 ; i < _medge.size() ; ++i)
+//   {
+//     out_file << _medge[i].Getedge()[0] << " " << _medge[i].Getedge()[1] << " ";
+//   }
+//   out_file << endl;
+//   out_file << "EdgesQ1" << endl;
+//   for (int i = 0 ; i < _medge.size() ; ++i)
+//   {
+//     out_file << _edg_Q1[i] << " ";
+//   }
+//   out_file << endl;
+//   out_file << "EdgesQ2" << endl;
+//   for (int i = 0 ; i < _medge.size() ; ++i)
+//   {
+//     out_file << _edg_Q2[i] << " ";
+//   }
+// }
 
 void Mesh::readmesh()
 {

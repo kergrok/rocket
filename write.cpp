@@ -34,7 +34,6 @@ void Mesh::write(string Nom_Fichier, string Nom_Fichier1, string Nom_Fichier2)
           {
             fichier<<i+1<<" "<<_maille[i].Getdensity()<<endl;
           }
-
         }
 
   fichier.close();

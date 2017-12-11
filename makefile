@@ -22,6 +22,6 @@ $(PROG) : $(SRC)
 all : $(PROG)
 
 # Supprime l'exécutable, les fichiers binaires (.o) et les fichiers
-# temporaires de sauvegarde (~)
+# temporaires de sauvegarde (~) 
 clean :
 	rm -f *.o *~ $(PROG)

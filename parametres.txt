@@ -9,6 +9,6 @@ Mach
 Gamma
 1.4
 Temps Final
-0.01
+0.02
 Methode
 Speculaire
