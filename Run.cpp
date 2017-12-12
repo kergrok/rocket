@@ -20,7 +20,7 @@ void Mesh::CFL()
   }
 
   // Pour que la CFL soit vérifiée, on définit _dt comme suit :
-  _dt = dx/(2. * sqrt(_gamma*287*_T*_Ma));
+  _dt = dx/(2. * sqrt(_gamma*287*_T)*_Ma);
 }
 
 void Mesh::Create_in_Flow()
@@ -273,7 +273,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
   //     _TF[i]=false;
   //   }
   // }
-  if((_part[i].Getref()!=12) && (_part[i].Getref()!=23) && (_part[i].Getref()!=14))
+  if((_maille[_part[i].Getref()].Getref()!=12) && (_maille[_part[i].Getref()].Getref()!=23) && (_maille[_part[i].Getref()].Getref()!=14))
   {
     for(int j=0;j<4;j++)
     {
@@ -382,8 +382,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
   }
 
 
-
-  else if (_part[i].Getref()==12)
+  else if (_maille[_part[i].Getref()].Getref()==12)
   {
     Vector2d vect_dir,vect_lim,coor_coin;
     Vector4i points;
@@ -616,7 +615,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
 
 
 
-  else if (_part[i].Getref()==23)
+  else if (_maille[_part[i].Getref()].Getref()==23)
   {
     Vector2d vect_dir,vect_lim,coor_coin;
     Vector4i points;
@@ -641,7 +640,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
     {
       for(int j=0;j<4;j++)
       {
-        if(_medge[ref_edges[j]].Getref() == 1)
+        if(_medge[ref_edges[j]].Getref() == 2)
           impact_edge = ref_edges[j];
       }
       // Coordonnées des sommets de l'arete par laquelle sort la particule
@@ -706,7 +705,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
 
 
 
-  else if (_part[i].Getref()==14)
+  else if (_maille[_part[i].Getref()].Getref()==14)
   {
     Vector2d vect_dir,vect_lim,coor_coin;
     Vector4i points;
@@ -784,10 +783,10 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
       {
         _TF[i]=false;
       }
-      else
-      {
-        _TF[i]=false;
-      }
+    }      
+    else
+    {
+      _TF[i]=false;
     }
   }
 }
