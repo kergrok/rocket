@@ -109,11 +109,11 @@ void Mesh::Displacement()
       in_domain = Find_Maille(i);
       if(not(in_domain))
       {
-        cout << "impact trouvé" << endl;
-        cout << "part n " << i << endl;
-        cout << " coor without impact " << _part[i].Getcoor()[0] << " " << _part[i].Getcoor()[1] << endl;
+        // cout << "impact trouvé" << endl;
+        // cout << "part n " << i << endl;
+        // cout << " coor without impact " << _part[i].Getcoor()[0] << " " << _part[i].Getcoor()[1] << endl;
         find_impact(i,coor,new_coor);
-        cout << " new coor " << _part[i].Getcoor()[0] << " " << _part[i].Getcoor()[1] << endl;
+        // cout << " new coor " << _part[i].Getcoor()[0] << " " << _part[i].Getcoor()[1] << endl;
       }
     }
   }
@@ -292,7 +292,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
           c2 = coorS1[1]-coorS1[0]*a2;
 
           // Coordonnées de l'impact
-          cout << "a1 a2 " << a1 << " " << a2 << endl;
+          // cout << "a1 a2 " << a1 << " " << a2 << endl;
           coorImpact[0] = (c2-c1)/(a1-a2);
           coorImpact[1] = a1*coorImpact[0]+c1;
         }
@@ -301,7 +301,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
           coorImpact[0]=coorS1[0];
           coorImpact[1]=a1*coorImpact[0]+c1;
         }
-        cout << "coorImpact " << coorImpact[0] << " " << coorImpact[1] << endl;
+        // cout << "coorImpact " << coorImpact[0] << " " << coorImpact[1] << endl;
 
         // Calcul de distances
         distance_a_parcourir=Norme_entre(new_coor,coor);
@@ -335,7 +335,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
           c2 = coorS1[1]-coorS1[0]*a2;
 
           // Coordonnées de l'impact
-          cout << "a1 a2 " << a1 << " " << a2 << endl;
+          // cout << "a1 a2 " << a1 << " " << a2 << endl;
           coorImpact[0] = (c2-c1)/(a1-a2);
           coorImpact[1] = a1*coorImpact[0]+c1;
         }
@@ -344,7 +344,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
           coorImpact[0]=coorS1[0];
           coorImpact[1]=a1*coorImpact[0]+c1;
         }
-        cout << "coorImpact " << coorImpact[0] << " " << coorImpact[1] << endl;
+        // cout << "coorImpact " << coorImpact[0] << " " << coorImpact[1] << endl;
 
         // Calcul de distances
         distance_a_parcourir=Norme_entre(new_coor,coor);
@@ -422,7 +422,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
         c2 = coorS1[1]-coorS1[0]*a2;
 
         // Coordonnées de l'impact
-        cout << "a1 a2 " << a1 << " " << a2 << endl;
+        // cout << "a1 a2 " << a1 << " " << a2 << endl;
         coorImpact[0] = (c2-c1)/(a1-a2);
         coorImpact[1] = a1*coorImpact[0]+c1;
       }
@@ -431,7 +431,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
         coorImpact[0]=coorS1[0];
         coorImpact[1]=a1*coorImpact[0]+c1;
       }
-      cout << "coorImpact " << coorImpact[0] << " " << coorImpact[1] << endl;
+      // cout << "coorImpact " << coorImpact[0] << " " << coorImpact[1] << endl;
 
       // Calcul de distances
       distance_a_parcourir=Norme_entre(new_coor,coor);
@@ -472,7 +472,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
           c2 = coorS1[1]-coorS1[0]*a2;
 
           // Coordonnées de l'impact
-          cout << "a1 a2 " << a1 << " " << a2 << endl;
+          // cout << "a1 a2 " << a1 << " " << a2 << endl;
           coorImpact[0] = (c2-c1)/(a1-a2);
           coorImpact[1] = a1*coorImpact[0]+c1;
         }
@@ -481,7 +481,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
           coorImpact[0]=coorS1[0];
           coorImpact[1]=a1*coorImpact[0]+c1;
         }
-        cout << "coorImpact " << coorImpact[0] << " " << coorImpact[1] << endl;
+        // cout << "coorImpact " << coorImpact[0] << " " << coorImpact[1] << endl;
 
         // Calcul de distances
         distance_a_parcourir=Norme_entre(new_coor,coor);
@@ -526,7 +526,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
         c2 = coorS1[1]-coorS1[0]*a2;
 
         // Coordonnées de l'impact
-        cout << "a1 a2 " << a1 << " " << a2 << endl;
+        // cout << "a1 a2 " << a1 << " " << a2 << endl;
         coorImpact[0] = (c2-c1)/(a1-a2);
         coorImpact[1] = a1*coorImpact[0]+c1;
       }
@@ -535,7 +535,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
         coorImpact[0]=coorS1[0];
         coorImpact[1]=a1*coorImpact[0]+c1;
       }
-      cout << "coorImpact " << coorImpact[0] << " " << coorImpact[1] << endl;
+      // cout << "coorImpact " << coorImpact[0] << " " << coorImpact[1] << endl;
 
       // Calcul de distances
       distance_a_parcourir=Norme_entre(new_coor,coor);
@@ -582,7 +582,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
           c2 = coorS1[1]-coorS1[0]*a2;
 
           // Coordonnées de l'impact
-          cout << "a1 a2 " << a1 << " " << a2 << endl;
+          // cout << "a1 a2 " << a1 << " " << a2 << endl;
           coorImpact[0] = (c2-c1)/(a1-a2);
           coorImpact[1] = a1*coorImpact[0]+c1;
         }
@@ -591,7 +591,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
           coorImpact[0]=coorS1[0];
           coorImpact[1]=a1*coorImpact[0]+c1;
         }
-        cout << "coorImpact " << coorImpact[0] << " " << coorImpact[1] << endl;
+        // cout << "coorImpact " << coorImpact[0] << " " << coorImpact[1] << endl;
 
         // Calcul de distances
         distance_a_parcourir=Norme_entre(new_coor,coor);
@@ -655,7 +655,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
         c2 = coorS1[1]-coorS1[0]*a2;
 
         // Coordonnées de l'impact
-        cout << "a1 a2 " << a1 << " " << a2 << endl;
+        // cout << "a1 a2 " << a1 << " " << a2 << endl;
         coorImpact[0] = (c2-c1)/(a1-a2);
         coorImpact[1] = a1*coorImpact[0]+c1;
       }
@@ -664,7 +664,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
         coorImpact[0]=coorS1[0];
         coorImpact[1]=a1*coorImpact[0]+c1;
       }
-      cout << "coorImpact " << coorImpact[0] << " " << coorImpact[1] << endl;
+      // cout << "coorImpact " << coorImpact[0] << " " << coorImpact[1] << endl;
 
       // Calcul de distances
       distance_a_parcourir=Norme_entre(new_coor,coor);
@@ -716,7 +716,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
       {
         coor_coin=_mpoint[points(j)].Getcoor();
       }
-      cout << _mpoint[points(j)].Getref() << endl;
+      // cout << _mpoint[points(j)].Getref() << endl;
     }
     vect_lim[0]=(coor_coin[0]-coor[0]);
     vect_lim[1]=(coor_coin[1]-coor[1]);
@@ -748,7 +748,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
         c2 = coorS1[1]-coorS1[0]*a2;
 
         // Coordonnées de l'impact
-        cout << "a1 a2 " << a1 << " " << a2 << endl;
+        // cout << "a1 a2 " << a1 << " " << a2 << endl;
         coorImpact[0] = (c2-c1)/(a1-a2);
         coorImpact[1] = a1*coorImpact[0]+c1;
       }
@@ -757,7 +757,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
         coorImpact[0]=coorS1[0];
         coorImpact[1]=a1*coorImpact[0]+c1;
       }
-      cout << "coorImpact " << coorImpact[0] << " " << coorImpact[1] << endl;
+      // cout << "coorImpact " << coorImpact[0] << " " << coorImpact[1] << endl;
 
       // Calcul de distances
       distance_a_parcourir=Norme_entre(new_coor,coor);
@@ -783,7 +783,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
       {
         _TF[i]=false;
       }
-    }      
+    }
     else
     {
       _TF[i]=false;

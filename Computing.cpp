@@ -23,6 +23,7 @@ void Mesh::initialize()
   cout << "pas de temps: " << _dt << endl;
   Create_in_Flow();
   Create_tau();
+  cout << "tau : " << _tau << endl;
   for (int i=0; i<_maille.size();i++)
   {
     Calc_prop(i);
@@ -55,6 +56,7 @@ void Mesh::compute()
     if(t>l*dt_inj)     // Pour savoir quand est ce qu'on ajoute un inflow
     {
       Create_in_Flow();
+      cout << "inflow" << endl;
       l+=1;
     }
     t+=_dt;
