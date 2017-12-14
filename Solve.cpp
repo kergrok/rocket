@@ -150,7 +150,7 @@ bool Mesh::is_in(int maille, Vector2d Position) // True si la particule est dans
   // Sommets=_mquad[maille].Getquadp();
   //
   // Coordonées du milieu du quad
-  Vector2d Middle;
+  // Vector2d Middle;
   // Middle.setZero();
   //
   // for(int j=0; j<4;j++)
@@ -181,11 +181,11 @@ bool Mesh::is_in(int maille, Vector2d Position) // True si la particule est dans
     MiEdge_Position[1]=Position[1]-Middle_Edge[i][1];
 
     // On vérifie le sens de la normale pour qu'elle soit vers l'extérieur
-    if(Normale[i][0]*MiEdge_Middle[i][0]+Normale[i][1]*MiEdge_Middle[i][1]>0)
-    {
-      Normale[i][0]=-Normale[i][0];
-      Normale[i][1]=-Normale[i][1];
-    }
+    // if(Normale[i][0]*MiEdge_Middle[i][0]+Normale[i][1]*MiEdge_Middle[i][1]>0)
+    // {
+    //   Normale[i][0]=-Normale[i][0];
+    //   Normale[i][1]=-Normale[i][1];
+    // }
 
     // On vérifie si la position est du bon coté de l'arete
     if(MiEdge_Position[0]*Normale[i][0]+MiEdge_Position[1]*Normale[i][1]>0)

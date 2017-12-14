@@ -19,6 +19,7 @@ void Mesh::initialize()
   << "; température = " << _T << endl;
   cout << "temps final: " << _Temps_final << endl;
   Buildvoisins();
+  Build_Center_Norm();
   CFL();
   cout << "pas de temps: " << _dt << endl;
   Create_in_Flow();

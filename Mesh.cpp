@@ -204,12 +204,11 @@ void Mesh::Build_Center_Norm()
     for(int j=0;j<4;j++)
     {
 
-      Sommets[0]=_medge[Aretes[i]].Getedge()[0];
-      Sommets[1]=_medge[Aretes[i]].Getedge()[1];
+      Sommets[0]=_medge[Aretes[j]].Getedge()[0];
+      Sommets[1]=_medge[Aretes[j]].Getedge()[1];
 
       Normale[0]=_mpoint[Sommets[0]].Getcoor()[1]-_mpoint[Sommets[1]].Getcoor()[1];
       Normale[1]=-_mpoint[Sommets[0]].Getcoor()[0]+_mpoint[Sommets[1]].Getcoor()[0];
-      norm.push_back(Normale);
 
       Middle_Edge[0]=(_mpoint[Sommets[0]].Getcoor()[0]+_mpoint[Sommets[1]].Getcoor()[0])/2;
       Middle_Edge[1]=(_mpoint[Sommets[0]].Getcoor()[1]+_mpoint[Sommets[1]].Getcoor()[1])/2;
@@ -218,6 +217,12 @@ void Mesh::Build_Center_Norm()
       MiEdge_Middle[0]=Middle[0]-Middle_Edge[0];
       MiEdge_Middle[1]=Middle[1]-Middle_Edge[1];
       mid.push_back(MiEdge_Middle);
+      if(Normale[0]*MiEdge_Middle[0]+Normale[1]*MiEdge_Middle[1]>0)
+      {
+        Normale[0]=-Normale[0];
+        Normale[1]=-Normale[1];
+      }
+      norm.push_back(Normale);
     }
     _mquad[i].Modify_normale(norm);
     _mquad[i].Modify_mid_norm(mid);
