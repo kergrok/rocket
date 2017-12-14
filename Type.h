@@ -93,7 +93,9 @@ class Quad
     // Coord. des mileux des quad
     Eigen::Vector2d _center;
     //Norme des arêtes
-    std::vector<Point> _normale;
+    std::vector<Eigen::Vector2d> _normale;
+
+    std::vector<Eigen::Vector2d> _mid_norm;
     // Tag associe au quad
     int _ref;
   public:
@@ -104,9 +106,11 @@ class Quad
     // Récupérer les arêtes du quad
     Eigen::Vector4i Getquadv(){return _v;};
     // Modifie les coordonnées du centre
-    void Modify_center(Eigen::Vector2d center){_center = center};
+    void Modify_center(Eigen::Vector2d center){_center = center;};
     // Modifie les normales
-    void Modify_normale(std::vector<Point> normale){_normale = normale};
+    void Modify_normale(std::vector<Eigen::Vector2d> normale){_normale = normale;};
+
+    void Modify_mid_norm(std::vector<Eigen::Vector2d> mid_norm){_mid_norm = mid_norm;};
     // Récupérer la référence du quad
     int Getref(){return _ref;};
     // Modifie les num des aretes du quad
@@ -114,7 +118,7 @@ class Quad
     //Donne les coord. des centres des quadrilatères
     Eigen::Vector2d Getcenter(){return _center;};
     //Donne les normales des quadrilatères
-    Eigen::Vector4d Getnormale(){return _normale;};
+    std::vector<Eigen::Vector2d> Getnormale(){return _normale;};
 };
 
 class Point

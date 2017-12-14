@@ -125,6 +125,56 @@ bool Mesh::Find_Maille(int i) // i numéro de la particule, true si il a trouvé
   return is_found;
 }
 
+void Mesh::Build_Center_Norm()
+{
+  for (int i = 0; i< _maille.size(); i++)
+  {
+    Vector2d Normale;
+    Vector2d Middle_Edge;
+    Vector2d MiEdge_Middle;
+    Vector4i Aretes;
+
+    Aretes=_mquad[i].Getquadv();
+
+    //On récupère les numéros des sommets du quad testé
+    Vector4i Sommets;
+    Sommets=_mquad[i].Getquadp();
+
+    // Coordonées du milieu du quad
+    Vector2d Middle;
+    Middle.setZero();
+
+    for(int j=0; j<4;j++)
+    {
+      Middle[0] += _mpoint[Sommets[j]].Getcoor()[0]/4;
+      Middle[1] += _mpoint[Sommets[j]].Getcoor()[1]/4;
+    }
+    _mquad[i].Modify_center(Middle);
+
+    std::vector<Eigen::Vector2d> norm,mid;
+    norm.resize(0);
+    mid.resize(0);
+    for(int j=0;j<4;j++)
+    {
+
+      Sommets[0]=_medge[Aretes[i]].Getedge()[0];
+      Sommets[1]=_medge[Aretes[i]].Getedge()[1];
+
+      Normale[0]=_mpoint[Sommets[0]].Getcoor()[1]-_mpoint[Sommets[1]].Getcoor()[1];
+      Normale[1]=-_mpoint[Sommets[0]].Getcoor()[0]+_mpoint[Sommets[1]].Getcoor()[0];
+      norm.push_back(Normale);
+
+      Middle_Edge[0]=(_mpoint[Sommets[0]].Getcoor()[0]+_mpoint[Sommets[1]].Getcoor()[0])/2;
+      Middle_Edge[1]=(_mpoint[Sommets[0]].Getcoor()[1]+_mpoint[Sommets[1]].Getcoor()[1])/2;
+
+      MiEdge_Middle[0]=Middle[0]-Middle_Edge[0];
+      MiEdge_Middle[1]=Middle[1]-Middle_Edge[1];
+      mid.push_back(MiEdge_Middle);
+    }
+    _mquad[i].Modify_normale(norm);
+    _mquad[i].Modify_mid_norm(mid);
+  }
+}
 
 bool Mesh::is_in(int maille, Vector2d Position) // True si la particule est dans la maille
 {
@@ -143,21 +193,21 @@ bool Mesh::is_in(int maille, Vector2d Position) // True si la particule est dans
     return false;
   }
 
-  Aretes=_mquad[maille].Getquadv();
-
-  //On récupère les numéros des sommets du quad testé
+  // Aretes=_mquad[maille].Getquadv();
+  //
+  // //On récupère les numéros des sommets du quad testé
   Vector4i Sommets;
-  Sommets=_mquad[maille].Getquadp();
-
+  // Sommets=_mquad[maille].Getquadp();
+  //
   // Coordonées du milieu du quad
   Vector2d Middle;
-  Middle.setZero();
-
-  for(int j=0; j<4;j++)
-  {
-    Middle[0] += _mpoint[Sommets[j]].Getcoor()[0]/4;
-    Middle[1] += _mpoint[Sommets[j]].Getcoor()[1]/4;
-  }
+  // Middle.setZero();
+  //
+  // for(int j=0; j<4;j++)
+  // {
+  //   Middle[0] += _mpoint[Sommets[j]].Getcoor()[0]/4;
+  //   Middle[1] += _mpoint[Sommets[j]].Getcoor()[1]/4;
+  // }
 
   // Pour chaque arete, on vérifie si le produit scalaire
   // Vecteur allant du centre de l'arete à la position de la particule, normale de l'arete

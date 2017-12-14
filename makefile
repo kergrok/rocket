@@ -7,7 +7,7 @@ OPTIM_FLAG = -O2 -DNDEBUG -I ../Eigen/Eigen -std=c++11
 DEBUG_FLAG = -g -DDEBUG -I ../Eigen/Eigen -std=c++11
 
 # On choisit comment on compile
-CXX_FLAGS = $(OPTIM_FLAG)
+CXX_FLAGS = $(DEBUG_FLAG)
 
 # Le nom de l'exécutable
 PROG = run

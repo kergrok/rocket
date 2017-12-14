@@ -92,4 +92,6 @@ class Mesh
     // Collision pour l'ensemble des particules
     void collision();
 
+    void Build_Center_Norm();
+
 };
