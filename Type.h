@@ -94,8 +94,10 @@ class Quad
     Eigen::Vector2d _center;
     //Norme des arêtes
     std::vector<Eigen::Vector2d> _normale;
-
+    //les vecteurs milieu-edge milieu du quad
     std::vector<Eigen::Vector2d> _mid_norm;
+    //milieu des edges
+    std::vector<Eigen::Vector2d> _mid_ed;
     // Tag associe au quad
     int _ref;
   public:
@@ -109,8 +111,10 @@ class Quad
     void Modify_center(Eigen::Vector2d center){_center = center;};
     // Modifie les normales
     void Modify_normale(std::vector<Eigen::Vector2d> normale){_normale = normale;};
-
+    // Modifie les vecteurs milieu-edge milieu du quad
     void Modify_mid_norm(std::vector<Eigen::Vector2d> mid_norm){_mid_norm = mid_norm;};
+
+    void Modify_mid_ed(std::vector<Eigen::Vector2d> mid_ed){_mid_ed = mid_ed;};
     // Récupérer la référence du quad
     int Getref(){return _ref;};
     // Modifie les num des aretes du quad
@@ -119,6 +123,10 @@ class Quad
     Eigen::Vector2d Getcenter(){return _center;};
     //Donne les normales des quadrilatères
     std::vector<Eigen::Vector2d> Getnormale(){return _normale;};
+    //Donne les vecteurs milieu-edge milieu du quad
+    std::vector<Eigen::Vector2d> Getmidnorm(){return _mid_norm;};
+    //Donne le milieu des edges
+    std::vector<Eigen::Vector2d> Getmiddle(){return _mid_ed;};
 };
 
 class Point

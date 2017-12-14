@@ -125,63 +125,13 @@ bool Mesh::Find_Maille(int i) // i numéro de la particule, true si il a trouvé
   return is_found;
 }
 
-void Mesh::Build_Center_Norm()
-{
-  for (int i = 0; i< _maille.size(); i++)
-  {
-    Vector2d Normale;
-    Vector2d Middle_Edge;
-    Vector2d MiEdge_Middle;
-    Vector4i Aretes;
-
-    Aretes=_mquad[i].Getquadv();
-
-    //On récupère les numéros des sommets du quad testé
-    Vector4i Sommets;
-    Sommets=_mquad[i].Getquadp();
-
-    // Coordonées du milieu du quad
-    Vector2d Middle;
-    Middle.setZero();
-
-    for(int j=0; j<4;j++)
-    {
-      Middle[0] += _mpoint[Sommets[j]].Getcoor()[0]/4;
-      Middle[1] += _mpoint[Sommets[j]].Getcoor()[1]/4;
-    }
-    _mquad[i].Modify_center(Middle);
-
-    std::vector<Eigen::Vector2d> norm,mid;
-    norm.resize(0);
-    mid.resize(0);
-    for(int j=0;j<4;j++)
-    {
-
-      Sommets[0]=_medge[Aretes[i]].Getedge()[0];
-      Sommets[1]=_medge[Aretes[i]].Getedge()[1];
-
-      Normale[0]=_mpoint[Sommets[0]].Getcoor()[1]-_mpoint[Sommets[1]].Getcoor()[1];
-      Normale[1]=-_mpoint[Sommets[0]].Getcoor()[0]+_mpoint[Sommets[1]].Getcoor()[0];
-      norm.push_back(Normale);
-
-      Middle_Edge[0]=(_mpoint[Sommets[0]].Getcoor()[0]+_mpoint[Sommets[1]].Getcoor()[0])/2;
-      Middle_Edge[1]=(_mpoint[Sommets[0]].Getcoor()[1]+_mpoint[Sommets[1]].Getcoor()[1])/2;
-
-      MiEdge_Middle[0]=Middle[0]-Middle_Edge[0];
-      MiEdge_Middle[1]=Middle[1]-Middle_Edge[1];
-      mid.push_back(MiEdge_Middle);
-    }
-    _mquad[i].Modify_normale(norm);
-    _mquad[i].Modify_mid_norm(mid);
-  }
-}
 
 bool Mesh::is_in(int maille, Vector2d Position) // True si la particule est dans la maille
 {
 
-  Vector2d Normale;
-  Vector2d Middle_Edge;
-  Vector2d MiEdge_Middle;
+  vector<Vector2d> Normale;
+  vector<Vector2d> Middle_Edge;
+  vector<Vector2d> MiEdge_Middle;
   Vector2d MiEdge_Position;
 
   Vector4i Aretes;
@@ -196,7 +146,7 @@ bool Mesh::is_in(int maille, Vector2d Position) // True si la particule est dans
   // Aretes=_mquad[maille].Getquadv();
   //
   // //On récupère les numéros des sommets du quad testé
-  Vector4i Sommets;
+  // Vector4i Sommets;
   // Sommets=_mquad[maille].Getquadp();
   //
   // Coordonées du milieu du quad
@@ -212,34 +162,33 @@ bool Mesh::is_in(int maille, Vector2d Position) // True si la particule est dans
   // Pour chaque arete, on vérifie si le produit scalaire
   // Vecteur allant du centre de l'arete à la position de la particule, normale de l'arete
   // A le bon signe ie <0
-
+  Normale=_mquad[maille].Getnormale();
+  MiEdge_Middle=_mquad[maille].Getmidnorm();
+  Middle_Edge=_mquad[maille].Getmiddle();
   for(int i=0;i<4;i++)
   {
 
-    Sommets[0]=_medge[Aretes[i]].Getedge()[0];
-    Sommets[1]=_medge[Aretes[i]].Getedge()[1];
+    // Sommets[0]=_medge[Aretes[i]].Getedge()[0];
+    // Sommets[1]=_medge[Aretes[i]].Getedge()[1];
+    // Normale[0]=_mpoint[Sommets[0]].Getcoor()[1]-_mpoint[Sommets[1]].Getcoor()[1];
+    // Normale[1]=-_mpoint[Sommets[0]].Getcoor()[0]+_mpoint[Sommets[1]].Getcoor()[0];
+    // Middle_Edge[0]=(_mpoint[Sommets[0]].Getcoor()[0]+_mpoint[Sommets[1]].Getcoor()[0])/2;
+    // Middle_Edge[1]=(_mpoint[Sommets[0]].Getcoor()[1]+_mpoint[Sommets[1]].Getcoor()[1])/2;
+    // MiEdge_Middle[0]=Middle[0]-Middle_Edge[0];
+    // MiEdge_Middle[1]=Middle[1]-Middle_Edge[1];
 
-    Normale[0]=_mpoint[Sommets[0]].Getcoor()[1]-_mpoint[Sommets[1]].Getcoor()[1];
-    Normale[1]=-_mpoint[Sommets[0]].Getcoor()[0]+_mpoint[Sommets[1]].Getcoor()[0];
-
-    Middle_Edge[0]=(_mpoint[Sommets[0]].Getcoor()[0]+_mpoint[Sommets[1]].Getcoor()[0])/2;
-    Middle_Edge[1]=(_mpoint[Sommets[0]].Getcoor()[1]+_mpoint[Sommets[1]].Getcoor()[1])/2;
-
-    MiEdge_Middle[0]=Middle[0]-Middle_Edge[0];
-    MiEdge_Middle[1]=Middle[1]-Middle_Edge[1];
-
-    MiEdge_Position[0]=Position[0]-Middle_Edge[0];
-    MiEdge_Position[1]=Position[1]-Middle_Edge[1];
+    MiEdge_Position[0]=Position[0]-Middle_Edge[i][0];
+    MiEdge_Position[1]=Position[1]-Middle_Edge[i][1];
 
     // On vérifie le sens de la normale pour qu'elle soit vers l'extérieur
-    if(Normale[0]*MiEdge_Middle[0]+Normale[1]*MiEdge_Middle[1]>0)
+    if(Normale[i][0]*MiEdge_Middle[i][0]+Normale[i][1]*MiEdge_Middle[i][1]>0)
     {
-      Normale[0]=-Normale[0];
-      Normale[1]=-Normale[1];
+      Normale[i][0]=-Normale[i][0];
+      Normale[i][1]=-Normale[i][1];
     }
 
     // On vérifie si la position est du bon coté de l'arete
-    if(MiEdge_Position[0]*Normale[0]+MiEdge_Position[1]*Normale[1]>0)
+    if(MiEdge_Position[0]*Normale[i][0]+MiEdge_Position[1]*Normale[i][1]>0)
     {
       return false;
     }
