@@ -35,8 +35,7 @@ void Mesh::Create_in_Flow()
       {
         if(_medge[Edges[j]].Getref()==4)
         {
-          for(int k=0;k<_N;k++)
-            Create_particules(i,Edges[j]);
+          Create_particules(i,Edges[j]);
         }
       }
     }
@@ -789,6 +788,14 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
       _TF[i]=false;
     }
   }
+  Vector3d NewVelo;
+  if(_methode == "Maxwellien")
+  {
+    NewVelo[0]=_part[i].Getvelo()[0] + sqrt(_maille[ref_maille].Gettemp()*287)*alea(0,1);
+    NewVelo[1]=_part[i].Getvelo()[1] + sqrt(_maille[ref_maille].Gettemp()*287)*alea(0,1);
+    NewVelo[2]=_part[i].Getvelo()[2];
+  }
+  _part[i].Modifyvelo(NewVelo);
 }
 
 double Mesh::Norme_entre(Vector2d Vec1, Vector2d Vec2)
@@ -805,5 +812,6 @@ void Mesh::Create_tau()
 {
   double visc;
   visc = 8.8848*pow(10,-15)*pow(_T,3)-3.2398*pow(10,-11)*_T*_T+6.2657*pow(10,-8)*_T+2.3543*pow(10,-6);
-  _tau=visc/(_gamma*287*_T);
+  cout << "visc : " << visc << endl;
+  _tau=visc/(_rho*287*_T);
 }
