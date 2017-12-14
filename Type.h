@@ -90,6 +90,10 @@ class Quad
     Eigen::Vector4i _p;
     // Indices des 4 arêtes composant le quad
     Eigen::Vector4i _v;
+    // Coord. des mileux des quad
+    Eigen::Vector2d _center;
+    //Norme des arêtes
+    std::vector<Point> _normale;
     // Tag associe au quad
     int _ref;
   public:
@@ -99,10 +103,18 @@ class Quad
     Eigen::Vector4i Getquadp(){return _p;};
     // Récupérer les arêtes du quad
     Eigen::Vector4i Getquadv(){return _v;};
+    // Modifie les coordonnées du centre
+    void Modify_center(Eigen::Vector2d center){_center = center};
+    // Modifie les normales
+    void Modify_normale(std::vector<Point> normale){_normale = normale};
     // Récupérer la référence du quad
     int Getref(){return _ref;};
     // Modifie les num des aretes du quad
     void Modifyv(int i, int j){_v[j] = i;};
+    //Donne les coord. des centres des quadrilatères
+    Eigen::Vector2d Getcenter(){return _center;};
+    //Donne les normales des quadrilatères
+    Eigen::Vector4d Getnormale(){return _normale;};
 };
 
 class Point
