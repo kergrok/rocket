@@ -38,7 +38,7 @@ void Mesh::compute()
   t=0.;
   cout << "--------------------Computing-----------------------" << endl;
   int k = 0;
-  
+
   double dt_inj = 0.1*_tau;
   // if(dt_inj<_dt)
   // _dt=dt_inj;
@@ -61,7 +61,6 @@ void Mesh::compute()
     cout << "inflow" << endl;
     t+=_dt;
     //for (int i=0; i<_part.size();i++) {
-
     //}
   }
 }
