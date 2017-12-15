@@ -10,6 +10,8 @@ using namespace Eigen;
 
 void Mesh::initialize()
 {
+  system("rm -r Resultats/");
+  system("mkdir Resultats");
   ReadParameter();
   cout << "-------------------Initialisation---------------------" << endl;
   _omega=_rho*_surf_tot/_N;
@@ -57,7 +59,7 @@ void Mesh::compute()
     }
     write("Resultats/solDens"+to_string(k)+".inp","Resultats/solTemp"+to_string(k)+".inp","Resultats/solVelo"+to_string(k)+".inp");
 
-    // Create_in_Flow();
+    Create_in_Flow();
     cout << "inflow" << endl;
     t+=_dt;
     //for (int i=0; i<_part.size();i++) {
