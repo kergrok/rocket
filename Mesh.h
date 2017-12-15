@@ -23,8 +23,6 @@ class Mesh
     double _dt;
     double _Mp;  // masse d'une particule de N2
     double _tau; // temps charactéristique pour les injections
-    // Surface des quadrilatères
-    Eigen::VectorXd _surfaces;
     //Surface du domaine
     double _surf_tot;
     // Longueur des arêtes

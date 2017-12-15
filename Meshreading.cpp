@@ -15,7 +15,7 @@ void Mesh::BuildEdges()
   // Boucle sur les quadrilatères
   for (size_t i = 0 ; i < _mquad.size() ; ++i)
   {
-    if (i%500 == 0) // 500 à modifier suivant le nombre d'edges de notre maillage
+    if (i%70 == 0) // 500 à modifier suivant le nombre d'edges de notre maillage
     {
       cout << 100*i/_mquad.size() << "% of edges are built ..." << endl;
     }
@@ -206,8 +206,6 @@ void Mesh::readmesh()
       }
     }
 
-//Est aussi dans la fonction buildedge, il faudrait l'écrire une seule fois pour les deux cas
-// (a voir où bien la placer)
     for (size_t i = 0 ; i < _medge.size() ; ++i)
     {
       Eigen::Vector2i points;

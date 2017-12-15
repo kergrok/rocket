@@ -50,12 +50,12 @@ void Mesh::Buildlenghts()
   }
 }
 
-// --------- Construction de _surfaces comprenant la surface de chaque maille ----------
+// --------- Construction des surfaces dans Maille ----------
 // - /!\ ATTENTION : il faut avoir appelé Mesh::Buildlenght() avant Mesh::Buildsurfaces() /!\ -
 // Attention à vérifier aussi le résultat comme on a fait une approximation
 void Mesh::Buildsurfaces()
 {
-  _surfaces.resize(_mquad.size());
+  double surface(0);
   // quad_edge comprend les quatre arêtes du quadrilatère
   Eigen::Vector4i quad_edge;
 
@@ -63,46 +63,23 @@ void Mesh::Buildsurfaces()
   Eigen::Vector2d coor1, coor2;
   Eigen::Vector2d coor_cyl1, coor_cyl2;
   _surf_tot = 0.;
+  double taille_min(0), taille_max(0);
 
   for (size_t i = 0; i < _mquad.size(); i++) {
     // On récupère les arêtes
     quad_edge = _mquad[i].Getquadv();
+    taille_min = _lenghts[quad_edge[0]];
+    taille_max = _lenghts[quad_edge[0]];
 
     // Pour l'aire on suppose que les quadrilatère sont des rectangles
     // (supposition que la hauteur du trapèze est négligeable)
     for (int j = 0; j < 4; j++) {
-      // On récupère les numéros des points des extrémités de l'arête
-      edge = _medge[quad_edge[j]].Getedge();
-      // On récupère les coordonnees de ces points
-      coor1 = _mpoint[edge[0]].Getcoor();
-      coor2 = _mpoint[edge[1]].Getcoor();
-      // On passe les coordonnées en cylindrique
-      coor_cyl1 = Convert(coor1[0], coor1[1]);
-      coor_cyl2 = Convert(coor2[0], coor2[1]);
-      // On regarde si l'arête est en haut/bas du quadrilatère
-      if (abs(coor_cyl1[0]-coor_cyl2[0])<coor_cyl1[0]*0.00001) {
-        // On fait une boucle sur les trois autres arêtes
-        for (int k = 0; k < 4; k++) {
-          if (k!=j) {
-            // On récupère les numéros des points des extrémités de l'arête
-            edge = _medge[quad_edge[k]].Getedge();
-            // On récupère les coordonnees de ces points
-            coor1 = _mpoint[edge[0]].Getcoor();
-            coor2 = _mpoint[edge[1]].Getcoor();
-            // On passe les coordonnées en cylindrique
-            coor_cyl1 = Convert(coor1[0], coor1[1]);
-            coor_cyl2 = Convert(coor2[0], coor2[1]);
-            // On regarde si l'arête est sur le côté du quadrilatère
-            // Si c'est le cas on calcule la surface à partir de l'arête j et de l'arête k
-            if (abs(coor_cyl1[1]-coor_cyl2[1])<coor_cyl1[1]*0.00001)
-              _surfaces(i) = _lenghts[j]*_lenghts[k];
-          }
-        }
-      }
+      if (taille_min > _lenghts[quad_edge[j]]) taille_min = _lenghts[quad_edge[j]];
+      if (taille_max < _lenghts[quad_edge[j]]) taille_max = _lenghts[quad_edge[j]];
     }
-    //On stocke en double la surface donc il faudrait voir pour supprimer _surfaces
-    _maille[i].Modifysurf(_surfaces(i));
-    _surf_tot +=_surfaces(i);
+    surface = taille_min*taille_max;
+    _maille[i].Modifysurf(surface);
+    _surf_tot +=surface;
   }
 }
 
