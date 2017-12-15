@@ -21,6 +21,7 @@ void Mesh::CFL()
 
   // Pour que la CFL soit vérifiée, on définit _dt comme suit :
   _dt = dx/(2. * sqrt(_gamma*287*_T)*_Ma);
+  _vitesse_max=dx/_dt;
 }
 
 void Mesh::Create_in_Flow()
@@ -99,23 +100,60 @@ void Mesh::Displacement()
   for (size_t i = 0; i < _part.size() ; i++) {
 
     if (_TF[i] == true) {
-      new_coor = _part[i].Getcoor();
-      coor = _part[i].Getcoor();
-      vitesse = _part[i].Getvelo();
-      new_coor[0]-=vitesse[0]*_dt;
-      new_coor[1]-=vitesse[1]*_dt;
-      _part[i].Modifycoor(new_coor);
-      in_domain = Find_Maille(i);
-      if(not(in_domain))
+      /*if(not(is_CFL_respected(_part[i].Getvelo())))
       {
-        // cout << "impact trouvé" << endl;
-        // cout << "part n " << i << endl;
-        // cout << " coor without impact " << _part[i].Getcoor()[0] << " " << _part[i].Getcoor()[1] << endl;
-        find_impact(i,coor,new_coor);
-        // cout << " new coor " << _part[i].Getcoor()[0] << " " << _part[i].Getcoor()[1] << endl;
+        cout<<"je ne respecte pas la CFL"<<endl;
+        for(int k=0;k<10;k++)
+        {
+          new_coor = _part[i].Getcoor();
+          coor = _part[i].Getcoor();
+          vitesse = _part[i].Getvelo();
+          new_coor[0]-=vitesse[0]*_dt/10;
+          new_coor[1]-=vitesse[1]*_dt/10;
+          _part[i].Modifycoor(new_coor);
+          in_domain = Find_Maille(i);
+
+          if(not(in_domain))
+          {
+            // cout << "impact trouvé" << endl;
+            // cout << "part n " << i << endl;
+            // cout << " coor without impact " << _part[i].Getcoor()[0] << " " << _part[i].Getcoor()[1] << endl;
+            find_impact(i,coor,new_coor);
+            // cout << " new coor " << _part[i].Getcoor()[0] << " " << _part[i].Getcoor()[1] << endl;
+          }
+        }
       }
+      else
+      {*/
+        new_coor = _part[i].Getcoor();
+        coor = _part[i].Getcoor();
+        vitesse = _part[i].Getvelo();
+        new_coor[0]-=vitesse[0]*_dt;
+        new_coor[1]-=vitesse[1]*_dt;
+        _part[i].Modifycoor(new_coor);
+        in_domain = Find_Maille(i);
+
+
+
+        if(not(in_domain))
+        {
+          // cout << "impact trouvé" << endl;
+          // cout << "part n " << i << endl;
+          // cout << " coor without impact " << _part[i].Getcoor()[0] << " " << _part[i].Getcoor()[1] << endl;
+          find_impact(i,coor,new_coor);
+          // cout << " new coor " << _part[i].Getcoor()[0] << " " << _part[i].Getcoor()[1] << endl;
+        }
+      //}
     }
   }
+}
+
+bool Mesh::is_CFL_respected(Vector3d Vitesse)
+{
+  if(sqrt(pow(Vitesse[0],2)+pow(Vitesse[1],2))>_vitesse_max)
+  return false;
+  else
+  return true;
 }
 
 
@@ -127,7 +165,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
   Vector4i ref_edges;
   int impact_edge;
   double distance_a_parcourir,distance_parcourue;
-  //double theta1,theta2,theta3,distance_parcourue;
+  //double theta1,theta2,theta3;
   Vector2d coorS1,coorS2,coorImpact,vector_edge,vector_deplacement;
   Vector2i sommets;
 
@@ -382,7 +420,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
   }
 
 
-  else if (_maille[_part[i].Getref()].Getref()==12)
+  else if (_maille[_part[i].Getref()].Getref()==12)// L'erreur qui arete le programme est ici
   {
     Vector2d vect_dir,vect_lim,coor_coin;
     Vector4i points;
@@ -390,7 +428,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
     for(int j=0;j<4;j++)
     {
       if(_mpoint[points(j)].Getref()==40)
-        coor_coin=_mpoint[points(j)].Getcoor();
+      coor_coin=_mpoint[points(j)].Getcoor();
     }
     vect_lim[0]=(coor_coin[0]-coor[0]);
     vect_lim[1]=(coor_coin[1]-coor[1]);
@@ -408,7 +446,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
       for(int j=0;j<4;j++)
       {
         if(_medge[ref_edges[j]].Getref() == 1)
-          impact_edge = ref_edges[j];
+        impact_edge = ref_edges[j];
       }
       // Coordonnées des sommets de l'arete par laquelle sort la particule
       sommets = _medge[impact_edge].Getedge();
@@ -458,7 +496,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
         for(int j=0;j<4;j++)
         {
           if(_medge[ref_edges[j]].Getref() == 2)
-            impact_edge = ref_edges[j];
+          impact_edge = ref_edges[j];
         }
         // Coordonnées des sommets de l'arete par laquelle sort la particule
         sommets = _medge[impact_edge].Getedge();
@@ -512,7 +550,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
       for(int j=0;j<4;j++)
       {
         if(_medge[ref_edges[j]].Getref() == 2)
-          impact_edge = ref_edges[j];
+        impact_edge = ref_edges[j];
       }
       // Coordonnées des sommets de l'arete par laquelle sort la particule
       sommets = _medge[impact_edge].Getedge();
@@ -568,7 +606,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
         for(int j=0;j<4;j++)
         {
           if(_medge[ref_edges[j]].Getref() == 1)
-            impact_edge = ref_edges[j];
+          impact_edge = ref_edges[j];
         }
         // Coordonnées des sommets de l'arete par laquelle sort la particule
         sommets = _medge[impact_edge].Getedge();
@@ -641,7 +679,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
       for(int j=0;j<4;j++)
       {
         if(_medge[ref_edges[j]].Getref() == 2)
-          impact_edge = ref_edges[j];
+        impact_edge = ref_edges[j];
       }
       // Coordonnées des sommets de l'arete par laquelle sort la particule
       sommets = _medge[impact_edge].Getedge();
@@ -734,7 +772,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
       for(int j=0;j<4;j++)
       {
         if(_medge[ref_edges[j]].Getref() == 1)
-          impact_edge = ref_edges[j];
+        impact_edge = ref_edges[j];
       }
       // Coordonnées des sommets de l'arete par laquelle sort la particule
       sommets = _medge[impact_edge].Getedge();
