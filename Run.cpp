@@ -26,7 +26,7 @@ void Mesh::CFL()
 void Mesh::Create_in_Flow()
 {
   Vector4i Edges;
-  for(int i=0;i<_maille.size();i++)
+  for(size_t i=0;i<_maille.size();i++)
   {
     if(_maille[i].Getref()== 4 || _maille[i].Getref()== 34 || _maille[i].Getref()== 14) //Positionnée sur le bord
     {
@@ -47,7 +47,7 @@ void Mesh::Create_particules(int maille, int arete)
 {
   Vector3d Vitesse;
   Vector2d Position;
-  int j=0;
+  size_t j=0;
 
 
   for(int i=0; i<_N;i++)
@@ -96,7 +96,7 @@ void Mesh::Displacement()
   Eigen::Vector3d vitesse;
   bool in_domain;
 
-  for (int i = 0; i < _part.size() ; i++) {
+  for (size_t i = 0; i < _part.size() ; i++) {
 
     if (_TF[i] == true) {
       new_coor = _part[i].Getcoor();
@@ -126,7 +126,8 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
   int ref_maille;
   Vector4i ref_edges;
   int impact_edge;
-  double distance_a_parcourir,distance_parcourue,theta1,theta2,theta3;
+  double distance_a_parcourir,distance_parcourue;
+  //double theta1,theta2,theta3,distance_parcourue;
   Vector2d coorS1,coorS2,coorImpact,vector_edge,vector_deplacement;
   Vector2i sommets;
 

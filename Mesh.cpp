@@ -40,7 +40,7 @@ void Mesh::Buildlenghts()
   Eigen::Vector2i edge;
   // coor1 et coor2 sont les coordonnées des deux points de l'arête
   Eigen::Vector2d coor1, coor2;
-  for (int i = 0; i < _medge.size(); i++) {
+  for (size_t i = 0; i < _medge.size(); i++) {
     // On récupère les numéros des points des extrémités de l'arête
     edge = _medge[i].Getedge();
     // On récupère les coordonnees de ces points
@@ -64,7 +64,7 @@ void Mesh::Buildsurfaces()
   Eigen::Vector2d coor_cyl1, coor_cyl2;
   _surf_tot = 0.;
 
-  for (int i = 0; i < _mquad.size(); i++) {
+  for (size_t i = 0; i < _mquad.size(); i++) {
     // On récupère les arêtes
     quad_edge = _mquad[i].Getquadv();
 
@@ -121,14 +121,14 @@ void Mesh::Buildvoisins()
   bool vois(false);
 
   // i : quad dont on cherche les voisins
-  for (int i = 0; i < _mquad.size(); i++) {
+  for (size_t i = 0; i < _mquad.size(); i++) {
     //Si on a pas déjà tout les voisins de i :
     if (colors[i]!=4) {
       edge1 = _mquad[i].Getquadv();
       // j : quad qu'on teste sur son voisinage avec i
       // On teste seulement les quad dont on a pas encore determiné les voisins
       // c'est pour ça qu'on part de i+1
-      for (int j = i+1; j < _mquad.size(); j++) {
+      for (size_t j = i+1; j < _mquad.size(); j++) {
         //Si on a pas déjà tout les voisins de j :
         if (colors[j]!=4) {
           if (i != j) {
@@ -157,7 +157,7 @@ void Mesh::Buildvoisins()
     }
   }
   // Si la maille a juste 2 ou 3 voisins, on complete le vecteur de -1
-  for (int i = 0; i < _mquad.size(); i++)
+  for (size_t i = 0; i < _mquad.size(); i++)
   {
       if (colors[i]==3)
       {
@@ -173,7 +173,7 @@ void Mesh::Buildvoisins()
 
 void Mesh::Build_Center_Norm()
 {
-  for (int i = 0; i< _maille.size(); i++)
+  for (size_t i = 0; i< _maille.size(); i++)
   {
     Vector2d Normale;
     Vector2d Middle_Edge;

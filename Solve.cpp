@@ -204,12 +204,12 @@ void Mesh::MajMailleParticule()
   int ref_part;
 
   // Remet à 0 les particules présentes dans chaque maille
-  for (int i = 0; i < _maille.size(); i++) {
+  for (size_t i = 0; i < _maille.size(); i++) {
     _maille[i].Majindices();
   }
 
   // Ajout des particules dans chaque maille
-  for (int i = 0; i < _part.size(); i++) {
+  for (size_t i = 0; i < _part.size(); i++) {
     if (_TF[i] == true) {
       ref_part = _part[i].Getref();
       _maille[ref_part].Addindice(i);

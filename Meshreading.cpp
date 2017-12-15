@@ -9,12 +9,11 @@ using namespace Eigen;
 void Mesh::BuildEdges()
 {
   // Toutes les arêtes exterieures du maillage sont présentes
-  int nb_edges = (4*_mquad.size() + _medge.size())/2;
+  size_t nb_edges = (4*_mquad.size() + _medge.size())/2;
   _medge.clear();
 
-  double purcent = 0;  // Sert à quoi ?
   // Boucle sur les quadrilatères
-  for (int i = 0 ; i < _mquad.size() ; ++i)
+  for (size_t i = 0 ; i < _mquad.size() ; ++i)
   {
     if (i%500 == 0) // 500 à modifier suivant le nombre d'edges de notre maillage
     {
@@ -29,7 +28,7 @@ void Mesh::BuildEdges()
 
       // Est ce que l'arête est déjà dans le vecteur _medge ?
       bool edge_found = false;
-      for (int l = 0 ; l < _medge.size() ; ++l)
+      for (size_t l = 0 ; l < _medge.size() ; ++l)
       {
         if (((_medge[l].Getedge()[0] == edge.Getedge()[0]) && (_medge[l].Getedge()[1] == edge.Getedge()[1])) ||
         ((_medge[l].Getedge()[0] == edge.Getedge()[1]) && (_medge[l].Getedge()[1] == edge.Getedge()[0])) )
@@ -50,7 +49,7 @@ void Mesh::BuildEdges()
     }
   }
 
-  for (int i = 0 ; i < _medge.size() ; ++i)
+  for (size_t i = 0 ; i < _medge.size() ; ++i)
   {
     Eigen::Vector2i points;
     int r1,r2 ;
@@ -66,7 +65,7 @@ void Mesh::BuildEdges()
     else _medge[i].Modifyref(min(r1,r2));
   }
 
-  if ((nb_edges != _medge.size()) || (nb_edges != _edg_Q1.size()) || (nb_edges != _edg_Q2.size()))
+  if ((nb_edges != _medge.size()) || (int(nb_edges) != _edg_Q1.size()) || (int(nb_edges) != _edg_Q2.size()))
     cout << "Problem with the edges building !" << endl;
 
     //WriteEdgesAndAssociatedQuad();
@@ -144,7 +143,7 @@ void Mesh::readmesh()
     vector<int> indices;
     Vector3d prop,average;
     Vector4i Voisins;
-    double surf;
+    double surf(0);
     if (file_line.find("Quadrilaterals") != string::npos)
     {
       mesh_file >> nqua;
@@ -171,18 +170,18 @@ void Mesh::readmesh()
     cout << "A file which contains the edges has been found !"<< endl;
     string file_line;
     int loop_edges(1);
-    int nb_edges = (4*_mquad.size() + _medge.size())/2;
+    size_t nb_edges = (4*_mquad.size() + _medge.size())/2;
     _medge.clear();
     _edg_Q1.resize(nb_edges);
     _edg_Q2.resize(nb_edges);
-    int p1, p2, t1, t2;
+    int p1, p2;
 
     while (!edges_file.eof())
     {
       getline(edges_file, file_line);
       if ((file_line.find("Edges") != std::string::npos)&&(loop_edges))
       {
-        for (int i = 0 ; i < nb_edges ; ++i)
+        for (size_t i = 0 ; i < nb_edges ; ++i)
         {
           edges_file >> p1 >> p2;
           Eigen::VectorXi p1_p2(2); p1_p2 << p1 , p2;
@@ -193,14 +192,14 @@ void Mesh::readmesh()
       }
       if ((file_line.find("EdgesQ1") != std::string::npos))
       {
-        for (int i = 0 ; i < nb_edges ; ++i)
+        for (size_t i = 0 ; i < nb_edges ; ++i)
         {
           edges_file >> _edg_Q1[i];
         }
       }
       if ((file_line.find("EdgesQ2") != std::string::npos))
       {
-        for (int i = 0 ; i < nb_edges ; ++i)
+        for (size_t i = 0 ; i < nb_edges ; ++i)
         {
           edges_file >> _edg_Q2[i];
         }
@@ -209,7 +208,7 @@ void Mesh::readmesh()
 
 //Est aussi dans la fonction buildedge, il faudrait l'écrire une seule fois pour les deux cas
 // (a voir où bien la placer)
-    for (int i = 0 ; i < _medge.size() ; ++i)
+    for (size_t i = 0 ; i < _medge.size() ; ++i)
     {
       Eigen::Vector2i points;
       int r1,r2 ;
@@ -228,7 +227,7 @@ void Mesh::readmesh()
   // Ajout des arêtes dans la classe Quad
   VectorXi nb_voisins;
   nb_voisins.setZero(_mquad.size());
-  for (int i = 0 ; i < _medge.size() ; i++) {
+  for (size_t i = 0 ; i < _medge.size() ; i++) {
     _mquad[_edg_Q1[i]].Modifyv(i, nb_voisins[_edg_Q1[i]]);
     nb_voisins[_edg_Q1[i]]++;
     if (_edg_Q2[i]!=-1){
@@ -237,7 +236,7 @@ void Mesh::readmesh()
     }
   }
 
-  for (int i = 0 ; i < _mquad.size() ; i++)
+  for (size_t i = 0 ; i < _mquad.size() ; i++)
   {
     bool if_found = false;
     Vector4i edges = _mquad[i].Getquadv();
