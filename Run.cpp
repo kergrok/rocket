@@ -13,15 +13,19 @@ void Mesh::CFL()
 {
   // Recherche de la plus petite arête pour définir le dx
   double dx = _lenghts[0];
+  double dx_max=dx;
   for (int i = 1; i < _lenghts.size() ; i++) {
     if (_lenghts[i] < dx) {
       dx = _lenghts[i];
+    }
+    else{
+      dx_max=_lenghts[i];
     }
   }
 
   // Pour que la CFL soit vérifiée, on définit _dt comme suit :
   _dt = dx/(2. * sqrt(_gamma*287*_T)*_Ma);
-  _vitesse_max=dx/_dt;
+  _vitesse_max=dx_max/_dt;
 }
 
 void Mesh::Create_in_Flow()
@@ -100,7 +104,7 @@ void Mesh::Displacement()
   for (size_t i = 0; i < _part.size() ; i++) {
 
     if (_TF[i] == true) {
-      /*if(not(is_CFL_respected(_part[i].Getvelo())))
+      if(not(is_CFL_respected(_part[i].Getvelo())))
       {
         cout<<"je ne respecte pas la CFL"<<endl;
         for(int k=0;k<10;k++)
@@ -124,7 +128,7 @@ void Mesh::Displacement()
         }
       }
       else
-      {*/
+      {
         new_coor = _part[i].Getcoor();
         coor = _part[i].Getcoor();
         vitesse = _part[i].Getvelo();
@@ -143,13 +147,15 @@ void Mesh::Displacement()
           find_impact(i,coor,new_coor);
           // cout << " new coor " << _part[i].Getcoor()[0] << " " << _part[i].Getcoor()[1] << endl;
         }
-      //}
+      }
     }
   }
 }
 
 bool Mesh::is_CFL_respected(Vector3d Vitesse)
 {
+  // cout << "vitesse : " << sqrt(pow(Vitesse[0],2)+pow(Vitesse[1],2)) << endl;
+  // cout << "vitesse max : " << _vitesse_max << endl;
   if(sqrt(pow(Vitesse[0],2)+pow(Vitesse[1],2))>_vitesse_max)
   return false;
   else

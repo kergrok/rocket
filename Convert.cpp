@@ -23,9 +23,9 @@ Eigen::Vector2d Mesh::Convert(double x, double y)        // Convertit cartésien
   }
   else
   {
-    cout << "Coordonnées pas dans le domaine" << x<<" "<<y<<endl;
-
-    abort();
+    cout << "Coordonnées pas dans le domaine " << x<<" "<<y<<endl;
+    coor_cyl[1] = atan(0);
+    cout << "Approximation corrigée" << endl;
   }
   return coor_cyl;
 }

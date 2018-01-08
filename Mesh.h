@@ -21,6 +21,7 @@ class Mesh
     double _omega;
     double _Temps_final;
     double _dt;
+    double _vitesse_max;
     double _Mp;  // masse d'une particule de N2
     double _tau; // temps charactéristique pour les injections
     //Surface du domaine
@@ -91,5 +92,7 @@ class Mesh
     void collision();
 
     void Build_Center_Norm();
+
+    bool is_CFL_respected(Eigen::Vector3d Vitesse);
 
 };
