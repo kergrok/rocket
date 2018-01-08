@@ -571,7 +571,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
       }
       else
       {
-        c bélier nain adulteoorImpact[0]=coorS1[0];
+        coorImpact[0]=coorS1[0];
         coorImpact[1]=a1*coorImpact[0]+c1;
       }
       // cout << "coorImpact " << coorImpact[0] << " " << coorImpact[1] << endl;
