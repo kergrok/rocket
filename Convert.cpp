@@ -21,6 +21,16 @@ Eigen::Vector2d Mesh::Convert(double x, double y)        // Convertit cartésien
   {
     coor_cyl[1] = atan(y/x);
   }
+  else if ((y>=0)&&(x<0))
+  {
+    coor_cyl[1] = acos(-1)*0.5+atan(-x/y);
+    cout << "********************   Theta x negatif : " << coor_cyl[1]<< endl;
+  }
+  else if ((y<0)&&(x>=0))
+  {
+    coor_cyl[1] = -atan(-y/x);
+    cout << "*********************  Theta y negatif : " << coor_cyl[1]<< " x = "<< x << "y= " << y << endl;
+  }
   else
   {
     cout << "Coordonnées pas dans le domaine " << x<<" "<<y<<endl;

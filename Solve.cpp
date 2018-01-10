@@ -6,6 +6,7 @@
 using namespace std;
 using namespace Eigen;
 
+
 void Mesh::Calc_prop(int i)
 {
   double surface = _maille[i].Getsurf();
