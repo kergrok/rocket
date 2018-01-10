@@ -70,12 +70,12 @@ void Mesh::Create_particules(int maille, int arete)
     {
       _TF[j]=true;
     }
-
-    Position[0] = 0.5*(_mpoint[_medge[arete].Getedge()[0]].Getcoor()[0]+_mpoint[_medge[arete].Getedge()[1]].Getcoor()[0]);
-    Position[1] = 0.5*(_mpoint[_medge[arete].Getedge()[0]].Getcoor()[1]+_mpoint[_medge[arete].Getedge()[1]].Getcoor()[1]);
+    double t = (double)rand()/RAND_MAX;
+    Position[0] = (_mpoint[_medge[arete].Getedge()[0]].Getcoor()[0]*t+_mpoint[_medge[arete].Getedge()[1]].Getcoor()[0]*(1-t));
+    Position[1] = (_mpoint[_medge[arete].Getedge()[0]].Getcoor()[1]*t+_mpoint[_medge[arete].Getedge()[1]].Getcoor()[1]*(1-t));
     Vitesse[0] = _Ma*sqrt(_gamma*287*_T)+sqrt(287*_T)*alea(0,1);
-    Vitesse[1] = 0.;//sqrt(287*_T)*alea(0,1);
-    Vitesse[2] = 0.;//sqrt(287*_T)*alea(0,1);
+    Vitesse[1] = sqrt(287*_T)*alea(0,1);
+    Vitesse[2] = sqrt(287*_T)*alea(0,1);
 
     _part[j].Modifyvelo(Vitesse);
     _part[j].Modifycoor(Position);
@@ -178,140 +178,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
   ref_maille = _part[i].Getref();
   // Numéro des aretes de la maille
   ref_edges = _mquad[ref_maille].Getquadv();
-  //
-  // // ATTENTION EN CAS DE 2 ARETES DE BORD----------------------------------------------------------------------------------
-  // // On cherche par quelle arete sort la particule
-  // for(int j=0;j<4;j++)
-  // {
-  //   if(( _medge[ref_edges[j]].Getref() == 1)||( _medge[ref_edges[j]].Getref() == 2)||( _medge[ref_edges[j]].Getref() == 3)) // FAIRE BORDER_TAG
-  //   {
-  //     // cout << "bord : " << _medge[ref_edges[i]].Getref() << endl;
-  //     impact_edge = ref_edges[j];
-  //
-  //     // Coordonnées des sommets de l'arete par laquelle sort la particule
-  //     sommets = _medge[impact_edge].Getedge();
-  //     coorS1 = _mpoint[sommets[0]].Getcoor();
-  //     coorS2 = _mpoint[sommets[1]].Getcoor();
-  //
-  //     //Coefficient de la droite passant par l'arete
-  //     if(coorS1[0]!=coorS2[0])
-  //     {
-  //       a2 = (coorS1[1]-coorS2[1])/(coorS1[0]-coorS2[0]);
-  //       c2 = coorS1[1]-coorS1[0]*a2;
-  //
-  //       // Coordonnées de l'impact
-  //       cout << "a1 a2 " << a1 << " " << a2 << endl;
-  //       coorImpact[0] = (c2-c1)/(a1-a2);
-  //       coorImpact[1] = a1*coorImpact[0]+c1;
-  //     }
-  //     else
-  //     {
-  //       coorImpact[0]=coorS1[0];
-  //       coorImpact[1]=a1*coorImpact[0]+c1;
-  //     }
-  //     cout << "coorImpact " << coorImpact[0] << " " << coorImpact[1] << endl;
-  //
-  //     //Vecteur représentant l'arete, IL VA DE LA GAUCHE VERS LA DROITE
-  //     if(coorS2[0]<coorS1[0])
-  //     {
-  //       vector_edge[0]=coorS1[0]-coorS2[0];
-  //       vector_edge[1]=coorS1[1]-coorS2[1];
-  //     }
-  //     else if(coorS2[0]==coorS1[0])      // si vect vertical : du bas vers le haut
-  //     {
-  //       vector_edge[0]=0;
-  //       if(coorS1[1]<coorS2[1])
-  //       {
-  //         vector_edge[1]=coorS2[1]-coorS1[1];
-  //       }
-  //       else
-  //       {
-  //         vector_edge[1]=coorS1[1]-coorS2[1];
-  //       }
-  //     }
-  //     else
-  //     {
-  //       vector_edge[0]=coorS2[0]-coorS1[0];
-  //       vector_edge[1]=coorS2[1]-coorS1[1];
-  //     }
-  //
-  //     // Vecteur déplacement
-  //     vector_deplacement[0]=coorImpact[0]-coor[0];
-  //     vector_deplacement[1]=coorImpact[1]-coor[1];
-  //
-  //     // Calcul de distances
-  //     distance_a_parcourir=Norme_entre(new_coor,coor);
-  //     distance_parcourue=Norme_entre(coor,coorImpact);
-  //
-  //
-  //     // !!!!!!!!!!!!!!!!!!!!!!!!!!       VERIFICATION IMPERATIVE         !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  //
-  //
-  //     // Angles: entre l'arete et la trajectoire, l'arete et l'horizontale, de la trajectoire après rebond
-  //
-  //     // Ces trois lignes sont à vérifier proprement !!!!
-  //     // Theta2 est forcément entre -pi/2 et pi/2, le vecteur allant de la gauche vers la droite
-  //
-  //     theta1=acos(vector_deplacement.dot(vector_edge)/Norme(vector_edge)/distance_parcourue);
-  //
-  //     // cout << "norme " << Norme(vector_edge) << " dist parc " << distance_parcourue << endl;
-  //     // cout << "theta1 : " << theta1 << endl;
-  //     if(vector_edge[0]==0){
-  //       theta2=vector_edge[1]/abs(vector_edge[1])*3.14159266/2;
-  //     }
-  //     else
-  //     {
-  //       theta2=atan(vector_edge[1]/vector_edge[0]);
-  //     }
-  //     theta3=theta1+theta2;
-  //
-  //     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  //
-  //
-  //
-  //
-  //
-  //
-  //     //Valeur absolue de la vitesse
-  //     Vector3d Velo, NewVelo;
-  //     double VeloAbs;
-  //
-  //     Velo=_part[i].Getvelo();
-  //     VeloAbs=sqrt(pow(Velo[0],2)+pow(Velo[1],2));
-  //
-  //     //Calcul des nouvelles composantes de la vitesse
-  //
-  //     if(_methode=="Speculaire"){
-  //       NewVelo[0] = VeloAbs*cos(theta3);
-  //       NewVelo[1] = VeloAbs*sin(theta3);
-  //       NewVelo[2] = Velo[2];
-  //     }
-  //     else if(_methode == "Maxwellien"){
-  //       NewVelo[0] = VeloAbs*cos(theta3)+sqrt(_maille[ref_maille].Gettemp()*287)*alea(0,1);
-  //       NewVelo[1] = VeloAbs*sin(theta3)+sqrt(_maille[ref_maille].Gettemp()*287)*alea(0,1);
-  //       NewVelo[2] = Velo[2];
-  //     }
-  //     else{
-  //       cout<<"Pas possible: méthode non existante"<<endl;
-  //     }
-  //
-  //     //Modification de la vitesse
-  //     _part[i].Modifyvelo(NewVelo);
-  //
-  //     //Calcul des nouvelles coordonnées
-  //     new_coor[0]=coorImpact[0]+(distance_a_parcourir-distance_parcourue)*cos(theta3);
-  //     new_coor[1]=coorImpact[1]+(distance_a_parcourir-distance_parcourue)*sin(theta3);
-  //
-  //     cout << "new coor after impact " << new_coor[0] << " " << new_coor[1] << endl;
-  //
-  //     // Modification des coordonnées
-  //     _part[i].Modifycoor(new_coor);
-  //   }
-  //   else if( _medge[ref_edges[j]].Getref() == 4)             // Si la particule sort du domaine
-  //   {
-  //     _TF[i]=false;
-  //   }
-  // }
+
   if((_maille[_part[i].Getref()].Getref()!=12) && (_maille[_part[i].Getref()].Getref()!=23) && (_maille[_part[i].Getref()].Getref()!=14))
   {
     for(int j=0;j<4;j++)
