@@ -7,9 +7,10 @@
 using namespace std;
 using namespace Eigen;
 
+
 // ---------------- Calcul dt grâce à la "CFL" ------------------
 // CFL définie par u * dt << dx
-void Mesh::CFL() 
+void Mesh::CFL()
 {
   // Recherche de la plus petite arête pour définir le dx
   double dx = _lenghts[0];
