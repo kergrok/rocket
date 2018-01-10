@@ -20,7 +20,7 @@ void Mesh::CFL()
   }
 
   // Pour que la CFL soit vérifiée, on définit _dt comme suit :
-  _dt = dx/(2. * sqrt(_gamma*287*_T)*_Ma);
+  _dt = dx/(5. * sqrt(_gamma*287*_T)*_Ma);
   _vitesse_max=dx/_dt;
 }
 
@@ -100,7 +100,7 @@ void Mesh::Displacement()
   for (size_t i = 0; i < _part.size() ; i++) {
 
     if (_TF[i] == true) {
-      /*if(not(is_CFL_respected(_part[i].Getvelo())))
+      if(not(is_CFL_respected(_part[i].Getvelo())))
       {
         cout<<"je ne respecte pas la CFL"<<endl;
         for(int k=0;k<10;k++)
@@ -124,7 +124,7 @@ void Mesh::Displacement()
         }
       }
       else
-      {*/
+      {
         new_coor = _part[i].Getcoor();
         coor = _part[i].Getcoor();
         vitesse = _part[i].Getvelo();
@@ -143,7 +143,7 @@ void Mesh::Displacement()
           find_impact(i,coor,new_coor);
           // cout << " new coor " << _part[i].Getcoor()[0] << " " << _part[i].Getcoor()[1] << endl;
         }
-      //}
+      }
     }
   }
 }
@@ -365,6 +365,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
         sommets = _medge[impact_edge].Getedge();
         coorS1 = _mpoint[sommets[0]].Getcoor();
         coorS2 = _mpoint[sommets[1]].Getcoor();
+        cout << "coord y : " << coorS1[1] << " " << coorS2[1] << " " << _medge[ref_edges[j]].Getref() << endl;
 
         //Coefficient de la droite passant par l'arete
         if(coorS1[0]!=coorS2[0])
@@ -390,6 +391,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
 
         Vector2d cyl, velocyl;
         Vector3d newvelo;
+        //cout << "Paupiette a1 et a2 : " << a1 << " " << a2 << endl;
         cyl=Convert(coorImpact[0],coorImpact[1]);       //coordonnées cylindrique du point d'impact
         // vitesse incidente en cylindrique
         velocyl[0]=_part[i].Getvelo()[0]*cos(cyl[1])+_part[i].Getvelo()[1]*sin(cyl[1]);
@@ -454,6 +456,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
       coorS1 = _mpoint[sommets[0]].Getcoor();
       coorS2 = _mpoint[sommets[1]].Getcoor();
 
+      cout << "coucou " << coorS1[1] << " " << coorS2[1] << endl;
       //Coefficient de la droite passant par l'arete
       if(coorS1[0]!=coorS2[0])
       {
@@ -496,8 +499,9 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
       {
         for(int j=0;j<4;j++)
         {
-          if(_medge[ref_edges[j]].Getref() == 2)
+          if(_medge[ref_edges[j]].Getref() == 2) {
           impact_edge = ref_edges[j];
+          cout << "Impact edge : " << impact_edge << endl; }
         }
         // Coordonnées des sommets de l'arete par laquelle sort la particule
         sommets = _medge[impact_edge].Getedge();
@@ -514,6 +518,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
           // cout << "a1 a2 " << a1 << " " << a2 << endl;
           coorImpact[0] = (c2-c1)/(a1-a2);
           coorImpact[1] = a1*coorImpact[0]+c1;
+          cout << "c1 : " << c1 << endl;
         }
         else
         {
@@ -528,6 +533,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
 
         Vector2d cyl, velocyl;
         Vector3d newvelo;
+        cout << "a1 et a2 : " << a1 << " " << a2 << endl;
         cyl=Convert(coorImpact[0],coorImpact[1]);       //coordonnées cylindrique du point d'impact
         // vitesse incidente en cylindrique
         velocyl[0]=_part[i].Getvelo()[0]*cos(cyl[1])+_part[i].Getvelo()[1]*sin(cyl[1]);
@@ -582,6 +588,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
 
       Vector2d cyl, velocyl;
       Vector3d newvelo;
+      cout << "le deuxième a1 et a2 : " << a1 << " " << a2 << endl;
       cyl=Convert(coorImpact[0],coorImpact[1]);       //coordonnées cylindrique du point d'impact
       // vitesse incidente en cylindrique
       velocyl[0]=_part[i].Getvelo()[0]*cos(cyl[1])+_part[i].Getvelo()[1]*sin(cyl[1]);
@@ -711,6 +718,7 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
 
       Vector2d cyl, velocyl;
       Vector3d newvelo;
+      cout << "le troisième a1 et a2 : " << a1 << " " << a2 << endl;
       cyl=Convert(coorImpact[0],coorImpact[1]);       //coordonnées cylindrique du point d'impact
       // vitesse incidente en cylindrique
       velocyl[0]=_part[i].Getvelo()[0]*cos(cyl[1])+_part[i].Getvelo()[1]*sin(cyl[1]);
