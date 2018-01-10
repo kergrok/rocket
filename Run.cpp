@@ -74,8 +74,8 @@ void Mesh::Create_particules(int maille, int arete)
     Position[0] = 0.5*(_mpoint[_medge[arete].Getedge()[0]].Getcoor()[0]+_mpoint[_medge[arete].Getedge()[1]].Getcoor()[0]);
     Position[1] = 0.5*(_mpoint[_medge[arete].Getedge()[0]].Getcoor()[1]+_mpoint[_medge[arete].Getedge()[1]].Getcoor()[1]);
     Vitesse[0] = _Ma*sqrt(_gamma*287*_T)+sqrt(287*_T)*alea(0,1);
-    Vitesse[1] = sqrt(287*_T)*alea(0,1);
-    Vitesse[2] = sqrt(287*_T)*alea(0,1);
+    Vitesse[1] = 0.;//sqrt(287*_T)*alea(0,1);
+    Vitesse[2] = 0.;//sqrt(287*_T)*alea(0,1);
 
     _part[j].Modifyvelo(Vitesse);
     _part[j].Modifycoor(Position);
@@ -101,7 +101,7 @@ void Mesh::Displacement()
   for (size_t i = 0; i < _part.size() ; i++) {
 
     if (_TF[i] == true) {
-      /*if(not(is_CFL_respected(_part[i].Getvelo())))
+      if(not(is_CFL_respected(_part[i].Getvelo())))
       {
         cout<<"je ne respecte pas la CFL"<<endl;
         for(int k=0;k<10;k++)
@@ -125,7 +125,7 @@ void Mesh::Displacement()
         }
       }
       else
-      {*/
+      {
         new_coor = _part[i].Getcoor();
         coor = _part[i].Getcoor();
         vitesse = _part[i].Getvelo();
@@ -144,7 +144,7 @@ void Mesh::Displacement()
           find_impact(i,coor,new_coor);
           // cout << " new coor " << _part[i].Getcoor()[0] << " " << _part[i].Getcoor()[1] << endl;
         }
-      //}
+      }
     }
   }
 }
