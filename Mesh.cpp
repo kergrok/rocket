@@ -148,6 +148,7 @@ void Mesh::Buildvoisins()
   }
 }
 
+// Calcul de la norme, du milieu et de la normale de chaque arêtes
 void Mesh::Build_Center_Norm()
 {
   for (size_t i = 0; i< _maille.size(); i++)

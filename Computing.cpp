@@ -8,11 +8,15 @@
 using namespace std;
 using namespace Eigen;
 
+// Initialisation du maillage
 void Mesh::initialize()
 {
+  // Création du fichier résultats
   system("rm -r Resultats/");
   system("mkdir Resultats");
+
   ReadParameter();
+
   cout << "-------------------Initialisation---------------------" << endl;
   _omega=_rho*_surf_tot/_N;
   _Mp=4.65*pow(10,-23);
@@ -20,11 +24,16 @@ void Mesh::initialize()
   << "; rho = " << _rho
   << "; température = " << _T << endl;
   cout << "temps final: " << _Temps_final << endl;
+  // Construction des voisins pour chaque maille
   Buildvoisins();
+  // Pour chaque arêtes, calcul sa norme, son milieu et sa normale
   Build_Center_Norm();
+  // Calcul de dt grâce à la "CFL"
   CFL();
   cout << "pas de temps: " << _dt << endl;
+  // Entrée des premières particules dans le domaine
   Create_in_Flow();
+  // Calcul temps caractéristique pour les injections
   Create_tau();
   cout << "tau : " << _tau << endl;
   for (size_t i=0; i<_maille.size();i++)

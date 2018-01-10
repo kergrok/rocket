@@ -56,7 +56,7 @@ class Mesh
     void Displacement();
     // ---------------- Calcul dt grâce à la "CFL" --------------------
     void CFL();
-    // ------------------ Calcul des voisins ---------------------
+    // ---------- Construction des voisins pour chaque maille --------------
     void Buildvoisins();
 
     bool Find_Maille(int i);
@@ -66,7 +66,7 @@ class Mesh
     bool is_in(int maille, Eigen::Vector2d Position);
 
     void Create_particules(int maille, int arete);
-
+    // --------------- Fait entrer les particules ----------------
     void Create_in_Flow();
     // ------------- Ecriture des arêtes dans un fichier --------------
     void WriteEdgesAndAssociatedQuad();
@@ -86,11 +86,11 @@ class Mesh
     double Norme_entre(Eigen::Vector2d Vec1, Eigen::Vector2d Vec2);
 
     double Norme(Eigen::Vector2d Vec);
-
+    // ---------- Calcul temps caractéristique pour les injections ---------
     void Create_tau();
     // Collision pour l'ensemble des particules
     void collision();
-
+    //------Calcul de la norme, du milieu et de la normale de chaque arêtes------
     void Build_Center_Norm();
 
     bool is_CFL_respected(Eigen::Vector3d Vitesse);
