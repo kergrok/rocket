@@ -41,6 +41,7 @@ void Mesh::initialize()
   // Calcul temps caractéristique pour les injections
   Create_tau();
   cout << "tau : " << _tau << endl;
+  // Calcul des propriétés de chaque maille
   for (size_t i=0; i<_maille.size();i++)
   {
     Calc_prop(i);
@@ -59,24 +60,27 @@ void Mesh::compute()
   // if(dt_inj<_dt)
   // _dt=dt_inj;
 
+  // boucle en temps
   while (t<_Temps_final)
   {
     k++;
     cout << "-----------------------------"<< endl;
     cout << "t= " << t << endl;
     cout << "it = " << k << endl;
+    // Déplacement des particules
     Displacement();
+    // Mise à jour des positions des particules
     MajMailleParticule();
+    // Mise à jour des propriétés physiques dans chaque maille
     for (size_t i=0; i<_maille.size();i++)
     {
       Calc_prop(i);
     }
+    // Ecriture des propriétés physiques dans les fichiers résultats
     write("Resultats/solDens"+to_string(k)+".inp","Resultats/solTemp"+to_string(k)+".inp","Resultats/solVelo"+to_string(k)+".inp");
-
+    // Insertion de nouvelles particules dans le domaine
     Create_in_Flow();
     cout << "inflow" << endl;
     t+=_dt;
-    //for (int i=0; i<_part.size();i++) {
-    //}
   }
 }
