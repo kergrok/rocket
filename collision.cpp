@@ -8,7 +8,8 @@ using namespace Eigen;
 
 
 
-void Mesh::collision(){
+void Mesh::collision()
+{
   for (int i = 0; i < _part.size(); i++) {
     collision_or_not = rand() % 10;
     if (collision_or_not == 0 ) {

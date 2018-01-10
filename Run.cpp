@@ -21,7 +21,7 @@ void Mesh::CFL()
   }
 
   // Pour que la CFL soit vérifiée, on définit _dt comme suit :
-  _dt = dx_min/(2. * sqrt(_gamma*287*_T)*_Ma);
+  _dt = dx_min/(5. * sqrt(_gamma*287*_T)*_Ma);
   _vitesse_max=dx_min/_dt;
 }
 
