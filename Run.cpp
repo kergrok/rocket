@@ -14,19 +14,15 @@ void Mesh::CFL()
 {
   // Recherche de la plus petite arête pour définir le dx
   double dx_min = _lenghts[0];
-  double dx_max = _lenghts[0];
   for (int i = 1; i < _lenghts.size() ; i++) {
     if (_lenghts[i] < dx_min) {
       dx_min = _lenghts[i];
-    }
-    else if (_lenghts[i] > dx_max) {
-      dx_max = _lenghts[i];
     }
   }
 
   // Pour que la CFL soit vérifiée, on définit _dt comme suit :
   _dt = dx_min/(2. * sqrt(_gamma*287*_T)*_Ma);
-  _vitesse_max=dx_max/_dt;
+  _vitesse_max=dx_min/_dt;
 }
 
 void Mesh::Create_in_Flow()
