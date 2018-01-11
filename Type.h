@@ -1,35 +1,95 @@
+/**
+ * \file Type.h
+ * \brief Definition of classes
+ * \author L.Bouet - S.Bouchex - A.Antimes - C.Gouin
+ * \version 1.0
+ * \date 25 janvier 2018
+ *
+ * Definition of type class :
+ *  -> geometry (meshing) : Point ; Edge ; Quad
+ *  -> physical (résolution) : Point ; Maille
+ *
+ */
+
 #include <vector>
 #include <string>
 #include "Dense"
 #include <algorithm>
 
+/*! \class Part
+   * \brief Class representing a particle
+   *
+   *  This class stores and manages the properties of a particle (coordinates, velocity, reference)
+   */
+
 class Part
 {
   private:
      // Coordonnees de la particule
-     Eigen::Vector2d _coor;
+     Eigen::Vector2d _coor;  /*!< Particule's coordinates*/
      // Vitesse de la particule
-     Eigen::Vector3d _velo;
+     Eigen::Vector3d _velo; /*!< Particule's velocity*/
      // Numéro de la maille
-     int _ref;
+     int _ref; /*!< Particule's reference*/
   public:
     // Constructeur
     Part(Eigen::Vector2d coor,Eigen::Vector3d velo, int ref);
-    // Récupérer coor
+    /*!
+     *  \brief Obtaining coordinates
+     *
+     *  This function lets you obtain the scalar coordinates of a particule.
+     *
+     *  \return Vector including the x and y components of the coordinates
+     */
     Eigen::Vector2d Getcoor() {return _coor;};
-    // Récupère la vitesse
+    /*!
+     *  \brief Obtaining velocity
+     *
+     *  This function lets you obtain the velocity of a particule.
+     *
+     *  \return Vector including the x, y and z components of the velocity
+     */
     Eigen::Vector3d Getvelo() {return _velo;};
-    // Modifier coor
+    /*!
+     *  \brief Modifying coordinates
+     *
+     *  This function lets you modify the coordinates of a particule.
+     *
+     *  \param coor : new coordinates, gived to attribute _coor
+     */
     void Modifycoor(Eigen::Vector2d coor) { _coor = coor;};
-    // Modifier velo
+    /*!
+     *  \brief Modifying velocity
+     *
+     *  This function lets you modify the velocity of a particule.
+     *
+     *  \param velo : new velocity, gived to attribute _velo
+     */
     void Modifyvelo(Eigen::Vector3d velo) { _velo = velo;};
-    // Récupérer la référence de la particule
+    /*!
+     *  \brief Obtaining reference
+     *
+     *  This function lets you obtain the reference of a particule.
+     *
+     *  \return Int corresponding to the particule's reference
+     */
     int Getref(){return _ref;};
-    // Modifier Ref
+    /*!
+     *  \brief Modifying reference
+     *
+     *  This function lets you modify the reference of a particule.
+     *
+     *  \param ref : new reference, gived to attribute _ref
+     */
     void Modifyref(int ref) {_ref = ref;};
 };
 
-/*******************  Stocke les particules présentes et les prop physiques de la maille  *******************/
+/*! \class Maille
+   * \brief classe representant une maille
+   *
+   *  La classe stocke et gère les propriétés d'une maille (densité, vitesse moyenne, température, surface, mailles voisines, référence)
+   * ainsi que les particules présentes dans cette maille.
+   */
 
 class Maille
 {
