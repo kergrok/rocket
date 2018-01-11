@@ -28,16 +28,23 @@ void Mesh::CFL()
 void Mesh::Create_in_Flow()
 {
   Vector4i Edges;
+  cout << "inflow" << endl;
   for(size_t i=0;i<_maille.size();i++)
   {
     if(_maille[i].Getref()== 4 || _maille[i].Getref()== 34 || _maille[i].Getref()== 14) //Positionnée sur le bord
     {
+      vector<int> indices;
+      indices=_maille[i].Getindices();
+      for(int k=0;k<indices.size();k++)
+      {
+        _TF[indices[k]]=false;
+      }
       Edges=_mquad[i].Getquadv();
       for(int j=0;j<4;j++)
       {
         if(_medge[Edges[j]].Getref()==4)
         {
-          Create_particules(i,Edges[j]);
+          Create_particules(i,Edges[j],Edges);
         }
       }
     }
@@ -45,10 +52,10 @@ void Mesh::Create_in_Flow()
 }
 
 
-void Mesh::Create_particules(int maille, int arete)
+void Mesh::Create_particules(int maille, int arete, Vector4i Edges)
 {
   Vector3d Vitesse;
-  Vector2d Position;
+  Vector2d Position, Position1, Position2;
   size_t j=0;
 
 
@@ -71,8 +78,65 @@ void Mesh::Create_particules(int maille, int arete)
       _TF[j]=true;
     }
     double t = (double)rand()/RAND_MAX;
-    Position[0] = (_mpoint[_medge[arete].Getedge()[0]].Getcoor()[0]*t+_mpoint[_medge[arete].Getedge()[1]].Getcoor()[0]*(1-t));
-    Position[1] = (_mpoint[_medge[arete].Getedge()[0]].Getcoor()[1]*t+_mpoint[_medge[arete].Getedge()[1]].Getcoor()[1]*(1-t));
+    Position1[0] = (_mpoint[_medge[arete].Getedge()[0]].Getcoor()[0]*t+_mpoint[_medge[arete].Getedge()[1]].Getcoor()[0]*(1-t));
+    Position1[1] = (_mpoint[_medge[arete].Getedge()[0]].Getcoor()[1]*t+_mpoint[_medge[arete].Getedge()[1]].Getcoor()[1]*(1-t));
+
+    Vector4d Position3;
+    Position3[0]=0.;
+    Vector2d test1,test2;
+    for(int k=0;k<4;k++)
+    {
+      test1=_mpoint[_medge[Edges[k]].Getedge()[0]].Getcoor();
+      test2=_mpoint[_medge[Edges[k]].Getedge()[1]].Getcoor();
+      if((_mpoint[_medge[arete].Getedge()[0]].Getcoor()[0]!=test1[0])&&(_mpoint[_medge[arete].Getedge()[0]].Getcoor()[1]!=test1[1]))
+      {
+        if((_mpoint[_medge[arete].Getedge()[1]].Getcoor()[0]!=test1[0])&&(_mpoint[_medge[arete].Getedge()[1]].Getcoor()[1]!=test1[1]))
+        {
+          if ((Position3.size()<5)&&(Position3[0]!=test1[0])&&(Position3[1]!=test1[1]))
+          {
+            if(Position3[0]==0.)
+            {
+              Position3[0]=test1[0];
+              Position3[1]=test1[1];
+            }
+            else
+            {
+              Position3[2]=test1[0];
+              Position3[3]=test1[1];
+            }
+          }
+        }
+      }
+      if((_mpoint[_medge[arete].Getedge()[0]].Getcoor()[0]!=test2[0])&&(_mpoint[_medge[arete].Getedge()[0]].Getcoor()[1]!=test2[1]))
+      {
+        if((_mpoint[_medge[arete].Getedge()[1]].Getcoor()[0]!=test2[0])&&(_mpoint[_medge[arete].Getedge()[1]].Getcoor()[1]!=test2[1]))
+        {
+          if ((Position3.size()<5)&&(Position3[0]!=test2[0])&&(Position3[1]!=test2[1]))
+          {
+            if(Position3[0]==0.)
+            {
+              Position3[0]=test2[0];
+              Position3[1]=test2[1];
+            }
+            else
+            {
+              Position3[2]=test2[0];
+              Position3[3]=test2[1];
+            }
+          }
+        }
+      }
+    }
+    if(Position3.size()!=4)
+    cout << "pas trouvé les deux points ..." << endl;
+
+    Position2[0]=Position3[0]*t+Position3[2]*(1-t);
+    Position2[1]=Position3[1]*t+Position3[3]*(1-t);
+
+    t = (double)rand()/RAND_MAX;
+    Position[0]=Position1[0]*t+Position2[0]*(1-t);
+    Position[1]=Position1[1]*t+Position2[1]*(1-t);
+
     Vitesse[0] = _Ma*sqrt(_gamma*287*_T)+sqrt(287*_T)*alea(0,1);
     Vitesse[1] = sqrt(287*_T)*alea(0,1);
     Vitesse[2] = sqrt(287*_T)*alea(0,1);

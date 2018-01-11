@@ -65,7 +65,7 @@ class Mesh
 
     bool is_in(int maille, Eigen::Vector2d Position);
 
-    void Create_particules(int maille, int arete);
+    void Create_particules(int maille, int arete, Eigen::Vector4i Edges);
     // --------------- Fait entrer les particules ----------------
     void Create_in_Flow();
     // ------------- Ecriture des arêtes dans un fichier --------------
