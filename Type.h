@@ -26,14 +26,14 @@ class Part
 {
   private:
      // Coordonnees de la particule
-     Eigen::Vector2d _coor;  /*!< Particule's coordinates*/
+     std::vector<double> _coor;  /*!< Particule's coordinates*/
      // Vitesse de la particule
-     Eigen::Vector3d _velo; /*!< Particule's velocity*/
+     std::vector<double> _velo; /*!< Particule's velocity*/
      // Numéro de la maille
      int _ref; /*!< Particule's reference*/
   public:
     // Constructeur
-    Part(Eigen::Vector2d coor,Eigen::Vector3d velo, int ref);
+    Part( std::vector<double> coor, std::vector<double> velo, int ref);
     /*!
      *  \brief Obtaining coordinates
      *
@@ -41,7 +41,7 @@ class Part
      *
      *  \return Vector including the x and y components of the coordinates
      */
-    Eigen::Vector2d Getcoor() {return _coor;};
+     std::vector<double> Getcoor() {return _coor;};
     /*!
      *  \brief Obtaining velocity
      *
@@ -49,7 +49,7 @@ class Part
      *
      *  \return Vector including the x, y and z components of the velocity
      */
-    Eigen::Vector3d Getvelo() {return _velo;};
+    std::vector<double> Getvelo() {return _velo;};
     /*!
      *  \brief Modifying coordinates
      *
@@ -57,7 +57,7 @@ class Part
      *
      *  \param coor : new coordinates, gived to attribute _coor
      */
-    void Modifycoor(Eigen::Vector2d coor) { _coor = coor;};
+    void Modifycoor(std::vector<double> coor) { _coor = coor;};
     /*!
      *  \brief Modifying velocity
      *
@@ -65,7 +65,7 @@ class Part
      *
      *  \param velo : new velocity, gived to attribute _velo
      */
-    void Modifyvelo(Eigen::Vector3d velo) { _velo = velo;};
+    void Modifyvelo(std::vector<double> velo) { _velo = velo;};
     /*!
      *  \brief Obtaining reference
      *
