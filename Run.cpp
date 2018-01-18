@@ -41,8 +41,6 @@ void Mesh::Create_in_Flow()
         _TF[indices[k]]=false;
       }
       Edges=_mquad[i].Getquadv();
-      if(_maille[i].Getref()== 34)
-      cout << "ref 34: "<< _medge[Edges[0]].Getref() <<" "<< _medge[Edges[1]].Getref() <<" "<< _medge[Edges[2]].Getref() <<" "<< _medge[Edges[3]].Getref() <<" "<<endl;
       for(int j=0;j<4;j++)
       {
         if(_medge[Edges[j]].Getref()==4)
@@ -98,11 +96,11 @@ void Mesh::Create_particules(int maille, int arete, vector<int> Edges)
     {
       test1=_mpoint[_medge[Edges[k]].Getedge()[0]].Getcoor();
       test2=_mpoint[_medge[Edges[k]].Getedge()[1]].Getcoor();
-      if((_mpoint[_medge[arete].Getedge()[0]].Getcoor()[0]!=test1[0])&&(_mpoint[_medge[arete].Getedge()[0]].Getcoor()[1]!=test1[1]))
+      if((_mpoint[_medge[arete].Getedge()[0]].Getcoor()[0]!=test1[0])||(_mpoint[_medge[arete].Getedge()[0]].Getcoor()[1]!=test1[1]))
       {
-        if((_mpoint[_medge[arete].Getedge()[1]].Getcoor()[0]!=test1[0])&&(_mpoint[_medge[arete].Getedge()[1]].Getcoor()[1]!=test1[1]))
+        if((_mpoint[_medge[arete].Getedge()[1]].Getcoor()[0]!=test1[0])||(_mpoint[_medge[arete].Getedge()[1]].Getcoor()[1]!=test1[1]))
         {
-          if ((Position3.size()<5)&&(Position3[0]!=test1[0])&&(Position3[1]!=test1[1]))
+          if ((Position3.size()<5)&&((Position3[0]!=test1[0])&&(Position3[1]!=test1[1])||(test1[1]==0.)))
           {
             if(Position3[0]==0.)
             {
@@ -117,11 +115,11 @@ void Mesh::Create_particules(int maille, int arete, vector<int> Edges)
           }
         }
       }
-      if((_mpoint[_medge[arete].Getedge()[0]].Getcoor()[0]!=test2[0])&&(_mpoint[_medge[arete].Getedge()[0]].Getcoor()[1]!=test2[1]))
+      if((_mpoint[_medge[arete].Getedge()[0]].Getcoor()[0]!=test2[0])||(_mpoint[_medge[arete].Getedge()[0]].Getcoor()[1]!=test2[1]))
       {
-        if((_mpoint[_medge[arete].Getedge()[1]].Getcoor()[0]!=test2[0])&&(_mpoint[_medge[arete].Getedge()[1]].Getcoor()[1]!=test2[1]))
+        if((_mpoint[_medge[arete].Getedge()[1]].Getcoor()[0]!=test2[0])||(_mpoint[_medge[arete].Getedge()[1]].Getcoor()[1]!=test2[1]))
         {
-          if ((Position3.size()<5)&&(Position3[0]!=test2[0])&&(Position3[1]!=test2[1]))
+          if ((Position3.size()<5)&&((Position3[0]!=test2[0])&&(Position3[1]!=test2[1])||(test2[1]==0.)))
           {
             if(Position3[0]==0.)
             {
