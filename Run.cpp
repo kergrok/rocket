@@ -27,7 +27,8 @@ void Mesh::CFL()
 
 void Mesh::Create_in_Flow()
 {
-  Vector4i Edges;
+  vector<int> Edges;
+  Edges.resize(4);
   cout << "inflow" << endl;
   for(size_t i=0;i<_maille.size();i++)
   {
@@ -40,6 +41,8 @@ void Mesh::Create_in_Flow()
         _TF[indices[k]]=false;
       }
       Edges=_mquad[i].Getquadv();
+      if(_maille[i].Getref()== 34)
+      cout << "ref 34: "<< _medge[Edges[0]].Getref() <<" "<< _medge[Edges[1]].Getref() <<" "<< _medge[Edges[2]].Getref() <<" "<< _medge[Edges[3]].Getref() <<" "<<endl;
       for(int j=0;j<4;j++)
       {
         if(_medge[Edges[j]].Getref()==4)
@@ -52,10 +55,14 @@ void Mesh::Create_in_Flow()
 }
 
 
-void Mesh::Create_particules(int maille, int arete, Vector4i Edges)
+void Mesh::Create_particules(int maille, int arete, vector<int> Edges)
 {
-  Vector3d Vitesse;
-  Vector2d Position, Position1, Position2;
+  vector<double> Vitesse;
+  Vitesse.resize(3);
+  vector<double> Position, Position1, Position2;
+  Position.resize(2);
+  Position1.resize(2);
+  Position2.resize(2);
   size_t j=0;
 
 
@@ -81,9 +88,12 @@ void Mesh::Create_particules(int maille, int arete, Vector4i Edges)
     Position1[0] = (_mpoint[_medge[arete].Getedge()[0]].Getcoor()[0]*t+_mpoint[_medge[arete].Getedge()[1]].Getcoor()[0]*(1-t));
     Position1[1] = (_mpoint[_medge[arete].Getedge()[0]].Getcoor()[1]*t+_mpoint[_medge[arete].Getedge()[1]].Getcoor()[1]*(1-t));
 
-    Vector4d Position3;
+    vector<double> Position3;
+    Position3.resize(4);
     Position3[0]=0.;
-    Vector2d test1,test2;
+    vector<double> test1,test2;
+    test1.resize(2);
+    test2.resize(2);
     for(int k=0;k<4;k++)
     {
       test1=_mpoint[_medge[Edges[k]].Getedge()[0]].Getcoor();
@@ -158,8 +168,10 @@ void Mesh::Create_particules(int maille, int arete, Vector4i Edges)
 
 void Mesh::Displacement()
 {
-  Eigen::Vector2d new_coor,coor;
-  Eigen::Vector3d vitesse;
+  vector<double> new_coor,coor, vitesse;
+  new_coor.resize(2);
+  coor.resize(2);
+  vitesse.resize(3);
   bool in_domain;
 
   for (size_t i = 0; i < _part.size() ; i++) {
@@ -213,7 +225,7 @@ void Mesh::Displacement()
   }
 }
 
-bool Mesh::is_CFL_respected(Vector3d Vitesse)
+bool Mesh::is_CFL_respected(vector<double> Vitesse)
 {
   if(sqrt(pow(Vitesse[0],2)+pow(Vitesse[1],2))>_vitesse_max)
   return false;
@@ -222,17 +234,21 @@ bool Mesh::is_CFL_respected(Vector3d Vitesse)
 }
 
 
-void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
+void Mesh::find_impact(int i, vector<double> coor, vector<double> new_coor)
 {
 
   double a1,c1,a2,c2;
   int ref_maille;
-  Vector4i ref_edges;
+  vector<int> ref_edges;
+  ref_edges.resize(4);
   int impact_edge;
   double distance_a_parcourir,distance_parcourue;
   //double theta1,theta2,theta3;
-  Vector2d coorS1,coorS2,coorImpact,vector_edge,vector_deplacement;
-  Vector2i sommets;
+  vector<double> coorS1,coorS2,coorImpact,vector_edge,vector_deplacement;
+  vector<int> sommets;
+  coorS1.resize(2);     coorS2.resize(2);
+  coorImpact.resize(2);    vector_edge.resize(2);
+  vector_deplacement.resize(2);     sommets.resize(2);
 
   // Coefficients de la droite trajet de la particule
   a1=(coor[1]-new_coor[1])/(coor[0]-new_coor[0]);
@@ -278,7 +294,8 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
         distance_parcourue=Norme_entre(coor,coorImpact);
 
         double dt_rest;
-        Vector3d newvelo;
+        vector<double> newvelo;
+        newvelo.resize(3);
         // Nouvelle vitesse Vx=-Vx
         newvelo[0]=_part[i].Getvelo()[0];
         newvelo[1]=-_part[i].Getvelo()[1];
@@ -320,8 +337,10 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
         distance_a_parcourir=Norme_entre(new_coor,coor);
         distance_parcourue=Norme_entre(coor,coorImpact);
 
-        Vector2d cyl, velocyl;
-        Vector3d newvelo;
+        vector<double> cyl, velocyl;
+        vector<double> newvelo;
+        cyl.resize(2);     velocyl.resize(2);
+        newvelo.resize(3);
         cyl=Convert(coorImpact[0],coorImpact[1]);       //coordonnées cylindrique du point d'impact
         // vitesse incidente en cylindrique
         velocyl[0]=_part[i].Getvelo()[0]*cos(cyl[1])+_part[i].Getvelo()[1]*sin(cyl[1]);
@@ -355,13 +374,15 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
 
   else if (_maille[_part[i].Getref()].Getref()==12)// L'erreur qui arete le programme est ici
   {
-    Vector2d vect_dir,vect_lim,coor_coin;
-    Vector4i points;
+    vector<double> vect_dir,vect_lim,coor_coin;
+    vect_dir.resize(2);    vect_lim.resize(2);  coor_coin.resize(2);
+    vector<int> points;
+    points.resize(4);
     points = _mquad[ref_maille].Getquadp();
     for(int j=0;j<4;j++)
     {
-      if(_mpoint[points(j)].Getref()==40)
-      coor_coin=_mpoint[points(j)].Getcoor();
+      if(_mpoint[points[j]].Getref()==40)
+      coor_coin=_mpoint[points[j]].Getcoor();
     }
     vect_lim[0]=(coor_coin[0]-coor[0]);
     vect_lim[1]=(coor_coin[1]-coor[1]);
@@ -409,7 +430,8 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
       distance_parcourue=Norme_entre(coor,coorImpact);
 
       double dt_rest;
-      Vector3d newvelo;
+      vector<double> newvelo;
+      newvelo.resize(3);
       // Nouvelle vitesse Vx=-Vx
       newvelo[0]=_part[i].Getvelo()[0];
       newvelo[1]=-_part[i].Getvelo()[1];
@@ -458,8 +480,8 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
         distance_a_parcourir=Norme_entre(new_coor,coor);
         distance_parcourue=Norme_entre(coor,coorImpact);
 
-        Vector2d cyl, velocyl;
-        Vector3d newvelo;
+        vector<double> v, cyl, velocyl,newvelo;
+        cyl.resize(2);   velocyl.resize(2);    newvelo.resize(3);
         cyl=Convert(coorImpact[0],coorImpact[1]);       //coordonnées cylindrique du point d'impact
         // vitesse incidente en cylindrique
         velocyl[0]=_part[i].Getvelo()[0]*cos(cyl[1])+_part[i].Getvelo()[1]*sin(cyl[1]);
@@ -512,8 +534,8 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
       distance_a_parcourir=Norme_entre(new_coor,coor);
       distance_parcourue=Norme_entre(coor,coorImpact);
 
-      Vector2d cyl, velocyl;
-      Vector3d newvelo;
+      vector<double> cyl, velocyl, newvelo;
+      cyl.resize(2);    velocyl.resize(2);   newvelo.resize(3);
       cyl=Convert(coorImpact[0],coorImpact[1]);       //coordonnées cylindrique du point d'impact
       // vitesse incidente en cylindrique
       velocyl[0]=_part[i].Getvelo()[0]*cos(cyl[1])+_part[i].Getvelo()[1]*sin(cyl[1]);
@@ -569,7 +591,8 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
         distance_parcourue=Norme_entre(coor,coorImpact);
 
         double dt_rest;
-        Vector3d newvelo;
+        vector<double> newvelo;
+        newvelo.resize(3);
         // Nouvelle vitesse Vx=-Vx
         newvelo[0]=_part[i].Getvelo()[0];
         newvelo[1]=-_part[i].Getvelo()[1];
@@ -588,13 +611,15 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
 
   else if (_maille[_part[i].Getref()].Getref()==23)
   {
-    Vector2d vect_dir,vect_lim,coor_coin;
-    Vector4i points;
+    vector<double> vect_dir,vect_lim,coor_coin;
+    vect_dir.resize(2);  vect_lim.resize(2); coor_coin.resize(2);
+    vector<int> points;
+    points.resize(4);
     points = _mquad[ref_maille].Getquadp();
     for(int j=0;j<4;j++)
     {
-      if(_mpoint[points(j)].Getref()==50)
-      coor_coin=_mpoint[points(j)].Getcoor();
+      if(_mpoint[points[j]].Getref()==50)
+      coor_coin=_mpoint[points[j]].Getcoor();
     }
     vect_lim[0]=(coor_coin[0]-coor[0]);
     vect_lim[1]=(coor_coin[1]-coor[1]);
@@ -641,8 +666,8 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
       distance_a_parcourir=Norme_entre(new_coor,coor);
       distance_parcourue=Norme_entre(coor,coorImpact);
 
-      Vector2d cyl, velocyl;
-      Vector3d newvelo;
+      vector<double> cyl, velocyl,newvelo;
+      cyl.resize(2);   velocyl.resize(2);   newvelo.resize(3);
       cyl=Convert(coorImpact[0],coorImpact[1]);       //coordonnées cylindrique du point d'impact
       // vitesse incidente en cylindrique
       velocyl[0]=_part[i].Getvelo()[0]*cos(cyl[1])+_part[i].Getvelo()[1]*sin(cyl[1]);
@@ -678,16 +703,18 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
 
   else if (_maille[_part[i].Getref()].Getref()==14)
   {
-    Vector2d vect_dir,vect_lim,coor_coin;
-    Vector4i points;
+    vector<double> vect_dir,vect_lim,coor_coin;
+    vect_dir.resize(2);   vect_lim.resize(2); coor_coin.resize(2);
+    vector<int> points;
+    points.resize(4);
     points = _mquad[ref_maille].Getquadp();
     for(int j=0;j<4;j++)
     {
-      if(_mpoint[points(j)].Getref()==10)
+      if(_mpoint[points[j]].Getref()==10)
       {
-        coor_coin=_mpoint[points(j)].Getcoor();
+        coor_coin=_mpoint[points[j]].Getcoor();
       }
-      // cout << _mpoint[points(j)].Getref() << endl;
+      // cout << _mpoint[points[j]].Getref() << endl;
     }
     vect_lim[0]=(coor_coin[0]-coor[0]);
     vect_lim[1]=(coor_coin[1]-coor[1]);
@@ -735,7 +762,8 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
       distance_parcourue=Norme_entre(coor,coorImpact);
 
       double dt_rest;
-      Vector3d newvelo;
+      vector<double> newvelo;
+      newvelo.resize(3);
       // Nouvelle vitesse Vx=-Vx
       newvelo[0]=_part[i].Getvelo()[0];
       newvelo[1]=-_part[i].Getvelo()[1];
@@ -760,7 +788,8 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
       _TF[i]=false;
     }
   }
-  Vector3d NewVelo;
+  vector<double> NewVelo;
+  NewVelo.resize(3);
   if(_methode == "Maxwellien")
   {
     NewVelo[0]=_part[i].Getvelo()[0] + sqrt(_maille[ref_maille].Gettemp()*287)*alea(0,1);
@@ -770,12 +799,12 @@ void Mesh::find_impact(int i, Vector2d coor, Vector2d new_coor)
   _part[i].Modifyvelo(NewVelo);
 }
 
-double Mesh::Norme_entre(Vector2d Vec1, Vector2d Vec2)
+double Mesh::Norme_entre(vector<double> Vec1, vector<double> Vec2)
 {
   return sqrt(pow((Vec1[0]-Vec2[0]),2)+pow((Vec1[1]-Vec2[1]),2));
 }
 
-double Mesh::Norme(Vector2d Vec)
+double Mesh::Norme(vector<double> Vec)
 {
   return sqrt(pow(Vec[0],2)+pow(Vec[1],2));
 }

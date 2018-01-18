@@ -35,11 +35,11 @@ void Mesh::collision(){
 
 
   int collision_or_not;
-  Vector3d esperance,variance1,variance2;
-  Vector3d corr_moyenne;
-  Vector3d corr_dev;
-  Vector3d vitesse_moyenne;
-  Vector3d Vitesse;
+  vector<double> esperance(3),variance1(3),variance2(3);
+  vector<double> corr_moyenne(3);
+  vector<double> corr_dev(3);
+  vector<double> vitesse_moyenne(3);
+  vector<double> Vitesse(3);
 
 
   //Boucle sur les mailles
@@ -71,7 +71,7 @@ void Mesh::collision(){
       if (collision_or_not == 0 ) {
 
         double temp = _maille[i].Gettemp();
-        Vector3d vit_moy = _maille[i].Getaverage();
+        vector<double> vit_moy = _maille[i].Getaverage();
 
         Vitesse[0] = vit_moy[0]+sqrt(287*temp)*alea(0,1);
         Vitesse[1] = vit_moy[1]+sqrt(287*temp)*alea(0,1);

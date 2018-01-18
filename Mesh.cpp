@@ -6,21 +6,21 @@
 using namespace std;
 using namespace Eigen;
 
-Point::Point(Eigen::Vector2d coor, int ref) : _coor(coor), _ref(ref)
+Point::Point(std::vector<double> coor, int ref) : _coor(coor), _ref(ref)
 {}
 
-Edge::Edge(Eigen::Vector2i v, int ref) : _v(v), _ref(ref)
+Edge::Edge(std::vector<int> v, int ref) : _v(v), _ref(ref)
 {}
 
-Part::Part(Eigen::Vector2d coor,Eigen::Vector3d velo, int ref) : _coor(coor), _velo(velo), _ref(ref)
+Part::Part(std::vector<double> coor,std::vector<double> velo, int ref) : _coor(coor), _velo(velo), _ref(ref)
 {}
 
-Quad::Quad(Eigen::Vector4i p, Eigen::Vector4i v, int ref) : _p(p), _v(v), _ref(ref)
+Quad::Quad(std::vector<int> p, std::vector<int> v, int ref) : _p(p), _v(v), _ref(ref)
 {
   _normale.resize(4);
 }
 
-Maille::Maille(vector<int> indices,Eigen::Vector3d prop,Eigen::Vector3d average,double surf,Eigen::Vector4i voisins)
+Maille::Maille(vector<int> indices,std::vector<double> prop,std::vector<double> average,double surf,std::vector<int> voisins)
 {
   _indices=indices;
   _prop=prop;
@@ -37,9 +37,9 @@ void Mesh::Buildlenghts()
 {
   _lenghts.resize(_medge.size());
   // edge comprend les réferences des deux points de l'arête
-  Eigen::Vector2i edge;
+  std::vector<int> edge;
   // coor1 et coor2 sont les coordonnées des deux points de l'arête
-  Eigen::Vector2d coor1, coor2;
+  std::vector<double> coor1, coor2;
   for (size_t i = 0; i < _medge.size(); i++) {
     // On récupère les numéros des points des extrémités de l'arête
     edge = _medge[i].Getedge();
@@ -57,11 +57,11 @@ void Mesh::Buildsurfaces()
 {
   double surface(0);
   // quad_edge comprend les quatre arêtes du quadrilatère
-  Eigen::Vector4i quad_edge;
+  std::vector<int> quad_edge;
 
-  Eigen::Vector2i edge;
-  Eigen::Vector2d coor1, coor2;
-  Eigen::Vector2d coor_cyl1, coor_cyl2;
+  std::vector<int> edge;
+  std::vector<double> coor1, coor2;
+  std::vector<double> coor_cyl1, coor_cyl2;
   _surf_tot = 0.;
   double taille_min(0), taille_max(0);
 
@@ -89,10 +89,14 @@ void Mesh::Buildvoisins()
 {
   //edge1 comprend les arêtes du quad dont on cherche les voisins
   //edge2 comprend les arêtes des quad qu'on teste pour être les voisins
-  Eigen::Vector4i edge1, edge2;
+  std::vector<int> edge1, edge2;
   // Un vecteur colors qui comprend le nbre de voisins déjà trouvé pour chaque maille
-  Eigen::VectorXi colors;
-  colors.setZero(_mquad.size());
+  std::vector<int> colors;
+  colors.resize(_mquad.size());
+  for(int i=0;i<colors.size();i++)
+  {
+    colors[i]=0;
+  }
 
   //Booléen qui permet de stopper les tests sur j si on a trouvé que c'était un voisin
   bool vois(false);
@@ -153,20 +157,20 @@ void Mesh::Build_Center_Norm()
 {
   for (size_t i = 0; i< _maille.size(); i++)
   {
-    Vector2d Normale;
-    Vector2d Middle_Edge;
-    Vector2d MiEdge_Middle;
-    Vector4i Aretes;
+    vector<double> Normale(2);
+    vector<double> Middle_Edge(2);
+    vector<double> MiEdge_Middle(2);
+    vector<int> Aretes(4);
 
     Aretes=_mquad[i].Getquadv();
 
     //On récupère les numéros des sommets du quad testé
-    Vector4i Sommets;
+    vector<int> Sommets(4);
     Sommets=_mquad[i].Getquadp();
 
     // Coordonées du milieu du quad
-    Vector2d Middle;
-    Middle.setZero();
+    vector<double> Middle(2);
+    Middle={0};
 
     for(int j=0; j<4;j++)
     {
@@ -175,7 +179,7 @@ void Mesh::Build_Center_Norm()
     }
     _mquad[i].Modify_center(Middle);
 
-    std::vector<Eigen::Vector2d> norm,mid,mid_ed;
+    std::vector<std::vector<double>> norm,mid,mid_ed;
     norm.resize(0);
     mid.resize(0);
     mid_ed.resize(0);

@@ -97,35 +97,35 @@ private:
    // Indices des particules présentes
    std::vector<int> _indices;
    // Propriétés : Densité Vitesse Température
-   Eigen::Vector3d _prop;
+   std::vector<double> _prop;
    // Surface de la maille
-   Eigen::Vector3d _average;
+   std::vector<double> _average;
    // Surface de la maille
    double _surf;
    // Voisins de la maille
-   Eigen::Vector4i _voisins;
+   std::vector<int> _voisins;
    // Ref de la maille : 0 si elle est au centre du maillage, 1, 2, 3 ou 4 si
    // elle est sur un bord
    int _ref;
 public:
   // Constructeur
-  Maille(std::vector<int> indices,Eigen::Vector3d prop,Eigen::Vector3d average,double surf,Eigen::Vector4i voisins);
+  Maille(std::vector<int> indices,std::vector<double> prop,std::vector<double> average,double surf,std::vector<int> voisins);
   // Récupérer indices
   std::vector<int>  Getindices() {return _indices;};
   // Récupère la densité
   double Getdensity() {return _prop[0];};
   //Récupère vitesse moyenne
-  Eigen::Vector3d Getaverage() {return _average;};
+  std::vector<double> Getaverage() {return _average;};
   // Récupère la température
   double Gettemp() {return _prop[1];};
   // Récupère la Surface
   double Getsurf() {return _surf;};
   // Récupère les voisins
-  Eigen::Vector4i Getvoisins() {return _voisins;};
+  std::vector<int> Getvoisins() {return _voisins;};
   // Modifier densité
   void Modifydensity(double prop) { _prop[0] = prop;};
   // Modifier vitesse moyenne
-  void Modifyaverage(Eigen::Vector3d average) { _average = average;};
+  void Modifyaverage(std::vector<double> average) { _average = average;};
   // Modifier température
   void Modifytemp(double prop) { _prop[1] = prop;};
   // Modifier la Surface
@@ -147,60 +147,60 @@ class Quad
 {
   private:
     // Indices des 4 sommets composant le quad
-    Eigen::Vector4i _p;
+    std::vector<int> _p;
     // Indices des 4 arêtes composant le quad
-    Eigen::Vector4i _v;
+    std::vector<int> _v;
     // Coord. des mileux des quad
-    Eigen::Vector2d _center;
+    std::vector<double> _center;
     //Norme des arêtes
-    std::vector<Eigen::Vector2d> _normale;
+    std::vector<std::vector<double>> _normale;
     //les vecteurs milieu-edge milieu du quad
-    std::vector<Eigen::Vector2d> _mid_norm;
+    std::vector<std::vector<double>> _mid_norm;
     //milieu des edges
-    std::vector<Eigen::Vector2d> _mid_ed;
+    std::vector<std::vector<double>> _mid_ed;
     // Tag associe au quad
     int _ref;
   public:
     // Constructeur
-    Quad(Eigen::Vector4i p, Eigen::Vector4i v, int ref);
+    Quad(std::vector<int> p, std::vector<int> v, int ref);
     // Récupérer les sommets du quad
-    Eigen::Vector4i Getquadp(){return _p;};
+    std::vector<int> Getquadp(){return _p;};
     // Récupérer les arêtes du quad
-    Eigen::Vector4i Getquadv(){return _v;};
+    std::vector<int> Getquadv(){return _v;};
     // Modifie les coordonnées du centre
-    void Modify_center(Eigen::Vector2d center){_center = center;};
+    void Modify_center(std::vector<double> center){_center = center;};
     // Modifie les normales
-    void Modify_normale(std::vector<Eigen::Vector2d> normale){_normale = normale;};
+    void Modify_normale(std::vector<std::vector<double>> normale){_normale = normale;};
     // Modifie les vecteurs milieu-edge milieu du quad
-    void Modify_mid_norm(std::vector<Eigen::Vector2d> mid_norm){_mid_norm = mid_norm;};
+    void Modify_mid_norm(std::vector<std::vector<double>> mid_norm){_mid_norm = mid_norm;};
 
-    void Modify_mid_ed(std::vector<Eigen::Vector2d> mid_ed){_mid_ed = mid_ed;};
+    void Modify_mid_ed(std::vector<std::vector<double>> mid_ed){_mid_ed = mid_ed;};
     // Récupérer la référence du quad
     int Getref(){return _ref;};
     // Modifie les num des aretes du quad
     void Modifyv(int i, int j){_v[j] = i;};
     //Donne les coord. des centres des quadrilatères
-    Eigen::Vector2d Getcenter(){return _center;};
+    std::vector<double> Getcenter(){return _center;};
     //Donne les normales des quadrilatères
-    std::vector<Eigen::Vector2d> Getnormale(){return _normale;};
+    std::vector<std::vector<double>> Getnormale(){return _normale;};
     //Donne les vecteurs milieu-edge milieu du quad
-    std::vector<Eigen::Vector2d> Getmidnorm(){return _mid_norm;};
+    std::vector<std::vector<double>> Getmidnorm(){return _mid_norm;};
     //Donne le milieu des edges
-    std::vector<Eigen::Vector2d> Getmiddle(){return _mid_ed;};
+    std::vector<std::vector<double>> Getmiddle(){return _mid_ed;};
 };
 
 class Point
 {
   private:
      // Coordonnees du point ;
-     Eigen::Vector2d _coor;
+     std::vector<double> _coor;
      // Tag associe au point
      int _ref;
   public:
     // Constructeur
-    Point(Eigen::Vector2d coor, int ref);
+    Point(std::vector<double> coor, int ref);
     // Récupérer coor
-    Eigen::Vector2d Getcoor() {return _coor;};
+    std::vector<double> Getcoor() {return _coor;};
     // Récupérer la référence du point
     int Getref(){return _ref;};
 };
@@ -209,14 +209,14 @@ class Edge
 {
   private:
     // Indices des 2 sommets composant l'arete
-    Eigen::Vector2i _v;
+    std::vector<int> _v;
     // Tag associe a l'arete
     int _ref;
   public:
     // Constructeur
-    Edge(Eigen::Vector2i v, int ref);
+    Edge(std::vector<int> v, int ref);
     // Récupérer l'arête
-    Eigen::Vector2i Getedge(){return _v;};
+    std::vector<int> Getedge(){return _v;};
     // Récupérer la référence de l'arête
     int Getref(){return _ref;};
     // Modifie la référence

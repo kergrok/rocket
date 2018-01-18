@@ -16,8 +16,11 @@ void Mesh::Calc_prop(int i)
   double density = nb_part * _omega / surface;
   _maille[i].Modifydensity(density);
 
-  Vector3d velocity_moy;
-  velocity_moy.setZero();
+  vector<double> velocity_moy;
+  velocity_moy.resize(3);
+  velocity_moy[0]=0.;
+  velocity_moy[1]=0.;
+  velocity_moy[2]=0.;
   for (int j = 0; j < nb_part; j++)
   {
     for(int k=0; k<3;k++)
@@ -63,11 +66,12 @@ bool Mesh::Find_Maille(int i) // i numéro de la particule, true si il a trouvé
   int maille_initiale=_part[i].Getref();
 
   //On récupère la position de la particule
-  Vector2d Position;
+  vector<double> Position;
+  Position.resize(2);
   Position=_part[i].Getcoor();
 
   //On récupère les mailles voisines
-  Vector4i mailles_a_tester;
+  vector<int> mailles_a_tester(4);
   mailles_a_tester=_maille[maille_initiale].Getvoisins();
 
   // On commence à chercher dans les mailles ayant une arete commune
@@ -92,7 +96,7 @@ bool Mesh::Find_Maille(int i) // i numéro de la particule, true si il a trouvé
   }
 
   // Si on a pas trouvé, on cherche dans les mailles ayant une arete commune avec les voisins
-  Vector4i mailles_a_tester2;
+  vector<int> mailles_a_tester2(4);
   if(not(is_found))
   {
     // Pour chaque voisin...
@@ -127,15 +131,19 @@ bool Mesh::Find_Maille(int i) // i numéro de la particule, true si il a trouvé
 }
 
 
-bool Mesh::is_in(int maille, Vector2d Position) // True si la particule est dans la maille
+bool Mesh::is_in(int maille, vector<double> Position) // True si la particule est dans la maille
 {
 
-  vector<Vector2d> Normale;
-  vector<Vector2d> Middle_Edge;
-  vector<Vector2d> MiEdge_Middle;
-  Vector2d MiEdge_Position;
+  vector<vector<double>> Normale;
+  vector<vector<double>> Middle_Edge;
+  vector<vector<double>> MiEdge_Middle;
+  Normale.resize(2,vector<double>(2));
+  Middle_Edge.resize(2,vector<double>(2));
+  MiEdge_Middle.resize(2,vector<double>(2));
+  vector<double> MiEdge_Position;
+  MiEdge_Position.resize(2);
 
-  Vector4i Aretes;
+  vector<int> Aretes(4);
 
 
 

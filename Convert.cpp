@@ -6,10 +6,11 @@
 using namespace std;
 using namespace Eigen;
 
-Eigen::Vector2d Mesh::Convert(double x, double y)        // Convertit cartésien en polaire
+vector<double> Mesh::Convert(double x, double y)        // Convertit cartésien en polaire
 {
   // Le vecteur coor_cyl comporte les valeurs de r et theta
-  Eigen::Vector2d coor_cyl;
+  vector<double> coor_cyl;
+  coor_cyl.resize(2);
   // Calcul de r
   coor_cyl[0] = sqrt(x*x+y*y);
   // Calcul de theta

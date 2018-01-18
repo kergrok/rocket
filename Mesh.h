@@ -27,10 +27,10 @@ class Mesh
     //Surface du domaine
     double _surf_tot;
     // Longueur des arêtes
-    Eigen::VectorXd _lenghts;
+    std::vector<double> _lenghts;
     // Les quadrilatères collés aux arêtes
     // Si _edg_Q2[i] == -1 alors c'est une arête au bord
-    Eigen::VectorXi _edg_Q1, _edg_Q2;
+    std::vector<int> _edg_Q1, _edg_Q2;
     std::string _methode;
 
 
@@ -42,8 +42,8 @@ class Mesh
     // ------------ Construction des arêtes à l'intérieur du domaine -----------
     void BuildEdges();
     // ------------------ Conversion cartésien <-> cylindrique -----------------
-    Eigen::Vector2d Convert(double x, double y);
-    Eigen::Vector2d Convertinv(double r, double theta);
+    std::vector<double> Convert(double x, double y);
+    std::vector<double> Convertinv(double r, double theta);
     // ------------------ calcul de l'angle d'incidence sur la paroi ----------------
     double Angle(int i);
     // ------------------ Calcul de la longueur des arêtes -----------------
@@ -61,11 +61,11 @@ class Mesh
 
     bool Find_Maille(int i);
 
-    void find_impact(int i, Eigen::Vector2d coor, Eigen::Vector2d new_coor);
+    void find_impact(int i, std::vector<double> coor, std::vector<double> new_coor);
 
-    bool is_in(int maille, Eigen::Vector2d Position);
+    bool is_in(int maille, std::vector<double> Position);
 
-    void Create_particules(int maille, int arete, Eigen::Vector4i Edges);
+    void Create_particules(int maille, int arete, std::vector<int> Edges);
     // --------------- Fait entrer les particules ----------------
     void Create_in_Flow();
     // ------------- Ecriture des arêtes dans un fichier --------------
@@ -83,9 +83,9 @@ class Mesh
 
     void MajMailleParticule();
 
-    double Norme_entre(Eigen::Vector2d Vec1, Eigen::Vector2d Vec2);
+    double Norme_entre(std::vector<double> Vec1, std::vector<double> Vec2);
 
-    double Norme(Eigen::Vector2d Vec);
+    double Norme(std::vector<double> Vec);
     // ---------- Calcul temps caractéristique pour les injections ---------
     void Create_tau();
     // Collision pour l'ensemble des particules
@@ -93,6 +93,6 @@ class Mesh
     //------Calcul de la norme, du milieu et de la normale de chaque arêtes------
     void Build_Center_Norm();
 
-    bool is_CFL_respected(Eigen::Vector3d Vitesse);
+    bool is_CFL_respected(std::vector<double> Vitesse);
 
 };

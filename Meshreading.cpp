@@ -23,7 +23,7 @@ void Mesh::BuildEdges()
     // Boucle sur les arêtes
     for (int k = 0 ; k < 4 ; ++k)
     {
-      Eigen::VectorXi p1_p2(2); p1_p2 << p[k] , p[(k+1)%4];
+      vector<int> p1_p2(2); p1_p2= {p[k] , p[(k+1)%4]};
       Edge edge(p1_p2,0);
 
       // Est ce que l'arête est déjà dans le vecteur _medge ?
@@ -41,17 +41,16 @@ void Mesh::BuildEdges()
       if (!edge_found)
       {
         _medge.push_back(edge);
-        _edg_Q1.conservativeResize(_edg_Q1.size() + 1, Eigen::NoChange);
-        _edg_Q1[_edg_Q1.size()-1] = i;
-        _edg_Q2.conservativeResize(_edg_Q2.size() + 1, Eigen::NoChange);
-        _edg_Q2[_edg_Q2.size()-1] = -1;
+        _edg_Q1.push_back(i);
+        _edg_Q2.push_back(-1);
       }
     }
   }
 
   for (size_t i = 0 ; i < _medge.size() ; ++i)
   {
-    Eigen::Vector2i points;
+    vector<int> points;
+    points.resize(2);
     int r1,r2 ;
     points = _medge[i].Getedge();
     r1 = _mpoint[points[0]].Getref();
@@ -103,9 +102,10 @@ void Mesh::readmesh()
     abort();
   }
   string file_line;
-  Vector2d vert; Vector4i quad; Vector2i edg;
+  vector<double> vert; vector<int> quad; vector<int> edg;
+  vert.resize(2);  quad.resize(4); edg.resize(2);
   // Contient les quatres arêtes du quadrilatère
-  Vector4i edges(0,0,0,0);
+  vector<int> edges(4,0);
   int ref(0), loop_pts(1);
   int np;
   int ned;
@@ -141,8 +141,8 @@ void Mesh::readmesh()
       }
     }
     vector<int> indices;
-    Vector3d prop,average;
-    Vector4i Voisins;
+    vector<double> prop(3),average(3);
+    vector<int> Voisins(4);
     double surf(0);
     if (file_line.find("Quadrilaterals") != string::npos)
     {
@@ -184,7 +184,7 @@ void Mesh::readmesh()
         for (size_t i = 0 ; i < nb_edges ; ++i)
         {
           edges_file >> p1 >> p2;
-          Eigen::VectorXi p1_p2(2); p1_p2 << p1 , p2;
+          vector<int> p1_p2(2); p1_p2 = {p1 , p2};
           Edge edge(p1_p2,0);
           _medge.push_back(edge);
         }
@@ -208,7 +208,8 @@ void Mesh::readmesh()
 
     for (size_t i = 0 ; i < _medge.size() ; ++i)
     {
-      Eigen::Vector2i points;
+      vector<int> points;
+      points.resize(2);
       int r1,r2 ;
       points = _medge[i].Getedge();
       r1 = _mpoint[points[0]].Getref();
@@ -223,8 +224,13 @@ void Mesh::readmesh()
     }
   }
   // Ajout des arêtes dans la classe Quad
-  VectorXi nb_voisins;
-  nb_voisins.setZero(_mquad.size());
+  vector<int> nb_voisins;
+  nb_voisins.resize(_mquad.size());
+  for(int i =0;i<nb_voisins.size();i++)
+  {
+    nb_voisins[i]=0;
+  }
+
   for (size_t i = 0 ; i < _medge.size() ; i++) {
     _mquad[_edg_Q1[i]].Modifyv(i, nb_voisins[_edg_Q1[i]]);
     nb_voisins[_edg_Q1[i]]++;
@@ -237,7 +243,7 @@ void Mesh::readmesh()
   for (size_t i = 0 ; i < _mquad.size() ; i++)
   {
     bool if_found = false;
-    Vector4i edges = _mquad[i].Getquadv();
+    vector<int> edges = _mquad[i].Getquadv();
     int ref_maille = 0;
     int nb_mailles_bord = 0;
     for (int j = 0 ; j< 4 ; j++)
