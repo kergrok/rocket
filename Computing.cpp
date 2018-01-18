@@ -69,6 +69,8 @@ void Mesh::compute()
     cout << "it = " << k << endl;
     // Déplacement des particules
     Displacement();
+
+
     // Mise à jour des positions des particules
     MajMailleParticule();
     // Mise à jour des propriétés physiques dans chaque maille
@@ -76,6 +78,7 @@ void Mesh::compute()
     {
       Calc_prop(i);
     }
+    collision();
     // Ecriture des propriétés physiques dans les fichiers résultats
     write("Resultats/solDens"+to_string(k)+".inp","Resultats/solTemp"+to_string(k)+".inp","Resultats/solVelo"+to_string(k)+".inp");
     // Insertion de nouvelles particules dans le domaine

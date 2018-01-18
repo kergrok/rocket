@@ -4,7 +4,7 @@ CC=g++
 # Options en mode optimisé - La variable DEBUG est définie comme fausse
 OPTIM_FLAG = -O2 -DNDEBUG -I ../Eigen/Eigen -std=c++11
 # Options en mode debug - La variable est DEBUG est définie comme vraie
-DEBUG_FLAG = -g -DDEBUG -I ../Eigen/Eigen -std=c++11
+DEBUG_FLAG = -g -Wall -O0 -pg -DDEBUG -I ../Eigen/Eigen -std=c++11
 
 # On choisit comment on compile
 CXX_FLAGS = $(DEBUG_FLAG)
@@ -13,7 +13,7 @@ CXX_FLAGS = $(DEBUG_FLAG)
 PROG = run
 
 # Les fichiers source à compiler
-SRC = main.cc Mesh.cpp Meshreading.cpp Solve.cpp Convert.cpp write.cpp Computing.cpp Run.cpp alea.cpp
+SRC = main.cc Mesh.cpp Meshreading.cpp Solve.cpp Convert.cpp write.cpp Computing.cpp Run.cpp alea.cpp collision.cpp
 
 # La commande complète : compile seulement si un fichier a été modifié
 $(PROG) : $(SRC)
