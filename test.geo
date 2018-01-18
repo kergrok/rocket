@@ -4,9 +4,9 @@ lc = 1;
 r_ext = 3;
 r_int = 0.5;
 //Correspond au nombre de mailles radiales moins 1 (correspond au nbre d'aretes)
-nbre_mailles_radiales = 30;
+nbre_mailles_radiales = 90;
 //De même pour le nombre de couche
-nbre_couches = 40;
+nbre_couches = 120;
 
 //Definition des points de la geometrie
 Point(10) = {r_ext,0,0,lc};

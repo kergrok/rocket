@@ -101,7 +101,7 @@ void Mesh::Displacement(int i1, int iN)
   Eigen::Vector3d vitesse;
   bool in_domain;
 
-  for (size_t i = i1; i < iN ; i++) {
+  for (size_t i = i1; i < iN+1 ; i++) {
 
     if (_TF[i] == true) {
       if(not(is_CFL_respected(_part[i].Getvelo())))
