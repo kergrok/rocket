@@ -57,9 +57,10 @@ void Mesh::compute()
   int k = 0;
 
   double dt_inj = 0.1*_tau;
+  cout<< "dt injection : " << dt_inj << endl;
   if(dt_inj<_dt)
    _dt=dt_inj;
-
+   double test_inj=_dt;
   // boucle en temps
   while (t<_Temps_final)
   {
@@ -82,7 +83,15 @@ void Mesh::compute()
     // Ecriture des propriétés physiques dans les fichiers résultats
     write("Resultats/solDens"+to_string(k)+".inp","Resultats/solTemp"+to_string(k)+".inp","Resultats/solVelo"+to_string(k)+".inp");
     // Insertion de nouvelles particules dans le domaine
-    Create_in_Flow();
+    if(test_inj>dt_inj)
+    {
+      Create_in_Flow();
+      test_inj=_dt;
+    }
+    else
+    {
+      test_inj+=_dt;
+    }
 
     t+=_dt;
   }

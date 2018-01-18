@@ -17,12 +17,12 @@ vector<int> Mesh::charge(int me, int Np)
   r = N%Np;
 
   if (me < r) {
-    sortie[0] = me*l+me;
+    sortie[0] = me*(l+1);
     sortie[1] = sortie[0]+l;
   }
   else {
     sortie[0] = me*l+r;
-    sortie[1] = sortie[0]+l;
+    sortie[1] = sortie[0]+l-1;
   }
   return sortie;
 }
