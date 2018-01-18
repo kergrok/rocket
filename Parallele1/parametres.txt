@@ -1,0 +1,14 @@
+Température
+200
+Densité
+0.00001
+N
+40
+Mach
+2
+Gamma
+1.4
+Temps Final
+0.02
+Methode
+Maxwellien
