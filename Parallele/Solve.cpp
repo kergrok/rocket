@@ -204,7 +204,7 @@ void Mesh::MajMailleParticule(int i1, int iN)
   int ref_part;
 
   // Remet à 0 les particules présentes dans chaque maille
-  for (size_t i = i1; i < iN; i++) {
+  for (size_t i = 0; i < _maille.size(); i++) {
     _maille[i].Majindices();
   }
 

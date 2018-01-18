@@ -58,7 +58,7 @@ void Mesh::compute()
     # pragma omp parallel num_threads(3) private(me, Np, i1_iN)
 
     {
-      cout << "coucou" << endl;
+
       me=omp_get_thread_num();
       Np=omp_get_num_threads();
       i1_iN = charge (me, Np);
