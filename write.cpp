@@ -67,6 +67,7 @@ void Mesh::write(string Nom_Fichier, string Nom_Fichier1, string Nom_Fichier2)
 
   if(fichier2)
         {
+          
           fichier2<< _mpoint.size()<<" "<< _maille.size()<<" 0 1 0"<< endl;
           for(size_t i=0;i<_mpoint.size();i++)
           {
