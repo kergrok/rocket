@@ -2,7 +2,7 @@
 #include <string>
 #include "Dense"
 #include <algorithm>
-
+ 
 class Part
 {
   private:

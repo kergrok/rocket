@@ -13,7 +13,7 @@ Eigen::Vector2d Mesh::Convert(double x, double y)        // Convertit cartésien
   // Calcul de r
   coor_cyl[0] = sqrt(x*x+y*y);
   // Calcul de theta
-  if ((x==0)&&(y>0))        // Domaine en x>=0 et y >=0
+  if ((x==0)&&(y>0))        // Domaine en x>=0 et y >=0 
   {
     coor_cyl[1] = acos(1.0)/2;
   }

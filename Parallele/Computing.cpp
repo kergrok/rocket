@@ -12,7 +12,7 @@ using namespace Eigen;
 
 void Mesh::initialize()
 {
-  system("rm -r Resultats/");
+  system("rm -r Resultats/"); 
   system("mkdir Resultats");
   ReadParameter();
   cout << "-------------------Initialisation---------------------" << endl;

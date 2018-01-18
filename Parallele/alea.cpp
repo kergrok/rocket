@@ -5,7 +5,7 @@
 #include "Mesh.h"
 
 using namespace std;
-
+ 
 
 double Mesh::alea(double median, double sigma)
 {

@@ -17,7 +17,7 @@ void Mesh::Calc_prop(int i)
 
   Vector3d velocity_moy;
   velocity_moy.setZero();
-  for (int j = 0; j < nb_part; j++)
+  for (int j = 0; j < nb_part; j++) 
   {
     for(int k=0; k<3;k++)
     {

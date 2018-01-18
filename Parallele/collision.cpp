@@ -18,7 +18,7 @@ void Mesh::collision(){
       Vector3d Vitesse;
       Vitesse[0] = vit_moy[0]+sqrt(287*temp)*alea(0,1);
       Vitesse[1] = vit_moy[1]+sqrt(287*temp)*alea(0,1);
-      Vitesse[2] = vit_moy[2]+sqrt(287*temp)*alea(0,1);
+      Vitesse[2] = vit_moy[2]+sqrt(287*temp)*alea(0,1); 
 
       _part[i].Modifyvelo(Vitesse);
     }

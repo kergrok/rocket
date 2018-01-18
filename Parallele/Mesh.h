@@ -17,7 +17,7 @@ class Mesh
     double _Ma;
     double _gamma;
     double _rho;
-    std::vector<bool> _TF;
+    std::vector<bool> _TF; 
     double _omega;
     double _Temps_final;
     double _dt;

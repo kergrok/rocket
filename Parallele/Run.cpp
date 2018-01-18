@@ -18,7 +18,7 @@ void Mesh::CFL()
     if (_lenghts[i] < dx) {
       dx = _lenghts[i];
     }
-    else{
+    else{ 
       dx_max=_lenghts[i];
     }
   }

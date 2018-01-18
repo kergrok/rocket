@@ -14,7 +14,7 @@ int main()
   Mesh* mesh = new Mesh("test.mesh");
   mesh->readmesh();
 
-  mesh->initialize();
+  mesh->initialize(); 
   mesh->compute();
 
   /*# pragma omp parallel num_threads(3)
