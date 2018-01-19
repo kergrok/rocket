@@ -80,7 +80,7 @@ void Mesh::compute()
       i1_iN = charge (me, Np);
 
       Displacement(i1_iN[0], i1_iN[1]);
-      MajMailleParticule(i1_iN[0], i1_iN[1]);
+      MajMailleParticule(me,i1_iN[0], i1_iN[1]);
     }
     collision();
     // Ecriture des propriétés physiques dans les fichiers résultats
