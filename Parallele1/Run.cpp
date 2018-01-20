@@ -1,9 +1,11 @@
 #include <vector>
 #include <string>
 #include "Mesh.h"
+
 #include <iostream>
 
 using namespace std;
+
 
 
 // ---------------- Calcul dt grâce à la "CFL" ------------------
@@ -19,7 +21,7 @@ void Mesh::CFL()
   }
 
   // Pour que la CFL soit vérifiée, on définit _dt comme suit :
-  _dt = dx_min/(5. * sqrt(_gamma*287*_T)*_Ma);
+  _dt = dx_min/(3. * sqrt(_gamma*287*_T)*_Ma);
   _vitesse_max=dx_min/_dt;
 }
 
@@ -32,12 +34,14 @@ void Mesh::Create_in_Flow()
   {
     if(_maille[i].Getref()== 4 || _maille[i].Getref()== 34 || _maille[i].Getref()== 14) //Positionnée sur le bord
     {
+
       vector<int> indices;
       indices=_maille[i].Getindices();
       for(int k=0;k<indices.size();k++)
       {
         _TF[indices[k]]=false;
       }
+
       Edges=_mquad[i].Getquadv();
       for(int j=0;j<4;j++)
       {
@@ -162,7 +166,7 @@ void Mesh::Create_particules(int maille, int arete, vector<int> Edges)
 // Ne met à jour que la position, la mise à jour de la référence de la maille se fait dans une autre fonction
 // En commentaire la fonction pour éffectuer la mise à jour sur plusieurs pas de temps
 
-void Mesh::Displacement(int i1, int iN)
+void Mesh::Displacement(int i1,int iN)
 {
   vector<double> new_coor,coor, vitesse;
   new_coor.resize(2);

@@ -10,6 +10,7 @@
  */
 
 #include <iostream>
+
 #include "Mesh.h"
 
 int main()

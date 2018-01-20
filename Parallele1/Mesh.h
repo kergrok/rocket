@@ -81,7 +81,7 @@ class Mesh
 
     double alea(double a,double b);
 
-    void MajMailleParticule(int me, int i1, int in);
+    void MajMailleParticule();
 
     double Norme_entre(std::vector<double> Vec1, std::vector<double> Vec2);
 

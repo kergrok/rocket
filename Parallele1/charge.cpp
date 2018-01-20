@@ -24,5 +24,11 @@ vector<int> Mesh::charge(int me, int Np)
     sortie[0] = me*l+r;
     sortie[1] = sortie[0]+l-1;
   }
+
+
+
+
   return sortie;
+
+
 }

@@ -1,6 +1,7 @@
 #include <vector>
 #include <string>
 #include "Mesh.h"
+
 #include <fstream>
 #include <iostream>
 #include "omp.h"
@@ -68,21 +69,40 @@ void Mesh::compute()
     cout << "-----------------------------"<< endl;
     cout << "t= " << t << endl;
     cout << "it = " << k << endl;
-    // Déplacement des particules
+
     int me,Np;
     vector<int> i1_iN(2);
     # pragma omp parallel num_threads(3) private(me, Np, i1_iN)
-
     {
-
       me=omp_get_thread_num();
       Np=omp_get_num_threads();
       i1_iN = charge (me, Np);
 
+
       Displacement(i1_iN[0], i1_iN[1]);
-      MajMailleParticule(me,i1_iN[0], i1_iN[1]);
+
     }
+
+    // Déplacement des particules
+
+
+
+    // Mise à jour des positions des particules
+    MajMailleParticule();
+    // Mise à jour des propriétés physiques dans chaque maille
+    for (size_t i=0; i<_maille.size();i++)
+    {
+      Calc_prop(i);
+    }
+
+
+
     collision();
+
+
+
+
+
     // Ecriture des propriétés physiques dans les fichiers résultats
     write("Resultats/solDens"+to_string(k)+".inp","Resultats/solTemp"+to_string(k)+".inp","Resultats/solVelo"+to_string(k)+".inp");
     // Insertion de nouvelles particules dans le domaine

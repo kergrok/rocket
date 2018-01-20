@@ -5,6 +5,7 @@
 
 using namespace std;
 
+
 Point::Point(std::vector<double> coor, int ref) : _coor(coor), _ref(ref)
 {}
 
