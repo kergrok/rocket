@@ -24,6 +24,7 @@ void Mesh::initialize()
     i+=1;
   }
   _omega=_rho*_maille[i].Getsurf()/_N;
+  cout<<_omega<<endl;
   _Mp=4.65*pow(10,-23);
   cout << "Mach = " << _Ma
   << "; rho = " << _rho
@@ -81,7 +82,11 @@ void Mesh::compute()
     }
     collision();
     // Ecriture des propriétés physiques dans les fichiers résultats
-    write("Resultats/solDens"+to_string(k)+".inp","Resultats/solTemp"+to_string(k)+".inp","Resultats/solVelo"+to_string(k)+".inp");
+    if(k%10==0)
+    {
+      cout<<"jécris"<<endl;
+      write("Resultats/solDens"+to_string(k)+".inp","Resultats/solTemp"+to_string(k)+".inp","Resultats/solVelo"+to_string(k)+".inp");
+    }
     // Insertion de nouvelles particules dans le domaine
     if(test_inj>dt_inj)
     {
