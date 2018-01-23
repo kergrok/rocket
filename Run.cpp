@@ -8,6 +8,7 @@ using namespace std;
 using namespace Eigen;
 
 
+
 // ---------------- Calcul dt grâce à la "CFL" ------------------
 // CFL définie par u * dt << dx
 void Mesh::CFL()

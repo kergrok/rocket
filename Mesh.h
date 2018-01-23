@@ -32,6 +32,7 @@ class Mesh
     // Si _edg_Q2[i] == -1 alors c'est une arête au bord
     std::vector<int> _edg_Q1, _edg_Q2;
     std::string _methode;
+    double _C;
 
 
   public:

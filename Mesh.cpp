@@ -48,6 +48,7 @@ void Mesh::Buildlenghts()
     coor2 = _mpoint[edge[1]].Getcoor();
     _lenghts[i] = sqrt(pow((coor1[0]-coor2[0]),2)+pow((coor1[1]-coor2[1]),2));
   }
+  _C=0.1;
 }
 
 // --------- Construction des surfaces dans Maille ----------

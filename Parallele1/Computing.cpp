@@ -1,7 +1,7 @@
 #include <vector>
 #include <string>
 #include "Mesh.h"
-
+#include <time.h>
 #include <fstream>
 #include <iostream>
 #include "omp.h"
@@ -71,9 +71,14 @@ void Mesh::compute()
     cout << "it = " << k << endl;
 
     int me,Np;
+    double t1,t2;
     vector<int> i1_iN(2);
-    # pragma omp parallel num_threads(3) private(me, Np, i1_iN)
+    t1 = clock();
+
+    omp_set_num_threads(3);
+    # pragma omp parallel private(me, Np, i1_iN)
     {
+
       me=omp_get_thread_num();
       Np=omp_get_num_threads();
       i1_iN = charge (me, Np);
@@ -82,9 +87,9 @@ void Mesh::compute()
       Displacement(i1_iN[0], i1_iN[1]);
 
     }
-
+    t2 = clock();
     // Déplacement des particules
-
+    cout<<"Le déplacement s'effectue en "<<t2-t1<<endl;
 
 
     // Mise à jour des positions des particules
@@ -96,10 +101,10 @@ void Mesh::compute()
     }
 
 
-
+    t1 = clock();
     collision();
-
-
+    t2 = clock();
+    cout<<"Les collisions s'effectuent en "<<t2-t1<<endl;
 
 
 

@@ -60,8 +60,14 @@ void Mesh::compute()
   double dt_inj = 0.1*_tau;
   cout<< "dt injection : " << dt_inj << endl;
   if(dt_inj<_dt)
+  {
    _dt=dt_inj;
-   double test_inj=_dt;
+ }
+  else
+  {
+    _C=_dt/_tau;
+  }
+
   // boucle en temps
   while (t<_Temps_final)
   {
@@ -88,15 +94,7 @@ void Mesh::compute()
       write("Resultats/solDens"+to_string(k)+".inp","Resultats/solTemp"+to_string(k)+".inp","Resultats/solVelo"+to_string(k)+".inp");
     }
     // Insertion de nouvelles particules dans le domaine
-    if(test_inj>dt_inj)
-    {
-      Create_in_Flow();
-      test_inj=_dt;
-    }
-    else
-    {
-      test_inj+=_dt;
-    }
+    Create_in_Flow();
 
     t+=_dt;
   }
