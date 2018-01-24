@@ -47,7 +47,7 @@ void Mesh::initialize()
   {
     Calc_prop(i);
   }
-  write("Resultats/solDens0.inp","Resultats/solTemp0.inp","Resultats/solVelo0.inp");
+  write("Resultats/solDens0.inp","Resultats/solTemp0.inp","Resultats/solVelo0.inp","Resultats/solVx0.inp","Resultats/solVy0.inp");
 }
 
 void Mesh::compute()
@@ -88,10 +88,11 @@ void Mesh::compute()
     }
     collision();
     // Ecriture des propriétés physiques dans les fichiers résultats
-    if(k%10==0)
+    if(k%20==0)
     {
       cout<<"jécris"<<endl;
-      write("Resultats/solDens"+to_string(k)+".inp","Resultats/solTemp"+to_string(k)+".inp","Resultats/solVelo"+to_string(k)+".inp");
+      write("Resultats/solDens"+to_string(k)+".inp","Resultats/solTemp"+to_string(k)+".inp","Resultats/solVelo"+to_string(k)+".inp",
+      "Resultats/solVx"+to_string(k)+".inp","Resultats/solVy"+to_string(k)+".inp");
     }
     // Insertion de nouvelles particules dans le domaine
     Create_in_Flow();
