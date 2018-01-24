@@ -168,9 +168,10 @@ void Mesh::Create_particules(int maille, int arete, vector<int> Edges)
 
 void Mesh::Displacement()
 {
-  vector<double> new_coor,coor, vitesse;
+  vector<double> new_coor,coor, vitesse, coor_ini;
   new_coor.resize(2);
   coor.resize(2);
+  coor_ini.resize(2);
   vitesse.resize(3);
   bool in_domain;
 
@@ -178,35 +179,39 @@ void Mesh::Displacement()
 
     if (_TF[i] == true) {
       int compt=0;
-      while(not(is_CFL_respected(_part[i].Getvelo()))&&compt<10)
+      coor_ini = _part[i].Getcoor();
+      if(not(is_CFL_respected(_part[i].Getvelo())))
       {
-        cout<<"je ne respecte pas la CFL "<<compt<<endl;
-        compt+=1;
-        for(int k=0;k<(compt+1)*10;k++)
+        while(not(is_CFL_respected(_part[i].Getvelo()))&&compt<10)
         {
-          new_coor = _part[i].Getcoor();
-          coor = _part[i].Getcoor();
-          vitesse = _part[i].Getvelo();
-          new_coor[0]-=vitesse[0]*_dt/((compt+1)*10);
-          new_coor[1]-=vitesse[1]*_dt/((compt+1)*10);
-          _part[i].Modifycoor(new_coor);
-          in_domain = Find_Maille(i);
-
-          if(not(in_domain))
+          cout<<"je ne respecte pas la CFL "<<compt<<endl;
+          compt+=1;
+          _part[i].Modifycoor(coor_ini);
+          for(int k=0;k<(compt+1)*10;k++)
           {
-            // cout << "impact trouvé" << endl;
-            // cout << "part n " << i << endl;
-            // cout << " coor without impact " << _part[i].Getcoor()[0] << " " << _part[i].Getcoor()[1] << endl;
-            find_impact(i,coor,new_coor);
-            // cout << " new coor " << _part[i].Getcoor()[0] << " " << _part[i].Getcoor()[1] << endl;
+            new_coor = _part[i].Getcoor();
+            coor = _part[i].Getcoor();
+            vitesse = _part[i].Getvelo();
+            new_coor[0]-=vitesse[0]*_dt/((compt+1)*10);
+            new_coor[1]-=vitesse[1]*_dt/((compt+1)*10);
+            _part[i].Modifycoor(new_coor);
+            in_domain = Find_Maille(i);
+
+            if(not(in_domain))
+            {
+              // cout << "impact trouvé" << endl;
+              // cout << "part n " << i << endl;
+              // cout << " coor without impact " << _part[i].Getcoor()[0] << " " << _part[i].Getcoor()[1] << endl;
+              find_impact(i,coor,new_coor);
+              // cout << " new coor " << _part[i].Getcoor()[0] << " " << _part[i].Getcoor()[1] << endl;
+            }
           }
-          _part[i].Modifycoor(coor);
         }
-      }
-      _part[i].Modifycoor(new_coor);
-      if (compt==10)
-      {
-        _TF[i]=false;
+
+        if (compt==10)
+        {
+          _TF[i]=false;
+        }
       }
       else
       {
