@@ -177,16 +177,18 @@ void Mesh::Displacement()
   for (size_t i = 0; i < _part.size() ; i++) {
 
     if (_TF[i] == true) {
-      if(not(is_CFL_respected(_part[i].Getvelo())))
+      int compt=0;
+      while(not(is_CFL_respected(_part[i].Getvelo()))&&compt<10)
       {
-        cout<<"je ne respecte pas la CFL"<<endl;
-        for(int k=0;k<10;k++)
+        cout<<"je ne respecte pas la CFL "<<compt<<endl;
+        compt+=1;
+        for(int k=0;k<(compt+1)*10;k++)
         {
           new_coor = _part[i].Getcoor();
           coor = _part[i].Getcoor();
           vitesse = _part[i].Getvelo();
-          new_coor[0]-=vitesse[0]*_dt/10;
-          new_coor[1]-=vitesse[1]*_dt/10;
+          new_coor[0]-=vitesse[0]*_dt/((compt+1)*10);
+          new_coor[1]-=vitesse[1]*_dt/((compt+1)*10);
           _part[i].Modifycoor(new_coor);
           in_domain = Find_Maille(i);
 
@@ -198,7 +200,13 @@ void Mesh::Displacement()
             find_impact(i,coor,new_coor);
             // cout << " new coor " << _part[i].Getcoor()[0] << " " << _part[i].Getcoor()[1] << endl;
           }
+          _part[i].Modifycoor(coor);
         }
+      }
+      _part[i].Modifycoor(new_coor);
+      if (compt==10)
+      {
+        _TF[i]=false;
       }
       else
       {
