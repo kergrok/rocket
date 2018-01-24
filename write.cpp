@@ -11,8 +11,12 @@ using namespace std;
 // Ecrit dans le fichier "Nom_Fichier"
 
 
+<<<<<<< HEAD
 
 void Mesh::write(string Nom_Fichier, string Nom_Fichier1, string Nom_Fichier2, string Nom_Fichier3, string Nom_Fichier4)
+=======
+void Mesh::write(string Nom_Fichier, string Nom_Fichier1, string Nom_Fichier2)
+>>>>>>> d44dcbda2d4006afc8dbe12f39a1f6ee5da07b98
 {
   ofstream fichier(Nom_Fichier, ios::out | ios::trunc);
 
