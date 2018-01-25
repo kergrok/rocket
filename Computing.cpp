@@ -68,7 +68,12 @@ void Mesh::compute()
   {
     _C=_dt/_tau;
   }
-
+  int mesh_size=_maille.size();
+  vector<double> rho_moy(mesh_size,0);
+  vector<double> temp_moy(mesh_size,0);
+  vector<double> Vx_moy(mesh_size,0);
+  vector<double> Vy_moy(mesh_size,0);
+  vector<double> Vz_moy(mesh_size,0);
   // boucle en temps
   while (t<_Temps_final)
   {
@@ -89,11 +94,42 @@ void Mesh::compute()
     }
     collision();
     // Ecriture des propriétés physiques dans les fichiers résultats
-    if(k%20==0)
+    // if(k%20==0)
+    // {
+    //   cout<<"jécris"<<endl;
+    //   write("Resultats/solDens"+to_string(k)+".inp","Resultats/solTemp"+to_string(k)+".inp","Resultats/solVelo"+to_string(k)+".inp",
+    //   "Resultats/solVx"+to_string(k)+".inp","Resultats/solVy"+to_string(k)+".inp");
+    // }
+    vector<double> vitesse(3);
+    if(k>=2200&&k<2300)
+    {
+      for(int i =0;i<mesh_size;i++)
+      {
+        rho_moy[i]+=_maille[i].Getdensity()/100;
+        temp_moy[i]+=_maille[i].Gettemp()/100;
+        vitesse=_maille[i].Getaverage();
+        Vx_moy[i]+=vitesse[0]/100;
+        Vy_moy[i]+=vitesse[1]/100;
+        Vz_moy[i]+=vitesse[2]/100;
+      }
+    }
+    //Ecriture des propriétés physiques dans les fichiers résultats
+    if(k==2299)
     {
       cout<<"jécris"<<endl;
+      for(int i =0;i<mesh_size;i++)
+      {
+        _maille[i].Modifydensity(rho_moy[i]);
+        vitesse=_maille[i].Getaverage();
+        vitesse[0]=Vx_moy[i];
+        vitesse[1]=Vy_moy[i];
+        vitesse[2]=Vz_moy[i];
+        _maille[i].Modifyaverage(vitesse);
+        _maille[i].Modifytemp(temp_moy[i]);
+      }
       write("Resultats/solDens"+to_string(k)+".inp","Resultats/solTemp"+to_string(k)+".inp","Resultats/solVelo"+to_string(k)+".inp",
       "Resultats/solVx"+to_string(k)+".inp","Resultats/solVy"+to_string(k)+".inp");
+      abort();
     }
     // Insertion de nouvelles particules dans le domaine
     Create_in_Flow();
