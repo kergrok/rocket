@@ -94,43 +94,46 @@ void Mesh::compute()
     }
     collision();
     // Ecriture des propriétés physiques dans les fichiers résultats
-    // if(k%20==0)
-    // {
-    //   cout<<"jécris"<<endl;
-    //   write("Resultats/solDens"+to_string(k)+".inp","Resultats/solTemp"+to_string(k)+".inp","Resultats/solVelo"+to_string(k)+".inp",
-    //   "Resultats/solVx"+to_string(k)+".inp","Resultats/solVy"+to_string(k)+".inp");
-    // }
-    vector<double> vitesse(3);
-    if(k>=2200&&k<2300)
-    {
-      for(int i =0;i<mesh_size;i++)
-      {
-        rho_moy[i]+=_maille[i].Getdensity()/100;
-        temp_moy[i]+=_maille[i].Gettemp()/100;
-        vitesse=_maille[i].Getaverage();
-        Vx_moy[i]+=vitesse[0]/100;
-        Vy_moy[i]+=vitesse[1]/100;
-        Vz_moy[i]+=vitesse[2]/100;
-      }
-    }
-    //Ecriture des propriétés physiques dans les fichiers résultats
-    if(k==2299)
+    if(k%20==0)
     {
       cout<<"jécris"<<endl;
-      for(int i =0;i<mesh_size;i++)
-      {
-        _maille[i].Modifydensity(rho_moy[i]);
-        vitesse=_maille[i].Getaverage();
-        vitesse[0]=Vx_moy[i];
-        vitesse[1]=Vy_moy[i];
-        vitesse[2]=Vz_moy[i];
-        _maille[i].Modifyaverage(vitesse);
-        _maille[i].Modifytemp(temp_moy[i]);
-      }
       write("Resultats/solDens"+to_string(k)+".inp","Resultats/solTemp"+to_string(k)+".inp","Resultats/solVelo"+to_string(k)+".inp",
       "Resultats/solVx"+to_string(k)+".inp","Resultats/solVy"+to_string(k)+".inp");
-      abort();
     }
+    /********************************Pour la moyenne des résultats********************************/
+    // vector<double> vitesse(3);
+    // if(k>=3500&&k<3600)
+    // {
+    //   for(int i =0;i<mesh_size;i++)
+    //   {
+    //     rho_moy[i]+=_maille[i].Getdensity()/100;
+    //     temp_moy[i]+=_maille[i].Gettemp()/100;
+    //     vitesse=_maille[i].Getaverage();
+    //     Vx_moy[i]+=vitesse[0]/100;
+    //     Vy_moy[i]+=vitesse[1]/100;
+    //     Vz_moy[i]+=vitesse[2]/100;
+    //   }
+    // }
+    // //Ecriture des propriétés physiques dans les fichiers résultats moyenné
+    // if(k==3599)
+    // {
+    //   cout<<"jécris"<<endl;
+    //   for(int i =0;i<mesh_size;i++)
+    //   {
+    //     _maille[i].Modifydensity(rho_moy[i]);
+    //     vitesse=_maille[i].Getaverage();
+    //     vitesse[0]=Vx_moy[i];
+    //     vitesse[1]=Vy_moy[i];
+    //     vitesse[2]=Vz_moy[i];
+    //     _maille[i].Modifyaverage(vitesse);
+    //     _maille[i].Modifytemp(temp_moy[i]);
+    //   }
+    //   write("Resultats/solDens"+to_string(k)+".inp","Resultats/solTemp"+to_string(k)+".inp","Resultats/solVelo"+to_string(k)+".inp",
+    //   "Resultats/solVx"+to_string(k)+".inp","Resultats/solVy"+to_string(k)+".inp");
+    //   abort();
+    // }
+
+    
     // Insertion de nouvelles particules dans le domaine
     Create_in_Flow();
 
