@@ -155,16 +155,50 @@ class Mesh
     // --------------- Fait entrer les particules ----------------
     void Create_in_Flow();
     // ------------- Ecriture des arêtes dans un fichier --------------
+      /*!
+     *  \brief Write the built edges in a file
+     *
+     * This writting allow a time gain for the initialization of the code for a constant mesh
+     * *** It's to debug, the lecture on this file is not good ***
+     */
     void WriteEdgesAndAssociatedQuad();
-
+    /*!
+     *  \brief Writting the results on files
+     *
+     * Writes the density, the temperature, the average norm velocity, the x-velocity and the y-velocity for Paraview
+     *
+     * \param Nom_fichier name of density files
+     * \param Nom_fichier1 name of temperature files
+     * \param Nom_fichier2 name of norme velocity files
+     * \param Nom_fichier3 name of x-velocity files
+     * \param Nom_fichier4 name of y-velocity files
+     *
+     */
     void write(std::string Nom_Fichier, std::string Nom_Fichier1, std::string Nom_Fichier2, std::string Nom_Fichier3, std::string Nom_Fichier4);
     // Lit les parametres dans un fichier
+      /*!
+     *  \brief Reading parameters in a file
+     *
+     * Reads the parameters (number of numerical particle per mesh, final time, method for the rebound, density, initial temperature, Mach number) in the file "parameter.txt"
+     */
     void ReadParameter();
     // Initialisation du Problem
+     /*!
+     *  \brief Initialization of the problem
+     *
+     * Does the initialization of the mesh and the properties
+     */
     void initialize();
     // boucle en tps du Problem
+     /*!
+     *  \brief Time loop of the problem
+     *
+     * In this time loop, displacements, collisions and properties calculations are called
+     */
     void compute();
-
+      /*!
+     *  \brief Computing a random number accordiang to a Gaussain
+     */
     double alea(double a,double b);
 
     void MajMailleParticule();
@@ -175,8 +209,18 @@ class Mesh
     // ---------- Calcul temps caractéristique pour les injections ---------
     void Create_tau();
     // Collision pour l'ensemble des particules
+      /*!
+     *  \brief Computation of the collisions of particules
+     *
+     * This function computes the new velocity after a possible collision
+     */
     void collision();
     //------Calcul de la norme, du milieu et de la normale de chaque arêtes------
+    /*!
+     *  \brief Computation of the geometric properties of the edges
+     *
+     * This function calculates the norme, the coordinates of the center, and the normal of each edges
+     */
     void Build_Center_Norm();
 
     bool is_CFL_respected(std::vector<double> Vitesse);
