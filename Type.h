@@ -35,7 +35,7 @@ class Part
     // Constructeur
     Part( std::vector<double> coor, std::vector<double> velo, int ref);
     /*!
-     *  \brief Obtaining coordinates
+     *  \brief Obtains coordinates
      *
      *  This function lets you obtain the scalar coordinates of a particule.
      *
@@ -43,52 +43,42 @@ class Part
      */
      std::vector<double> Getcoor() {return _coor;};
     /*!
-     *  \brief Obtaining velocity
-     *
-     *  This function lets you obtain the velocity of a particule.
+     *  \brief Obtains velocity
      *
      *  \return Vector including the x, y and z components of the velocity
      */
     std::vector<double> Getvelo() {return _velo;};
     /*!
-     *  \brief Modifying coordinates
-     *
-     *  This function lets you modify the coordinates of a particule.
+     *  \brief Modifies coordinates of the particle
      *
      *  \param coor : new coordinates, gived to attribute _coor
      */
     void Modifycoor(std::vector<double> coor) { _coor = coor;};
     /*!
-     *  \brief Modifying velocity
-     *
-     *  This function lets you modify the velocity of a particule.
+     *  \brief Modifies velocity of the particle
      *
      *  \param velo : new velocity, gived to attribute _velo
      */
     void Modifyvelo(std::vector<double> velo) { _velo = velo;};
     /*!
-     *  \brief Obtaining reference
-     *
-     *  This function lets you obtain the reference of a particule.
+     *  \brief Obtains reference
      *
      *  \return Int corresponding to the particule's reference
      */
     int Getref(){return _ref;};
     /*!
-     *  \brief Modifying reference
+     *  \brief Modifies reference
      *
-     *  This function lets you modify the reference of a particule.
-     *
-     *  \param ref : new reference, gived to attribute _ref
+     *  \param ref : new reference of the particle, gived to attribute _ref
      */
     void Modifyref(int ref) {_ref = ref;};
 };
 
 /*! \class Maille
-   * \brief classe representant une maille
+   * \brief Class representing a mesh
    *
-   *  La classe stocke et gère les propriétés d'une maille (densité, vitesse moyenne, température, surface, mailles voisines, référence)
-   * ainsi que les particules présentes dans cette maille.
+   *  This class stores and manages the properties of a mesh (density, average velocity, temperature, surface, neighbour meshes, reference)
+   * as well as particles presented in this mesh.
    */
 
 class Maille
@@ -164,10 +154,25 @@ class Quad
     // Constructeur
     Quad(std::vector<int> p, std::vector<int> v, int ref);
     // Récupérer les sommets du quad
+    /*!
+     *  \brief Returns the summets of the quadrilateral
+     *
+     *  \return _p : vector of 4 integers containing the references (from the class Point) of the summets
+     */
     std::vector<int> Getquadp(){return _p;};
     // Récupérer les arêtes du quad
+      /*!
+     *  \brief Returns the egdes of the quadrilateral
+     *
+     *  \return _p : vector of 4 integers containing the references (from the class Edge) of the edges
+     */
     std::vector<int> Getquadv(){return _v;};
     // Modifie les coordonnées du centre
+      /*!
+     *  \brief Modifies the center of the quadrilateral
+     *
+     *  \param center : new vector containing the scalar coordinates of the center
+     */
     void Modify_center(std::vector<double> center){_center = center;};
     // Modifie les normales
     void Modify_normale(std::vector<std::vector<double>> normale){_normale = normale;};
@@ -176,6 +181,11 @@ class Quad
 
     void Modify_mid_ed(std::vector<std::vector<double>> mid_ed){_mid_ed = mid_ed;};
     // Récupérer la référence du quad
+      /*!
+     *  \brief Gets the reference of the quadrilateral
+     *
+     *  \return _ref : integer containing the reference
+     */
     int Getref(){return _ref;};
     // Modifie les num des aretes du quad
     void Modifyv(int i, int j){_v[j] = i;};
