@@ -1,10 +1,17 @@
+/**
+ * \file Convert.cpp
+ * \author L.Bouet - S.Bouchex - A.Antimes - C.Gouin
+ * \version 1.0
+ * \date 25 janvier 2018
+ *
+ */
+
 #include "Mesh.h"
 #include <fstream>
 #include <iostream>
 #include <cmath>
 
 using namespace std;
-using namespace Eigen;
 
 vector<double> Mesh::Convert(double x, double y)        // Convertit cartésien en polaire
 {

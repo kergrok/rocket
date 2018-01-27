@@ -1,10 +1,17 @@
+/**
+ * \file Mesh.cpp
+ * \author L.Bouet - S.Bouchex - A.Antimes - C.Gouin
+ * \version 1.0
+ * \date 25 janvier 2018
+ *
+ */
+
 #include "Mesh.h"
 #include <fstream>
 #include <iostream>
 #include <assert.h>
 
 using namespace std;
-using namespace Eigen;
 
 Point::Point(std::vector<double> coor, int ref) : _coor(coor), _ref(ref)
 {}

@@ -1,13 +1,18 @@
+/**
+ * \file Computing.cpp
+ * \author L.Bouet - S.Bouchex - A.Antimes - C.Gouin
+ * \version 1.0
+ * \date 25 janvier 2018
+ *
+ */
+
 #include <vector>
 #include <string>
 #include "Mesh.h"
-#include "Dense"
 #include <fstream>
 #include <iostream>
 
 using namespace std;
-using namespace Eigen;
-
 
 // Initialisation du maillage
 void Mesh::initialize()
@@ -133,7 +138,7 @@ void Mesh::compute()
     //   abort();
     // }
 
-    
+
     // Insertion de nouvelles particules dans le domaine
     Create_in_Flow();
 

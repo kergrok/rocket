@@ -2,9 +2,9 @@
 CC=g++
 
 # Options en mode optimisé - La variable DEBUG est définie comme fausse
-OPTIM_FLAG = -O2 -DNDEBUG -I ../Eigen/Eigen -std=c++11
+OPTIM_FLAG = -O2 -DNDEBUG -std=c++11
 # Options en mode debug - La variable est DEBUG est définie comme vraie
-DEBUG_FLAG = -g -Wall -O0 -pg -DDEBUG -I ../Eigen/Eigen -std=c++11
+DEBUG_FLAG = -g -Wall -O0 -pg -DDEBUG -std=c++11
 
 # On choisit comment on compile
 CXX_FLAGS = $(OPTIM_FLAG)

@@ -1,14 +1,17 @@
+/**
+ * \file Run.cpp
+ * \author L.Bouet - S.Bouchex - A.Antimes - C.Gouin
+ * \version 1.0
+ * \date 25 janvier 2018
+ *
+ */
+
 #include <vector>
 #include <string>
 #include "Mesh.h"
-#include "Dense"
 #include <iostream>
 
 using namespace std;
-using namespace Eigen;
-
-
-
 
 // ---------------- Calcul dt grâce à la "CFL" ------------------
 // CFL définie par u * dt << dx

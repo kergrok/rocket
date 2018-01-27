@@ -1,3 +1,11 @@
+/**
+ * \file alea.cpp
+ * \author L.Bouet - S.Bouchex - A.Antimes - C.Gouin
+ * \version 1.0
+ * \date 25 janvier 2018
+ *
+ */
+
 // normal_distribution
 #include <iostream>
 #include <string>

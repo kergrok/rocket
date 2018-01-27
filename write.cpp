@@ -1,16 +1,21 @@
+/**
+ * \file write.cpp
+ * \author L.Bouet - S.Bouchex - A.Antimes - C.Gouin
+ * \version 1.0
+ * \date 25 janvier 2018
+ *
+ */
+
 #include <vector>
 #include <string>
 #include <fstream>
 
 #include "Mesh.h"
-#include "Dense"
 
 using namespace std;
 
 
 // Ecrit dans le fichier "Nom_Fichier"
-
-
 
 void Mesh::write(string Nom_Fichier, string Nom_Fichier1, string Nom_Fichier2, string Nom_Fichier3, string Nom_Fichier4)
 {

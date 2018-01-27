@@ -1,10 +1,17 @@
+/**
+ * \file Meshreading.cpp
+ * \author L.Bouet - S.Bouchex - A.Antimes - C.Gouin
+ * \version 1.0
+ * \date 25 janvier 2018
+ *
+ */
+
 #include "Mesh.h"
 #include <fstream>
 #include <iostream>
 #include <assert.h>
 
 using namespace std;
-using namespace Eigen;
 
 void Mesh::BuildEdges()
 {

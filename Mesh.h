@@ -56,7 +56,7 @@ class Mesh
     Mesh(std::string meshname);
     // ------------------ Lecture du maillage  ---------------------
     /*!
-     *  \brief Reading the mesh
+     *  \brief Reads the mesh
      *
      *  This function reads the mesh (.mesh) and builds the vectors _mpoints, _medge and _mquad.
      *
@@ -64,12 +64,12 @@ class Mesh
     void readmesh();
     // ------------ Construction des arêtes à l'intérieur du domaine -----------
     /*!
-     *  \brief Building the edges of the mesh
+     *  \brief Builds the edges of the mesh
      */
     void BuildEdges();
     // ------------------ Conversion cartésien <-> cylindrique -----------------
     /*!
-     *  \brief Converting cartesian coordinates in cylindrical coordinates
+     *  \brief Converts cartesian coordinates in cylindrical coordinates
      *
      *  \param x first component of the cartesian coordinates
      *  \param y second component of the cartesian coordinates
@@ -79,7 +79,7 @@ class Mesh
      */
     std::vector<double> Convert(double x, double y);
     /*!
-     *  \brief Converting cylindrical coordinates in cartesian coordinates
+     *  \brief Converts cylindrical coordinates in cartesian coordinates
      *
      *  \param r first component of the cylindrical coordinates
      *  \param theta second component of the cylindrical coordinates
@@ -91,7 +91,7 @@ class Mesh
     double Angle(int i);
     // ------------------ Calcul de la longueur des arêtes -----------------
     /*!
-     *  \brief Building the vector _lenght
+     *  \brief Builds the vector _lenght
      *
      * This function builds the lenght of each edges of the mesh
      *
@@ -99,7 +99,7 @@ class Mesh
     void Buildlenghts();
     // ------------------ Calcul des surfaces des quad ---------------------
     /*!
-     *  \brief Building the vector _surf
+     *  \brief Builds the vector _surf
      *
      * This function builds the surfaces of each quadrilaterals of the mesh
      *
@@ -107,7 +107,7 @@ class Mesh
     void Buildsurfaces();
     // ----------- Calcul des propriétés dans la maille i --------------
     /*!
-     *  \brief Computing all properties
+     *  \brief Computes all properties
      *
      * This function computes the properties of an element of _maille
      *
@@ -117,7 +117,7 @@ class Mesh
     void Calc_prop(int i);
     // ------- Déplace toutes les particules pour un pas de temps -------
     /*!
-     *  \brief Computing the displacement of every particles
+     *  \brief Computes the displacement of every particles
      *
      * This function calculates the new coordinates of each particles using their velocities for one time step
      *
@@ -125,19 +125,19 @@ class Mesh
     void Displacement();
     // ---------------- Calcul dt grâce à la "CFL" --------------------
     /*!
-     *  \brief Calculing dt using the CFL
+     *  \brief Calcules dt using the CFL
      */
     void CFL();
     // ---------- Construction des voisins pour chaque maille --------------
     /*!
-     *  \brief Building the neighbours of each quadrilaterals of the mesh
+     *  \brief Builds the neighbours of each quadrilaterals of the mesh
      *
      * This function builds the vector _voisins for each elements of the class Maille
      *
      */
     void Buildvoisins();
     /*!
-     *  \brief Finding if a a particle belongs at the domain
+     *  \brief Finds if a a particle belongs at the domain
      *
      * \param i corresponds to the particle to test
      *
@@ -156,16 +156,16 @@ class Mesh
     void Create_in_Flow();
     // ------------- Ecriture des arêtes dans un fichier --------------
       /*!
-     *  \brief Write the built edges in a file
+     *  \brief Writes the built edges in a file
      *
      * This writting allow a time gain for the initialization of the code for a constant mesh
      * *** It's to debug, the lecture on this file is not good ***
      */
     void WriteEdgesAndAssociatedQuad();
     /*!
-     *  \brief Writting the results on files
+     *  \brief Writes the results on files
      *
-     * Writes the density, the temperature, the average norm velocity, the x-velocity and the y-velocity for Paraview
+     * This function creates and writes in files the density, the temperature, the average norm velocity, the x-velocity and the y-velocity for Paraview
      *
      * \param Nom_fichier name of density files
      * \param Nom_fichier1 name of temperature files
@@ -177,14 +177,14 @@ class Mesh
     void write(std::string Nom_Fichier, std::string Nom_Fichier1, std::string Nom_Fichier2, std::string Nom_Fichier3, std::string Nom_Fichier4);
     // Lit les parametres dans un fichier
       /*!
-     *  \brief Reading parameters in a file
+     *  \brief Reads parameters in a file
      *
      * Reads the parameters (number of numerical particle per mesh, final time, method for the rebound, density, initial temperature, Mach number) in the file "parameter.txt"
      */
     void ReadParameter();
     // Initialisation du Problem
      /*!
-     *  \brief Initialization of the problem
+     *  \brief Initializes the problem
      *
      * Does the initialization of the mesh and the properties
      */
@@ -197,7 +197,7 @@ class Mesh
      */
     void compute();
       /*!
-     *  \brief Computing a random number accordiang to a Gaussain
+     *  \brief Computes a random number accordiang to a Gaussain
      */
     double alea(double a,double b);
 
@@ -210,14 +210,14 @@ class Mesh
     void Create_tau();
     // Collision pour l'ensemble des particules
       /*!
-     *  \brief Computation of the collisions of particules
+     *  \brief Computes the collisions of particules
      *
      * This function computes the new velocity after a possible collision
      */
     void collision();
     //------Calcul de la norme, du milieu et de la normale de chaque arêtes------
     /*!
-     *  \brief Computation of the geometric properties of the edges
+     *  \brief Computes the geometric properties of the edges
      *
      * This function calculates the norme, the coordinates of the center, and the normal of each edges
      */
