@@ -8,7 +8,7 @@
  *
  *
  */
-// Pétarade
+
 #include <vector>
 #include <string>
 #include "Type.h"
@@ -109,7 +109,7 @@ class Mesh
     /*!
      *  \brief Computes all properties
      *
-     * This function computes the properties of an element of _maille
+     * This function computes the density, the average velocity and the temperature of an element of _maille
      *
      * \param i corresponds at the number of the element of maille
      *
@@ -146,16 +146,50 @@ class Mesh
      *
      */
     bool Find_Maille(int i);
-
+    /*!
+     * \brief Calculates the position of the impact of a particle on the domain boundary
+     *
+     * This function is used to do a rebound
+     *
+     * \param i corresponds to the particle that will bounce off the domain boundary
+     * \param coor is the coordinates of the particle before the current displacement
+     * \param new_coor is the virtual coordinates of the particle after the current displacement (without considering the boundary condition)
+     *
+     */
     void find_impact(int i, std::vector<double> coor, std::vector<double> new_coor);
-
+    /*!
+     * \brief Defines if a given position is located in a given mesh, or not
+     *
+     * \param maille is the reference of the mesh
+     * \param Position is the coordinates of the tested position
+     *
+     * \return TRUE if the position is in the mesh
+     * \return FALSE else
+     *
+     */
     bool is_in(int maille, std::vector<double> Position);
-
+    /*!
+     * \brief Creates particules in a mesh
+     *
+     * Creates particles in a mesh. The number of created particles is the paramter N of the input file parametres.txt
+     * This function is called by the function Create_particules
+     *
+     * \param maille is the reference of the mesh
+     * \param arete is the edge through the particles enter
+     * \param Edges contain the four edges of the mesh
+     *
+     */
     void Create_particules(int maille, int arete, std::vector<int> Edges);
     // --------------- Fait entrer les particules ----------------
+    /*!
+     * \brief Creates the inflow of particles
+     *
+     * Creates the inflow of particles. This function called the function Create_particles for each mesh through the particles enter
+     *
+     */
     void Create_in_Flow();
     // ------------- Ecriture des arêtes dans un fichier --------------
-      /*!
+    /*!
      *  \brief Writes the built edges in a file
      *
      * This writting allow a time gain for the initialization of the code for a constant mesh
