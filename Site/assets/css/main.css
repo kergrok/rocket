@@ -1598,7 +1598,7 @@
 
 	body {
 		background-color: #fff;
-		color: #666;
+		color: #000000; /* Couleur du texte*/
 	}
 
 	body, input, select, textarea {

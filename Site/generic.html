@@ -12,6 +12,10 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 	</head>
+	<script type="text/javascript" src="http://latex.codecogs.com/latexit.js"></script>
+	<script type="text/javascript">
+	LatexIT.add('p',true);
+	</script>
 	<body>
 
 		<!-- Header -->
@@ -31,15 +35,68 @@
 		<!-- Main -->
 			<section id="main" class="wrapper">
 				<div class="container">
-
 					<header class="major special">
-						<h2>Introduction</h2>
-						<p>Présentation du problème</p>
+						<h2>Rentrée atmosphérique d'un objet en raréfié</h2>
+						<p>Présentation du projet</p>
 					</header>
 
 					<a href="#" class="image fit"><img src="images/pic01.jpg" alt="" /></a>
+
+					<header>
+						<h3>Introduction et contexte</h3>
+						<p>Présentation du problème et de ses enjeux</p>
+					</header>
+
 					<p>Dans le cadre d'une rentrée atmosphérique nous avons résolu l'équation de Boltzmann afin d'étudier la trajectoire des particules autour de la navette en mouvement.</p>
-					<p>Nous avons dû étudier plusieurs aspects du problème, notamment </p>
+					<p>Nous avons dû étudier plusieurs aspects du problème, notamment : $1+sin(x)^2+3$ </p>
+
+					<header>
+						<h3>Théorie</h3>
+						<p>Présentation de la littérature et du cas test</p>
+					</header>
+
+					<p>
+						On introduit la fonction de la densité de particule $f(t,x,v)$ telle que :
+						\[\int_{V_x} \int_{v\in R^3} f(t,x,v) = \text{number of particles in the volume}~V_x \]
+
+						L'équation de Boltzmann est vérifiée par f :
+						\[\partial_tf+v\nabla_x f=Q(f,f)\]
+
+						Dans un premier temps nous considérons seulement l'équation de transport, sans les collisions :
+						\[\partial_tf+v\nabla_x f=0\]
+
+						On définit un opérateur de Boltzmann simplifié pour le model : l'opérateur BGK $Q$ définit ci-dessous.
+						\[Q(f,f)=\frac{1}{\tau}(M(f)-f)\]
+
+						A l'état d'équilibre, la distribution des vitesse tends vers la Maxwellienne :
+						\[M(t,x,v)=\frac{\rho}{\sqrt{2 \pi RT}} exp\left(\frac{(u-v)^2}{2RT}\right)\]
+
+						On note $\rho$ la densité du fluide, $R$ la constance du gaz, $u$ la vitesse moyenne,
+						$T$ la température, $M$ une mawxellienne et $\tau$ le temps caractéristique décrivant le problème.
+					</p>
+
+					<p>
+						La simulation de chacune des particules du domaine engendrerait, malgrè un gaz raréfié, un temps de calcul considérable. Ainsi on introduit la notion de particule
+						numérique pour notre modèle. Chaque particule numérique représente un ensemble de particules de N<sub>2</sub>. Elle sont représentées par un poids numérique $\omega_i$ :
+						\[\omega_i =\frac{\rho V_M}{N}\]
+						Ce poids numérique dépend de plusieurs paramètres de la maille : $N$ représente le nombre de particles présentent dans la maille, $\rho$ sa densité et $V_M$ son volume.
+					</p>
+					<p>
+						Chaque particule numérique est implémentée avec sa propre vitesse initiale. Deux particules peuvent donc rentrer en collision ce qui modifiera leurs vitesses, autant
+						la direction que la norme. Il est nécessaire de simuler ce phénomène afin de prendre en compte son impact sur les propriétés de l'écoulement. Pour simplifier cette
+						considération on utilise une approche probabiliste pour simuler les collisions. 
+					</p>
+
+
+					<header>
+						<h3>Modèle numérique</h3>
+						<p>Présentation du modèle et de son optimisation</p>
+					</header>
+
+					<header>
+						<h3>Résultats</h3>
+						<p>Présentation des résultats obtenus</p>
+					</header>
 
 				</div>
 			</section>
