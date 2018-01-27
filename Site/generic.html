@@ -57,34 +57,56 @@
 
 					<p>
 						On introduit la fonction de la densité de particule $f(t,x,v)$ telle que :
-						\[\int_{V_x} \int_{v\in R^3} f(t,x,v) = \text{number of particles in the volume}~V_x \]
+						<p align="center">\[\int_{V_x} \int_{v\in R^3} f(t,x,v) = \text{number of particles in the volume}~V_x \]</p>
 
 						L'équation de Boltzmann est vérifiée par f :
-						\[\partial_tf+v\nabla_x f=Q(f,f)\]
+						<p align="center">\[\partial_tf+v\nabla_x f=Q(f,f)\]</p>
 
 						Dans un premier temps nous considérons seulement l'équation de transport, sans les collisions :
-						\[\partial_tf+v\nabla_x f=0\]
+						<p align="center">\[\partial_tf+v\nabla_x f=0\]</p>
 
 						On définit un opérateur de Boltzmann simplifié pour le model : l'opérateur BGK $Q$ définit ci-dessous.
-						\[Q(f,f)=\frac{1}{\tau}(M(f)-f)\]
+						<p align="center">\[Q(f,f)=\frac{1}{\tau}(M(f)-f)\]</p>
 
 						A l'état d'équilibre, la distribution des vitesse tends vers la Maxwellienne :
-						\[M(t,x,v)=\frac{\rho}{\sqrt{2 \pi RT}} exp\left(\frac{(u-v)^2}{2RT}\right)\]
+						<p align="center">\[M(t,x,v)=\frac{\rho}{\sqrt{2 \pi RT}} exp\left(\frac{(u-v)^2}{2RT}\right)\]</p>
 
 						On note $\rho$ la densité du fluide, $R$ la constance du gaz, $u$ la vitesse moyenne,
 						$T$ la température, $M$ une mawxellienne et $\tau$ le temps caractéristique décrivant le problème.
 					</p>
-
+					<header>
+						<h4>Particules numériques et collisions</h4>
+					</header>
 					<p>
 						La simulation de chacune des particules du domaine engendrerait, malgrè un gaz raréfié, un temps de calcul considérable. Ainsi on introduit la notion de particule
 						numérique pour notre modèle. Chaque particule numérique représente un ensemble de particules de N<sub>2</sub>. Elle sont représentées par un poids numérique $\omega_i$ :
-						\[\omega_i =\frac{\rho V_M}{N}\]
+						<p align="center">\[\omega_i =\frac{\rho V_M}{N}\]</p>
 						Ce poids numérique dépend de plusieurs paramètres de la maille : $N$ représente le nombre de particles présentent dans la maille, $\rho$ sa densité et $V_M$ son volume.
 					</p>
 					<p>
-						Chaque particule numérique est implémentée avec sa propre vitesse initiale. Deux particules peuvent donc rentrer en collision ce qui modifiera leurs vitesses, autant
-						la direction que la norme. Il est nécessaire de simuler ce phénomène afin de prendre en compte son impact sur les propriétés de l'écoulement. Pour simplifier cette
-						considération on utilise une approche probabiliste pour simuler les collisions. 
+						<p><span class="image left"><img src="images/particle.png" alt="" /></span> Chaque particule numérique est implémentée avec sa propre vitesse initiale. Deux particules peuvent donc entrer en collision ce qui modifiera leur vitesse.
+						Il est nécessaire de simuler ce phénomène afin de prendre en compte son impact sur les propriétés de l'écoulement. Pour simplifier cette
+						considération on utilise une approche probabiliste pour modéliser les collisions.
+					</p>
+					<p>
+						Un temps caractéristique est fixé pour les collisions, il dépend des caractéristiques du fluide. Il n'a pas été choisi pour ce projet comme dépendant
+						d'une taille caractéristique, cependant il peut être plus réalistique de le faire puisque cela implique un plus grand nombre de collisions, donc une meilleure
+						approche du phénomène réel. C'est une remarque qu'on considèrera dans les perspectives d'amélioration du projet. Pour notre projet on a donc posé : ...
+						On définit le temps entre deux collisions comme dix fois ce temps caractéristique. Chaque particule qui collisionne est déterminée de façon aléatoire.
+						Si une particule est choisie, on modifie alors sa vitesse en suivant la distribution Maxwellienne autour de la vitesse moyenne de la maille.
+						Dans un soucis de fidélité du modèle, on doit vérifier la conservation de la quantité de mouvement. Ainsi à chaque collision réalisée il est nécessaire
+						d'appliquer une transformation linéaire à la nouvelle vitesse implémentée.
+					</p>
+					<header>
+						<h4>Domaine étudié</h4>
+					</header>
+					<p><span class="image right"><img src="images/domaine.png" alt="" /></span>
+						On réalise une modélisation en deux dimensions. Le domaine étudié correspond à une demi sphère autour de l'objet en rentrée atmosphérique.
+						Il comprend une symétrie selon l'axe x, ainsi on peut faire une simplification et ne considérer que la partie supérieure (ici en gris) pour la simulation.
+						La condition de symétrie sera retranscrite à travers des rebonds spéculaires. En effet lorsqu'une particule passe dans la partie inférieure symétrique,
+						on peut considérer qu'une autre rentre par ce même coté.
+						On se place dans le référentiel de la navette, ainsi le domaine est fixe et on considère les particules en mouvement. Un flux de particule vient de la droite du domaine,
+						on introduit de nouvelles particules numériques à chaque temps caractéristique $\tau$.
 					</p>
 
 
