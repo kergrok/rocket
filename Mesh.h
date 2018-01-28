@@ -151,9 +151,9 @@ class Mesh
      *
      * This function is used to do a rebound
      *
-     * \param i corresponds to the particle that will bounce off the domain boundary
-     * \param coor is the coordinates of the particle before the current displacement
-     * \param new_coor is the virtual coordinates of the particle after the current displacement (without considering the boundary condition)
+     * \param i the particle that will bounce off the domain boundary
+     * \param coor the coordinates of the particle before the current displacement
+     * \param new_coor the virtual coordinates of the particle after the current displacement (without considering the boundary condition)
      *
      */
     void find_impact(int i, std::vector<double> coor, std::vector<double> new_coor);
@@ -174,9 +174,9 @@ class Mesh
      * Creates particles in a mesh. The number of created particles is the paramter N of the input file parametres.txt
      * This function is called by the function Create_particules
      *
-     * \param maille is the reference of the mesh
-     * \param arete is the edge through the particles enter
-     * \param Edges contain the four edges of the mesh
+     * \param maille reference of the mesh
+     * \param arete edge through the particles enter
+     * \param Edges containes the four edges of the mesh
      *
      */
     void Create_particules(int maille, int arete, std::vector<int> Edges);
@@ -234,13 +234,35 @@ class Mesh
      *  \brief Computes a random number accordiang to a Gaussain
      */
     double alea(double a,double b);
-
+    /*!
+     *  \brief For each mesh, updates the particles present in the mesh
+     */
     void MajMailleParticule();
-
+    /*!
+     *  \brief Calculates the norm of the subtraction of 2 vectors
+     *
+     * \param Vec1 and Vec2 are the two input vectors
+     *
+     * \return a double equal to the norm of Vec1-Vec2
+     *
+     */
     double Norme_entre(std::vector<double> Vec1, std::vector<double> Vec2);
-
+    /*!
+     * \brief Calculates the norm of a vector
+     *
+     * \param Vec is the input vector
+     *
+     * \return a double equal to the norm of Vec
+     *
+     */
     double Norme(std::vector<double> Vec);
     // ---------- Calcul temps caractéristique pour les injections ---------
+      /*!
+     * \brief Calculates the characteristic time tau
+     *
+     * Calculates the characteristic time tau=viscosity/(density*R*Temperature)
+     *
+     */
     void Create_tau();
     // Collision pour l'ensemble des particules
       /*!
@@ -254,9 +276,18 @@ class Mesh
      *  \brief Computes the geometric properties of the edges
      *
      * This function calculates the norme, the coordinates of the center, and the normal of each edges
+     *
      */
     void Build_Center_Norm();
-
+    /*!
+     * \brief Checks for a given speed if the CFL condition is respected
+     *
+     * \param Vitesse the vector of the components of the velocity
+     *
+     * \return TRUE if the CFL is respected
+     * \return FALSE else
+     *
+     */
     bool is_CFL_respected(std::vector<double> Vitesse);
 
 };
