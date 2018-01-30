@@ -1,149 +1,193 @@
 <!DOCTYPE HTML>
 <!--
-	Spatial by TEMPLATED
-	templated.co @templatedco
-	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+Spatial by TEMPLATED
+templated.co @templatedco
+Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
 -->
 <html>
-	<head>
-		<title>Projet Rocket - Projet</title>
-		<!--<title>Generic - Spatial by TEMPLATED</title>-->
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-	</head>
-	<script type="text/javascript" src="http://latex.codecogs.com/latexit.js"></script>
-	<script type="text/javascript">
-	LatexIT.add('p',true);
-	</script>
-	<body>
+<head>
+	<title>Projet Rocket - Projet</title>
+	<!--<title>Generic - Spatial by TEMPLATED</title>-->
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet" href="assets/css/main.css" />
+</head>
+<script type="text/javascript" src="http://latex.codecogs.com/latexit.js"></script>
+<script type="text/javascript">
+LatexIT.add('p',true);
+</script>
+<body>
 
-		<!-- Header -->
-			<header id="header">
-				<h1><strong><a href="index.html">Projet d'études</a></strong> ENSEIRB-MATMECA</h1>
-				<nav id="nav">
-					<ul>
-						<li><a href="index.html">Accueil</a></li>
-						<li><a href="generic.html">Projet</a></li>
-						<li><a href="elements.html">Sources</a></li>
-					</ul>
-				</nav>
+	<!-- Header -->
+	<header id="header">
+		<h1><strong><a href="index.html">Projet d'études</a></strong> ENSEIRB-MATMECA</h1>
+		<nav id="nav">
+			<ul>
+				<li><a href="index.html">Accueil</a></li>
+				<li><a href="generic.html">Projet</a></li>
+				<li><a href="elements.html">Sources</a></li>
+			</ul>
+		</nav>
+	</header>
+
+	<a href="#menu" class="navPanelToggle"><span class="fa fa-bars"></span></a>
+
+	<!-- Main -->
+	<section id="main" class="wrapper">
+		<div class="container">
+			<header class="major special">
+				<h2>Rentrée atmosphérique d'un objet en raréfié</h2>
+				<p>Présentation du projet</p>
 			</header>
 
-			<a href="#menu" class="navPanelToggle"><span class="fa fa-bars"></span></a>
+			<a href="#" class="image fit"><img src="images/pic01.jpg" alt="" /></a>
 
-		<!-- Main -->
-			<section id="main" class="wrapper">
-				<div class="container">
-					<header class="major special">
-						<h2>Rentrée atmosphérique d'un objet en raréfié</h2>
-						<p>Présentation du projet</p>
-					</header>
+			<header>
+				<h3>Introduction et contexte</h3>
+				<p>Présentation du problème et de ses enjeux</p>
+			</header>
 
-					<a href="#" class="image fit"><img src="images/pic01.jpg" alt="" /></a>
+			<p>Dans le cadre d'une rentrée atmosphérique nous avons résolu l'équation de Boltzmann afin d'étudier la trajectoire des particules autour de la navette en mouvement.</p>
+			<p>Nous avons dû étudier plusieurs aspects du problème, notamment : $1+sin(x)^2+3$ </p>
 
-					<header>
-						<h3>Introduction et contexte</h3>
-						<p>Présentation du problème et de ses enjeux</p>
-					</header>
+			<header>
+				<h3>Théorie</h3>
+				<p>Présentation de la littérature et du cas test</p>
+			</header>
+			<p> On introduit la fonction de la densité de particule $f(t,x,v)$ telle que : </p>
+			<p align="center">\[\int_{V_x} \int_{v\in R^3} f(t,x,v) = \text{number of particles in the volume}~V_x \]</p>
+			<p> L'équation de Boltzmann est vérifiée par f : </p>
+			<p align="center">\[\partial_tf+v\nabla_x f=Q(f,f)\]</p>
+			<p>Dans un premier temps nous considérons seulement l'équation de transport, sans les collisions :</p>
+			<p align="center">\[\partial_tf+v\nabla_x f=0\]</p>
+			<p>On définit un opérateur de Boltzmann simplifié pour le model : l'opérateur BGK $Q$ définit ci-dessous.</p>
+			<p align="center">\[Q(f,f)=\frac{1}{\tau}(M(f)-f)\]</p>
+			<p>A l'état d'équilibre, la distribution des vitesse tends vers la Maxwellienne :</p>
+			<p align="center">\[M(t,x,v)=\frac{\rho}{\sqrt{2 \pi RT}} exp\left(\frac{(u-v)^2}{2RT}\right)\]</p>
+			<p>
+				On note $\rho$ la densité du fluide, $R$ la constance du gaz, $u$ la vitesse moyenne,
+				$T$ la température, $M$ une mawxellienne et $\tau$ le temps caractéristique décrivant le problème.
+			</p>
+			<header>
+				<h4>Particules numériques et collisions</h4>
+			</header>
+			<p>
+				La simulation de chacune des particules du domaine engendrerait, malgrè un gaz raréfié, un temps de calcul considérable. Ainsi on introduit la notion de particule
+				numérique pour notre modèle. Chaque particule numérique représente un ensemble de particules de N<sub>2</sub>. Elle sont représentées par un poids numérique $\omega_i$ :
+			</p>
+			<p align="center">\[\omega_i =\frac{\rho V_M}{N}\]</p>
+			<p>
+				Ce poids numérique dépend de plusieurs paramètres de la maille : $N$ représente le nombre de particles présentent dans la maille, $\rho$ sa densité et $V_M$ son volume.
+			</p>
+			<p><span class="image left"><img src="images/particle.png" alt="" /></span>
+				Chaque particule numérique est implémentée avec sa propre vitesse initiale. Deux particules peuvent donc entrer en collision ce qui modifiera leur vitesse.
+				Il est nécessaire de simuler ce phénomène afin de prendre en compte son impact sur les propriétés de l'écoulement. Pour simplifier cette
+				considération on utilise une approche probabiliste pour modéliser les collisions.
+			</p>
+			<p>
+				Un temps caractéristique est fixé pour les collisions, il dépend des caractéristiques du fluide. Il n'a pas été choisi pour ce projet comme dépendant
+				d'une taille caractéristique, cependant il peut être plus réalistique de le faire puisque cela implique un plus grand nombre de collisions, donc une meilleure
+				approche du phénomène réel. C'est une remarque qu'on considèrera dans les perspectives d'amélioration du projet. Pour notre projet on a donc posé : ...
+				On définit le temps entre deux collisions comme dix fois ce temps caractéristique. Chaque particule qui collisionne est déterminée de façon aléatoire.
+				Si une particule est choisie, on modifie alors sa vitesse en suivant la distribution Maxwellienne autour de la vitesse moyenne de la maille.
+				Dans un soucis de fidélité du modèle, on doit vérifier la conservation de la quantité de mouvement. Ainsi à chaque collision réalisée il est nécessaire
+				d'appliquer une transformation linéaire à la nouvelle vitesse implémentée.
+			</p>
+			<header>
+				<h4>Domaine étudié</h4>
+			</header>
+			<p><span class="image right"><img src="images/domaine.png" alt="" /></span>
+				On réalise une modélisation en deux dimensions. Le domaine étudié correspond à une demi sphère autour de l'objet en rentrée atmosphérique.
+				Il comprend une symétrie selon l'axe x, ainsi on peut faire une simplification et ne considérer que la partie supérieure (ici en gris) pour la simulation.
+				La condition de symétrie sera retranscrite à travers des rebonds spéculaires. En effet lorsqu'une particule passe dans la partie inférieure symétrique,
+				on peut considérer qu'une autre rentre par ce même coté.
+				On se place dans le référentiel de la navette, ainsi le domaine est fixe et on considère les particules en mouvement. Un flux de particule vient de la droite du domaine,
+				où de nouvelles particules numériques sont introduites à chaque temps caractéristique $\tau$. Leurs vitesses sont initialisées selon une Maxwellienne autour de la vitesse
+				de la navette. Ainsi on a une vitesse moyenne du flux d'entrée de Mach 2 suivant la direction $-x$. On considère une température au bord de 200K.
+				Les particules entrent par un bord libre par où elles peuvent également sortir. Le bord situé à la gauche du domaine est également une condition de sortie.
+				Une condition de type mur est fixée au bord de la navette, où les particules rebondiront à son contact.
+			</p>
+			<header>
+				<h4>Conditions de rebonds</h4>
+			</header>
+			<p>On pose deux types de rebonds.</p>
+			<header>
+				<h5>Rebonds spéculaires</h5>
+			</header>
+			<p>
+				Les rebonds spéculaires sont des rebonds "parfaits". On considère la paroi comme completement lisse, ainsi l'angle réflechit est l'inverse de l'angle d'incidence.
+			</p>
+			<!--<a><img src="images/speculaire.png" alt="" /></a>-->
+			<header>
+				<h5>Rebonds maxwelliens</h5>
+			</header>
+			<p>
+				Dans la réalité la paroi de la navette n'est pas lisse, elle présente des défaults. On ne peut pas prévoir exactement les angles de réflexions.
+				En effet ils dependent de multiples facteurs physiques et chimiques. Pour remédier à cela on ajoute un caractère aléatoire aux rebonds,
+				ainsi on implémente des rebonds dépendant d'une gaussienne autour de la vitesse d'incidence.
+			</p>
 
-					<p>Dans le cadre d'une rentrée atmosphérique nous avons résolu l'équation de Boltzmann afin d'étudier la trajectoire des particules autour de la navette en mouvement.</p>
-					<p>Nous avons dû étudier plusieurs aspects du problème, notamment : $1+sin(x)^2+3$ </p>
+			<header>
+				<h3>Modèle numérique</h3>
+				<p>Présentation du modèle et de son optimisation</p>
+			</header>
+			<header>
+				<h4>Maillage et nombre d'éléments</h4>
+			</header>
+			<p>
+				Le maillage est cartésien. Dans un premier temps le travaille s'est réalisé sur un maillage contenant 1 131 quadrilatère, puis une fois le code validé les
+				résultats ont été obtenus à partir d'un maillage contenant 10 591 éléments. La complexité du code, bien qu'elle dépendent du nombre de mailles, dépends surtout
+				du nombre de particules présentes dans le domaine. Ainsi nos calculs se sont réalisés sur des domaines contentant jusqu'à 600 000 particules.
+			</p>
+			<header>
+				<h4>Architecture du code</h4>
+			</header>
+			<p>
+			</p>
 
-					<header>
-						<h3>Théorie</h3>
-						<p>Présentation de la littérature et du cas test</p>
-					</header>
+			<header>
+				<h4>Optimisation</h4>
+			</header>
+			<header>
+				<h5>Séquentielle</h5>
+			</header>
+			<p>
+				La première optimisation à réaliser a été sur le code séquentiel. Pour cela on a tout d'abord cherché à minimiser les stockages au sein du code. L'outil -gprof a été utilisé
+				afin de déterminer quelle fonction du code était le plus chronophage.
+			</p>
+			<header>
+				<h5>Parallélisation</h5>
+			</header>
 
-					<p>
-						On introduit la fonction de la densité de particule $f(t,x,v)$ telle que :
-						<p align="center">\[\int_{V_x} \int_{v\in R^3} f(t,x,v) = \text{number of particles in the volume}~V_x \]</p>
+			<header>
+				<h3>Résultats</h3>
+				<p>Présentation des résultats obtenus</p>
+			</header>
 
-						L'équation de Boltzmann est vérifiée par f :
-						<p align="center">\[\partial_tf+v\nabla_x f=Q(f,f)\]</p>
+		</div>
+	</section>
 
-						Dans un premier temps nous considérons seulement l'équation de transport, sans les collisions :
-						<p align="center">\[\partial_tf+v\nabla_x f=0\]</p>
+	<!-- Footer -->
+	<footer id="footer">
+		<div class="container">
+			<ul class="icons">
+				<li><a href="#" class="icon fa-facebook"></a></li>
+				<li><a href="#" class="icon fa-twitter"></a></li>
+				<li><a href="#" class="icon fa-instagram"></a></li>
+			</ul>
+			<ul class="copyright">
+				<li>&copy; Untitled</li>
+				<li>Design: <a href="http://templated.co">TEMPLATED</a></li>
+				<li>Images: <a href="http://unsplash.com">Unsplash</a></li>
+			</ul>
+		</div>
+	</footer>
 
-						On définit un opérateur de Boltzmann simplifié pour le model : l'opérateur BGK $Q$ définit ci-dessous.
-						<p align="center">\[Q(f,f)=\frac{1}{\tau}(M(f)-f)\]</p>
+	<!-- Scripts -->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/skel.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
 
-						A l'état d'équilibre, la distribution des vitesse tends vers la Maxwellienne :
-						<p align="center">\[M(t,x,v)=\frac{\rho}{\sqrt{2 \pi RT}} exp\left(\frac{(u-v)^2}{2RT}\right)\]</p>
-
-						On note $\rho$ la densité du fluide, $R$ la constance du gaz, $u$ la vitesse moyenne,
-						$T$ la température, $M$ une mawxellienne et $\tau$ le temps caractéristique décrivant le problème.
-					</p>
-					<header>
-						<h4>Particules numériques et collisions</h4>
-					</header>
-					<p>
-						La simulation de chacune des particules du domaine engendrerait, malgrè un gaz raréfié, un temps de calcul considérable. Ainsi on introduit la notion de particule
-						numérique pour notre modèle. Chaque particule numérique représente un ensemble de particules de N<sub>2</sub>. Elle sont représentées par un poids numérique $\omega_i$ :
-						<p align="center">\[\omega_i =\frac{\rho V_M}{N}\]</p>
-						Ce poids numérique dépend de plusieurs paramètres de la maille : $N$ représente le nombre de particles présentent dans la maille, $\rho$ sa densité et $V_M$ son volume.
-					</p>
-					<p>
-						<p><span class="image left"><img src="images/particle.png" alt="" /></span> Chaque particule numérique est implémentée avec sa propre vitesse initiale. Deux particules peuvent donc entrer en collision ce qui modifiera leur vitesse.
-						Il est nécessaire de simuler ce phénomène afin de prendre en compte son impact sur les propriétés de l'écoulement. Pour simplifier cette
-						considération on utilise une approche probabiliste pour modéliser les collisions.
-					</p>
-					<p>
-						Un temps caractéristique est fixé pour les collisions, il dépend des caractéristiques du fluide. Il n'a pas été choisi pour ce projet comme dépendant
-						d'une taille caractéristique, cependant il peut être plus réalistique de le faire puisque cela implique un plus grand nombre de collisions, donc une meilleure
-						approche du phénomène réel. C'est une remarque qu'on considèrera dans les perspectives d'amélioration du projet. Pour notre projet on a donc posé : ...
-						On définit le temps entre deux collisions comme dix fois ce temps caractéristique. Chaque particule qui collisionne est déterminée de façon aléatoire.
-						Si une particule est choisie, on modifie alors sa vitesse en suivant la distribution Maxwellienne autour de la vitesse moyenne de la maille.
-						Dans un soucis de fidélité du modèle, on doit vérifier la conservation de la quantité de mouvement. Ainsi à chaque collision réalisée il est nécessaire
-						d'appliquer une transformation linéaire à la nouvelle vitesse implémentée.
-					</p>
-					<header>
-						<h4>Domaine étudié</h4>
-					</header>
-					<p><span class="image right"><img src="images/domaine.png" alt="" /></span>
-						On réalise une modélisation en deux dimensions. Le domaine étudié correspond à une demi sphère autour de l'objet en rentrée atmosphérique.
-						Il comprend une symétrie selon l'axe x, ainsi on peut faire une simplification et ne considérer que la partie supérieure (ici en gris) pour la simulation.
-						La condition de symétrie sera retranscrite à travers des rebonds spéculaires. En effet lorsqu'une particule passe dans la partie inférieure symétrique,
-						on peut considérer qu'une autre rentre par ce même coté.
-						On se place dans le référentiel de la navette, ainsi le domaine est fixe et on considère les particules en mouvement. Un flux de particule vient de la droite du domaine,
-						on introduit de nouvelles particules numériques à chaque temps caractéristique $\tau$.
-					</p>
-
-
-					<header>
-						<h3>Modèle numérique</h3>
-						<p>Présentation du modèle et de son optimisation</p>
-					</header>
-
-					<header>
-						<h3>Résultats</h3>
-						<p>Présentation des résultats obtenus</p>
-					</header>
-
-				</div>
-			</section>
-
-		<!-- Footer -->
-			<footer id="footer">
-				<div class="container">
-					<ul class="icons">
-						<li><a href="#" class="icon fa-facebook"></a></li>
-						<li><a href="#" class="icon fa-twitter"></a></li>
-						<li><a href="#" class="icon fa-instagram"></a></li>
-					</ul>
-					<ul class="copyright">
-						<li>&copy; Untitled</li>
-						<li>Design: <a href="http://templated.co">TEMPLATED</a></li>
-						<li>Images: <a href="http://unsplash.com">Unsplash</a></li>
-					</ul>
-				</div>
-			</footer>
-
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/skel.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
-
-	</body>
+</body>
 </html>
