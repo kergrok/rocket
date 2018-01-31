@@ -24,8 +24,10 @@ LatexIT.add('p',true);
 		<nav id="nav">
 			<ul>
 				<li><a href="index.html">Accueil</a></li>
-				<li><a href="generic.html">Projet</a></li>
-				<li><a href="elements.html">Sources</a></li>
+				<li><a href="theorie.html">Theorie</a></li>
+				<li><a href="modelisation.html">Modelisation</a></li>
+				<li><a href="resultats.html">Resultats</a></li>
+				<li><a href="source.html">Sources</a></li>
 			</ul>
 		</nav>
 	</header>
@@ -40,15 +42,44 @@ LatexIT.add('p',true);
 				<p>Présentation du projet</p>
 			</header>
 
-			<a href="#" class="image fit"><img src="images/pic01.jpg" alt="" /></a>
+			<a class="image fit"><img src="images/pic01.jpg" alt="" /></a>
 
 			<header>
 				<h3>Introduction et contexte</h3>
 				<p>Présentation du problème et de ses enjeux</p>
 			</header>
 
-			<p>Dans le cadre d'une rentrée atmosphérique nous avons résolu l'équation de Boltzmann afin d'étudier la trajectoire des particules autour de la navette en mouvement.</p>
-			<p>Nous avons dû étudier plusieurs aspects du problème, notamment : $1+sin(x)^2+3$ </p>
+			<p>
+				La rentrée atmosphérique est la phase durant laquelle un objet va atteindre des couches
+				denses de l'atmosphère et qui doit lui permettre de perdre la totalité de sa vitesse pour rejoindre le sol en sécurité.
+			</br>
+				En orbite à l'altitude de la Station Spatiale Internationale (400 km), la vitesse orbitale
+				est de 7,7 $km.s^{-1}$. Son énergie cinétique extrêmement importante doit alors être convertie
+				en énergie thermique, ce qui produit un flux de chaleur de plus d'un méga-watt et endommage
+				l'objet qui doit donc être protégé par un bouclier thermique.
+			</br>
+				Si l'intégrité physique de l'objet doit être la priorité lors de sa mise au point, il est nécessaire
+				de limiter la masse du bouclier thermique qui doit être envoyé dans l'espace. Une étude précise des contraintes doit être faite.
+			</br>
+				Pour ce projet, seule la phase de rentrée durant laquelle l'objet se trouve dans la zone de gaz raréfié est étudiée,
+				à environ 120km d'altitude dans la troposphère.
+			</p>
+
+			<header>
+				<h4>Choix du modèle</h4>
+			</header>
+			<p>
+				La densité à 120km d'altitude est un dix-millième de la densité au niveau de mer. Cela implique que la distance entre
+				les molécules de gaz est beaucoup plus importante. La distance moyenne parcourue par les molécules entre deux collisions
+				au niveau de la mer est de 68 nm contre 10cm à 120km d'altitude.
+			</br>
+				Cette distance entre deux collisions comparée à la longueur caractéristique de l'objet caractérise le fait que le milieu
+				puisse être considéré comme continu ou non. Le ratio entre ces deux longueur est donné par le nombre de Knudsen qui vaut
+				dans ce cas 0.1 et caractérise un milieu non continu
+			</br>
+				Comme les équations de Navier-Stockes ne sont valables que sous l'hypothèse d'un milieu continu, elles ne peuvent pas
+				être utilisées pour notre cas. Un modèle discontinu, considérant des groupes de molécules va donc être utilisé.
+			</p>
 
 			<header>
 				<h3>Théorie</h3>
@@ -114,8 +145,6 @@ LatexIT.add('p',true);
 				tout de même de modéliser le comportement d'un gaz raréfié avec une bonne précision.
 			</p>
 
-<!-- ****************************************************************************************************************** -->
-
 			<header>
 				<h4>Particules numériques et collisions</h4>
 			</header>
@@ -149,8 +178,7 @@ LatexIT.add('p',true);
 			</p>-->
 			<p>
 				De plus, lors d'une collision, la grandeur qui est impactée est la vitesse des particules. Les nouvelles vitesses des particules ayant collisionnées seront
-				elles aussi déterminées de façon probabiliste. La nouvelle vitesse sera déterminée selon une maxwellienne centrée autour de la vitesse de la particule avant le choc.
-				(C'est bien ça ? Ou autour de la vitesse moyenne dans la maille ?)
+				elles aussi déterminées de façon probabiliste. La nouvelle vitesse sera déterminée selon une maxwellienne centrée autour de la vitesse moyenne de la maille.
 			</p>
 			<p>
 				Néanmoins, pour être au plus proche des phénomènes physiques, certains paramètres doivent être fixés de la manière suivante :
@@ -211,7 +239,7 @@ LatexIT.add('p',true);
 			<header>
 				<h4>Domaine étudié</h4>
 			</header>
-			<p><span class="image right"><img src="images/domaine.png" alt="" /></span>
+			<p><span class="image right"><img src="images/domain.png" alt="" /></span>
 				On réalise une modélisation en deux dimensions. Le domaine étudié correspond à une demi sphère autour de l'objet en rentrée atmosphérique.
 				Il comprend une symétrie selon l'axe x, ainsi on peut faire une simplification et ne considérer que la partie supérieure (ici en gris) pour la simulation.
 				La condition de symétrie sera retranscrite à travers des rebonds spéculaires. En effet lorsqu'une particule passe dans la partie inférieure symétrique,
@@ -233,236 +261,43 @@ LatexIT.add('p',true);
 				<h5>Rebonds spéculaires</h5>
 			</header>
 			<p>
-				Les rebonds spéculaires sont des rebonds "parfaits". On considère la paroi comme completement lisse, ainsi l'angle réflechit est l'inverse de l'angle d'incidence.
+				Il s'agit d'un rebond sur une surface parfaitement plate avec un choc parfaitement élastique. L'angle du rebond est l'opposé de l'angle incident et
+				la norme de la vitesse est conservée. Dans l'exemple, $-V_r=V_r$.
 			</p>
-			<!--<a><img src="images/speculaire.png" alt="" /></a>-->
-
-<!-- ****************************************************************************************************************** -->
-
-			<header>
-				<h5>Rebonds maxwelliens</h5>
-			</header>
+			<p align="center"><span><img src="images/speculaire.png" alt="" /></span></p>
 			<p>
-				Dans la réalité la paroi de la navette n'est pas lisse, elle présente des défaults. On ne peut pas prévoir exactement les angles de réflexions.
-				En effet ils dependent de multiples facteurs physiques et chimiques. Pour remédier à cela on ajoute un caractère aléatoire aux rebonds,
-				ainsi on implémente des rebonds dépendant d'une gaussienne autour de la vitesse d'incidence.
+				Sur le bord inférieur du domaine, une condition de symétrie est appliquée. On considère que si une particule sort du domaine par ce bord,
+				une autre rentre dans le domaine venant du dessous avec la même vitesse. Cela est équivalent à faire rebondir les particules sur ce bord comme dans un miroir.
 			</p>
 
 <!-- ****************************************************************************************************************** -->
 
 			<header>
-				<h3>Modèle numérique</h3>
-				<p>Présentation du modèle et de son optimisation</p>
-			</header>
-			<header>
-				<h4>Maillage et nombre d'éléments</h4>
+				<h5>Rebond suivant une loi de distribution maxwelienne</h5>
 			</header>
 			<p>
-				Le maillage est cartésien. Dans un premier temps le travaille s'est réalisé sur un maillage contenant 1 131 quadrilatère, puis une fois le code validé les
-				résultats ont été obtenus à partir d'un maillage contenant 10 591 éléments. La complexité du code, bien qu'elle dépendent du nombre de mailles, dépends surtout
-				du nombre de particules présentes dans le domaine. Ainsi nos calculs se sont réalisés sur des domaines contentant jusqu'à 600 000 particules.
+				La surface de l'objet n'est pas parfaitement plane, des imperfections existent ou sont créées par les conditions extrêmes subies par l'objet.
+				Ce type de rebond modélise ces imperfections.
+			</br>
+				Le rebond spéculaire est d'abord appliqué. On modifie ensuite la direction de la particule suivant la loi de distribution maxwelienne. Les flèches
+				continues représentent la direction qu'aurait suivie la particule si la surface était considérée parfaite, la flèche discontinue représente la direction
+				de la particule après la correction de la trajectoire.
 			</p>
+			<p align="center"><span><img src="images/max.png" alt="" /></span></p>
 
 <!-- ****************************************************************************************************************** -->
 
-			<header>
-				<h4>Architecture du code</h4>
-			</header>
-			<p>
-				Dans cette partie, la structure globale du code sera présentée de manière simplifiée afin d'en faciliter la compréhension.
-			</p>
-			<span class="image right"><img src="images/archi.png" alt="" /></span>
-			<header>
-				<h5>Initialisation</h5>
-			</header>
-			<p>
-				Après la lecture du maillage et la construction des différentes classes géométriques (Edges, Quad ...),
-				le programme doit être initialisé. Certains paramètres importants doivent être calculés tels que les surfaces correspondant
-				à chaque maille, les voisins de chaque maille, le poids numérique $\omega_i$, ou encore la viscosité. De plus,
-				le domaine est initialement vide, un "inflow" de particules doit donc être créé une première fois.
-			</p>
-			<header>
-				<h5>Calcul du pas de temps</h5>
-			</header>
-			<p>
-				Afin que le modèle soit stable et cohérent avec la réalité, le pas de temps doit vérifier deux conditions différentes :
-			</p>
-			<ul>
-				<li>
-					<p>La condition CFL :</p>
-					<p align="center">\[dt\leq \frac{1}{2}\frac{dx_{min}}{Ma\sqrt{\gamma R T}}\]</p>
-					<p>où $dx_{min}$ est la taille de la plus petite arête du maillage, $Ma$ le nombre de Mach, $R$ la constante du gaz et $T$ la température initiale. </p>
-					<p>Cette condition doit être respectée pour que lors de l'intervalle $dt$, une particule ne parcourt pas en moyenne plus de la moitié de la
-					longueur d'une maille. Afin que cette condition soit largement respectée, il a été choisi de prendre: </p>
-					<p align="center">\[ dt_{CFL} = \frac{1}{5}\frac{dx_{min}}{Ma\sqrt{\gamma R T}} \]</p>
-				</li>
-				<li>
-					<p>La condition sur les collisions:</p>
-					<p align="center">\[ \frac{dt}{\tau} \leq 0.1 \]</p>
-					<p>sachant que le temps caractéristique est obtenu par:</p>
-					<p align="center">\[ \tau = \frac{\mu(T)}{p}= \frac{\mu(T)}{\rho R T} \]</p>
-					<p>avec $\mu(T)$ une loi de viscosité dépendant de la température initiale.
-					<br />Pour l'initialisation, le pas de temps est fixé à:</p>
-					<p align="center">\[ dt_{\tau}=0.1\tau\]</p>
-				</li>
-			</ul>
-			<p>
-				Le pas de temps est ensuite fixé en prenant le minimum des deux $dt$ obtenus:
-			</p>
-			<p align="center">\[ dt=min(dt_{CFL},dt_{\tau}) \]</p>
-			<p>
-				Si le minimum des deux est le $dt_{CFL}$, alors le coefficient $\frac{dt}{\tau}$
-				doit être calculé puis stocké en vu du calcul sur les collisions.
-			</p>
-			<p>
-				Une fois ce dernier paramètre fixé, le programme peut rentrer dans la boucle en temps.
-			</p>
-
-			<header>
-				<h5>Calcul des déplacements</h5>
-			</header>
-			<p>
-				Cette fonction calcule, pour chaque particule, les coordonnées de la nouvelle position
-				de celle-ci suite à un déplacement durant un pas de temps $dt$. Par la suite,
-				divers autres fonctions sont appelées afin de mettre à jour la localisation dans le
-				maillage ainsi que, si besoin, les vitesses.
-			</p>
-			<p>
-				Pour commencer, une première fonction teste si la particule se trouve toujours dans le domaine d'étude.
-				Si elle y est, sa position est mise à jour dans le maillage (la particule est sauvegardée dans la maille correspondante),
-				sinon une deuxième fonction est appelée. Celle-ci permet de vérifier si la particule est sortie du domaine par un bord de
-				condition "outflow" ou si elle devrait rebondir sur le bord de condition de symétrie ou sur le bord de condition "wall"
-				correspondant à la navette. Si la particule est sortie par le bord "outflow", elle est supprimée car elle n'aura plus
-				d'influence sur notre domaine de calcul, sinon, la particule doit rebondir et une troisième fonction est appelée afin de
-				calculer sa nouvelle position et sa nouvelle vitesse. Enfin, sa localisation dans le maillage est mise à jour.
-			</p>
-			<p>
-				Lors de cette succession d'appel de fonctions, certains cas sont traités différemment et avec plus de précautions.
-				En effet, les mailles possédant deux bords différents présentent des cas différents:
-			</p>
-			<ul>
-				<li>
-					la maille possédant un bord avec condition de symétrie et un bord avec condition "wall" peut donner
-					lieu à deux rebonds différents pour la particule.
-				</li>
-				<li>
-					la maille possédant un bord avec condition de symétrie et un bord avec condition "outflow" peut donner
-					lieu à un rebond et/ou une sortie de la particule.
-				</li>
-				<li>
-					la maille possédant un bord avec condition "wall" et un bord avec condition "outflow" peut donner lieu à
-					un rebond et/ou une sortie de la particule.
-				</li>
-			</ul>
-			<p>
-				Pour terminer, le respect de la condition CFL est testé avec chaque vitesse correspondante pour chaque particule.
-				Si jamais elle n'est pas respectée, alors le pas de temps est divisé et les calculs sont réalisé à nouveaux.
-				Cette opération peut avoir lieu jusqu'à dix fois, si jamais la condition n'est toujours pas respectée,
-				la particule est supprimée. Ceci arrive de temps en temps pour des particules avec une vitesse vraiment
-				très élevée (due à la génération de vitesse selon une loi de probabilité).
-			</p>
-
-			<header>
-				<h5>Collisions</h5>
-			</header>
-			<p>
-				Une fois toutes les positions mise à jour, le programme s'intéresse aux collisions dans chaque maille comme
-				expliqué précédemment. Si jamais une particule collisionne, sa vitesse est mise à jour suivant la maxwellienne
-				autour de la vitesse moyenne dans la maille.
-			</p>
-
-			<header>
-				<h5>Calcul des paramètres</h5>
-			</header>
-			<p>
-				A la fin de chaque itération, la densité, la vitesse ainsi que la température sont calculés dans chaque maille à
-				l'aide des formules présentées précédemment. De plus, en vu de l'itération suivante, un nouvel "inflow" de particules est créé.
-			</p>
-			<p>
-				Lorsque le temps final est atteint, c'est la fin du programme.
-			</p>
 
 <!-- ****************************************************************************************************************** -->
-
-			<header>
-				<h4>Optimisation</h4>
-			</header>
-			<header>
-				<h5>Séquentielle</h5>
-			</header>
-			<p>
-				La première optimisation à réaliser a été sur le code séquentiel.
-				Pour cela on a tout d'abord cherché à minimiser les stockages au sein du code. L'outil -gprof a été utilisé
-				afin de déterminer quelle fonction du code était le plus chronophage.
-			</p>
-			<header>
-				<h5>Parallélisation</h5>
-			</header>
-
-<!-- ****************************************************************************************************************** -->
-
-			<header>
-				<h3>Résultats</h3>
-				<p>Présentation des résultats obtenus</p>
-			</header>
-
-			<header>
-				<h4>Validations</h4>
-			</header>
-
-			<header>
-				<h5>Validation sans les collisions</h5>
-			</header>
-			<p align="center"><span><img src="images/density_without_collision.png" alt="" /></span></p>
-			<p>
-				Afin de valider le modèle sans les collisions, le code a été exécuté sur
-				un maillage plus raffiné et jusqu'à ce que la solution semble stabilisée. Les résultats sont présentés sur les
-				figures ci-contre pour la densité, la vitesse et la température.
-			</p>
-			<p>
-				Pour la densité, on remarque une hausse juste à l'avant de la navette due à l'agglomération de particules.
-				Dans le reste du domaine la densité est globalement uniforme et de même valeur qu'initialement. En ce qui concerne
-				la température, on remarque un fort échauffement à l'avant de la navette, jusqu'à plus de 1000 K, alors que la température
-				à la condition "inflow" est de 200 K.
-			</p>
-				<p align="center"><span><img src="images/Temp_without_collision.png" alt="" /></span></p>
-			<p>
-				Pour la vitesse, on peut observer qu'elle est très ralentie, voir quasi nulle, juste devant la navette alors qu'elle
-				semble être plus importante sur le côté de la navette.
-			</p>
-			<p align="center"><span><img src="images/Velo_without_collision.png" alt="" /></span></p>
-			<p>
-				Ces résultats sont proches de ceux à quoi on pouvait s'attendre et sont réalistes.
-			</p>
-
-
-			<header>
-				<h5>Validation avec les collisions</h5>
-			</header>
-			<p>
-				Avec un maillage identique au précédent, le code a été exécuté en tenant compte des collisions. Afin d'avoir un
-				visuel plus lisse de la solution, un moyennage des différentes propriétés affichées a été réalisé une fois la
-				stabilisation de la solution. Les résultats sont présentés à nouveau sur les figures ci-contre.
-			</p>
-			<p>
-				Pour la densité, on remarque également une hausse juste à l'avant de la navette due à l'agglomération de particules
-				et une densité homogène ailleurs. La température est proche des 1000 K à l'avant de la navette et proche des 200 K ailleurs.
-				Enfin la vitesse est quasi nulle devant la navette et plus élevée sur le bord de celle-ci. Encore une fois ces résultats
-				semblent physiquement explicables et proche de ce à quoi on pouvait s'attendre. Néanmoins, il aurait fallu comparer les
-				valeurs obtenus avec des valeurs mesurées expérimentalement afin de les valider précisément.
-			</p>
-
 		</div>
 	</section>
 
 	<!-- Footer -->
 	<footer id="footer">
 		<div class="container">
-			<ul class="icons">
-				<li><a href="#" class="icon fa-facebook"></a></li>
-				<li><a href="#" class="icon fa-twitter"></a></li>
-				<li><a href="#" class="icon fa-instagram"></a></li>
-			</ul>
+			<!-- <ul class="icons">
+				<li><a href="https://github.com/kergrok/rocket" class="icon fa-github" target="_blank"><span class="label">Github</span></a></a></li>
+			</ul> -->
 			<ul class="copyright">
 				<li>&copy; Untitled</li>
 				<li>Design: <a href="http://templated.co">TEMPLATED</a></li>
