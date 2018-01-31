@@ -67,14 +67,14 @@ LatexIT.add('p',true);
 				qui est la densité de masse de gaz par unité de volume. Ainsi, intégrée sur un volume,
 				cette fonction donne la masse de gaz présent dans ce volume :
 			</p>
-			<p align="center">\[\int_{V_x} \int_{v\in R^3} f(t,x,v) = \text{number of particles in the volume}~V_x \]</p>
+			<p align="center">\[\int_{V_x} \int_{v\in R^3} f(t,x,v) = \text{nombre de particules dans le volume}~V_x \]</p>
 			<p>On peut montrer que le mouvement des particules est décrit par l'équation de Boltzmann :</p>
 			<p align="center">\[\partial_tf+v\nabla_x f=Q(f,f)\]</p>
 			<p>avec v la vitesse de la particule et Q est appelé opérateur de collision.</p>
 
 			<p>
 				Ainsi, on peut remarquer que si l'on ne considère pas l'opérateur de collision,
-				l'équation se transforme en une équation de propafation classique :
+				l'équation se transforme en une équation de propagation classique :
 			</p>
 			<p align="center">\[\partial_tf+v\nabla_x f=0\]</p>
 			<p>
@@ -92,7 +92,7 @@ LatexIT.add('p',true);
 			<p>
 				Il a été démontré (cf cours Luc Mieussens) que la répartition des particules d'un gaz va tendre
 				vers un état d'équilibre représenté par une distribution dite Maxwellienne. La distribution Maxwellienne
-				est une fonction gaussienne centrée sur u et d'écart type RT, dont voici l'expression :
+				est une fonction gaussienne centrée sur une vitesse moyenne u et d'écart type RT, dont voici l'expression :
 			</p>
 			<p align="center">\[M(t,x,v)=\frac{\rho}{\sqrt{2 \pi RT}} exp\left(\frac{(u-v)^2}{2RT}\right)\]</p>
 			<p>
@@ -111,14 +111,7 @@ LatexIT.add('p',true);
 
 			<p>
 				Le modèle ainsi construit est plus simple à résoudre numériquement que le problème de départ et permet
-				tout de même de modéliser le comportement d'un gaz raréfié avec une bonné précision.
-			</p>
-
-			<p>On définit un opérateur de Boltzmann simplifié pour le model : l'opérateur BGK $Q$ définit ci-dessous.</p>
-			<p>A l'état d'équilibre, la distribution des vitesse tends vers la Maxwellienne :</p>
-			<p>
-				On note $\rho$ la densité du fluide, $R$ la constance du gaz, $u$ la vitesse moyenne,
-				$T$ la température, $M$ une mawxellienne et $\tau$ le temps caractéristique décrivant le problème.
+				tout de même de modéliser le comportement d'un gaz raréfié avec une bonne précision.
 			</p>
 
 <!-- ****************************************************************************************************************** -->
@@ -127,12 +120,12 @@ LatexIT.add('p',true);
 				<h4>Particules numériques et collisions</h4>
 			</header>
 			<p>
-				La simulation de chacune des particules du domaine engendrerait, malgrè un gaz raréfié, un temps de calcul considérable. Ainsi on introduit la notion de particule
+				Bien que l'on considère un gaz raréfié, la simulation de chacune des particules du domaine engendrerait, un temps de calcul considérable. Ainsi on introduit la notion de particule
 				numérique pour notre modèle. Chaque particule numérique représente un ensemble de particules de N<sub>2</sub>. Elle sont représentées par un poids numérique $\omega_i$ :
 			</p>
 			<p align="center">\[\omega_i =\frac{\rho V_M}{N}\]</p>
 			<p>
-				Ce poids numérique dépend de plusieurs paramètres de la maille : $N$ représente le nombre de particles présentent dans la maille, $\rho$ sa densité et $V_M$ son volume.
+				Ce poids numérique dépend de plusieurs paramètres de la maille : $N$ représente le nombre de particles présentent dans la maille, $V_M$ son volume et $\rho$ la densité.
 			</p>
 			<p><span class="image left"><img src="images/particle.png" alt="" /></span>
 				Chaque particule numérique est implémentée avec sa propre vitesse initiale. Deux particules peuvent donc entrer en collision ce qui modifiera leur vitesse.
@@ -178,11 +171,9 @@ LatexIT.add('p',true);
 			</p>
 			<p>
 				La conservation de la quantité de mouvement sur l'ensemble des particules d'une maille donne donc :
-			</p>
 			<p align="center">\[E(Y')=aE(Y)+b=E(X).\]</p>
 			<p>
 				De même, la conservation de la température dans la maille donne :
-			</p>
 			<p align="center">\[Var(Y')=a^2 Var(Y)=Var(X).\]</p>
 			<p>
 			Le lien entre la variance de la vitesse des particules et la température dans la maille est mis en évidence dans la partie suivante.\\
