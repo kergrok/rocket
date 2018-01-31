@@ -185,8 +185,35 @@ LatexIT.add('p',true);
 			</p>
 			<p align="center">\[Var(Y')=a^2 Var(Y)=Var(X).\]</p>
 			<p>
+			Le lien entre la variance de la vitesse des particules et la température dans la maille est mis en évidence dans la partie suivante.\\
+			<p>
 				Ainsi, avec ces deux conditions, on obtient les coefficients a et b. Cela permet ensuite de calculer des vitesses après impact qui soient cohérentes avec le modèle physique.
 			</p>
+
+			<header>
+				<h4>Calcul des propriétés physiques dans les mailles</h4>
+			</header>
+			<p>
+			Une fois les positions des particules mise à jour, la masse volumique, la vitesse moyenne ainsi que la température de chaque maille peuvent être elles aussi actualisées. Pour ce faire, il existe des formules permettant de faire le lien entre ces grandeurs et le nombre de particule par maille. Ainsi, la masse volumique s'écrit :
+			<p>
+			<p align="center">\[\rho_M=\sum \limits_{i \in M}\frac{\omega_i}{V_M},\]</p>
+			<p>
+			avec $V_M$ le volume de la maille et $\omega_i$ le poids numérique de chacune des particules. Dans le cas présent, le poids numérique est identique pour toutes les particules.\\
+			La vitesse moyenne dans les maille s'écrit simplement :
+			<p>
+			<p align="center">\[u_M=\frac{1}{n_{part}}\sum \limits_{i \in M} v_i,\]</p>
+			<p>
+			avec $n_part$ le nombre de particules dans la maille et $v_i$ les vitesse de chacune des particules. Une fois cette vitesse moyenne obtenue, on peut ainsi calculer la température grâce à la formule suivante :
+			<p>
+			<p align="center">\[T_M=\frac{1}{3Rn_{part}}\sum \limits_{i \in M} (v_i-u_M)^2,\]</p>
+			<p>
+			avec R la constante des gaz parfaits.
+			<p>
+			On voit ici de manière assez clair le lien décrit précédemment entre la variance de la vitesse des particules et la température d'une maille.\\
+			<p>
+			Ainsi, le lien est fait entre les particules et les propriétés physiques dans chacune des mailles. Ce sont ces propriétés (notamment la température) qui constituent l'objectif final de notre code.
+			<p>
+
 
 <!-- ****************************************************************************************************************** -->
 
