@@ -54,6 +54,39 @@ LatexIT.add('p',true);
 			</header>
 
 			<header>
+				<h5>Test sur le déplacement</h4>
+			</header>
+				<p>
+				Tout d'abord, afin de valider le début de nos codes, un test sans la prise en compte des rebonds et des collisions a été réalisé.
+				De plus la vitesse d'entrée a été définie uniformément dans la direction de l'axe des x uniquement.
+				Le résultat estompé est donc un domaine avec une densité homogène partout correspondant à la densité définie en entrée.
+				Ce test fut réalisé sur un maillage grossier afin d'économiser du temps de calcul.
+			</p>
+			<p>
+				Le résultat est présenté ci-dessous, comme on peut le voir la densité est effectivement quasi homogène sur l'ensemble du domaine.
+				La fonction de déplacement est donc validée.
+			</p>
+			<p align="center"><span><img src="images/test_deplacements.png" alt="" /></span></p>
+
+			<header>
+				<h5>Test sur les rebonds</h5>
+			</header>
+			<p>
+			Par la suite, la fonction sur les rebonds sur la condition de symétrie et sur la condition "wall" a été intégrée au code.
+			Afin de tester celui-ci, il a été décider d'injecter seulement un seul "inflow" de particules avec seulement une particule par maille sur un maillage grossier.
+			Cela va permettre de suivre les trajectoires et les rebonds des particules facilement.
+			Il ne faut pas payer attention aux valeurs de densité obtenues.
+			</p>
+			<p>
+				Le résultat est présenté sous forme d'une vidéo dans laquelle on observe assez facilement les rebonds des particules.
+				Ce test a été réalisé avec les rebonds selon la maxwellienne.
+			</p>
+
+			<a href="images/animation.swf" title="Test sur les rebonds">Vidéo des rebonds</a>
+
+
+
+			<header>
 				<h5>Validation sans les collisions</h5>
 			</header>
 			<p align="center"><span><img src="images/density_without_collision.png" alt="" /></span></p>
