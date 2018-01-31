@@ -1,38 +1,9 @@
-/**
- * \file collision.cpp
- * \author L.Bouet - S.Bouchex - A.Antimes - C.Gouin
- * \version 1.0
- * \date 25 janvier 2018
- *
- */
-
 #include "Mesh.h"
 #include <fstream>
 #include <iostream>
 #include <assert.h>
 
 using namespace std;
-
-/*
-void Mesh::collision()
-{
-for (int i = 0; i < _part.size(); i++) {
-int collision_or_not = rand() % 10;
-if (collision_or_not == 0 ) {
-int maille = _part[i].Getref();
-double temp = _maille[maille].Gettemp();
-vector<double> vit_moy(3);
-vit_moy = _maille[maille].Getaverage();
-vector<double>  Vitesse(3);
-Vitesse[0] = vit_moy[0]+sqrt(287*temp)*alea(0,1);
-Vitesse[1] = vit_moy[1]+sqrt(287*temp)*alea(0,1);
-Vitesse[2] = vit_moy[2]+sqrt(287*temp)*alea(0,1);
-
-_part[i].Modifyvelo(Vitesse);
-}
-}
-}
-*/
 
 void Mesh::collision()
 {
