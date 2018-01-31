@@ -54,20 +54,75 @@ LatexIT.add('p',true);
 				<h3>Théorie</h3>
 				<p>Présentation de la littérature et du cas test</p>
 			</header>
-			<p> On introduit la fonction de la densité de particule $f(t,x,v)$ telle que : </p>
+
+<!-- ****************************************************************************************************************** -->
+
+			<header>
+				<h4>Equation de Boltzmann</h4>
+			</header>
+			<p>
+				L'équation de Navier-Stokes n'étant pas valable dans le cas considéré, une méthode particulaire a été utilisée.
+				Dans cette approche du problème, le fluide est représenté par un très grand nombre de particules de gaz.
+				Pour décrire le comportement de ces particules, on introduit la fonction de distribution f,
+				qui est la densité de masse de gaz par unité de volume. Ainsi, intégrée sur un volume,
+				cette fonction donne la masse de gaz présent dans ce volume :
+			</p>
 			<p align="center">\[\int_{V_x} \int_{v\in R^3} f(t,x,v) = \text{number of particles in the volume}~V_x \]</p>
-			<p> L'équation de Boltzmann est vérifiée par f : </p>
+			<p>On peut montrer que le mouvement des particules est décrit par l'équation de Boltzmann :</p>
 			<p align="center">\[\partial_tf+v\nabla_x f=Q(f,f)\]</p>
-			<p>Dans un premier temps nous considérons seulement l'équation de transport, sans les collisions :</p>
+			<p>avec v la vitesse de la particule et Q est appelé opérateur de collision.</p>
+
+			<p>
+				Ainsi, on peut remarquer que si l'on ne considère pas l'opérateur de collision,
+				l'équation se transforme en une équation de propafation classique :
+			</p>
 			<p align="center">\[\partial_tf+v\nabla_x f=0\]</p>
-			<p>On définit un opérateur de Boltzmann simplifié pour le model : l'opérateur BGK $Q$ définit ci-dessous.</p>
-			<p align="center">\[Q(f,f)=\frac{1}{\tau}(M(f)-f)\]</p>
-			<p>A l'état d'équilibre, la distribution des vitesse tends vers la Maxwellienne :</p>
+			<p>
+				L'ajout de l'opérateur Q permet donc de prendre en compte les collisions entre les particules.
+				Il existe une expression précise de l'opérateur de collision. Mais celui-ci rend l'équation complexe
+				à résoudre numériquement. Il a donc été décidé d'utiliser un modèle permettant de simplifier
+				cet opérateur : le modèle BGK.
+			</p>
+
+<!-- ****************************************************************************************************************** -->
+
+			<header>
+				<h4>Modèle BGK</h4>
+			</header>
+			<p>
+				Il a été démontré (cf cours Luc Mieussens) que la répartition des particules d'un gaz va tendre
+				vers un état d'équilibre représenté par une distribution dite Maxwellienne. La distribution Maxwellienne
+				est une fonction gaussienne centrée sur u et d'écart type RT, dont voici l'expression :
+			</p>
 			<p align="center">\[M(t,x,v)=\frac{\rho}{\sqrt{2 \pi RT}} exp\left(\frac{(u-v)^2}{2RT}\right)\]</p>
+			<p>
+				avec $\rho$ la densité du fluide, R la constante des gaz parfait (Ou plutôt de notre gaz ?),
+				u la vitesse moyenne du fluide, T la température et $\tau$ le temps caractéristique du phénomène de
+				convergence vers l'état d'équilibre.
+			</p>
+			<p>
+				Ainsi, la convergence de la fonction de distribution vers cette Maxwellienne est la base du modèle BGK.
+				En effet, en posant comme opérateur de collision :
+			</p>
+			<p align="center">\[Q(f,f)=\frac{1}{\tau}(M(f)-f)\]</p>
+			<p>
+				on obtient ainsi la convergence de la fonction de répartition vers la Maxwellienne.
+			</p>
+
+			<p>
+				Le modèle ainsi construit est plus simple à résoudre numériquement que le problème de départ et permet
+				tout de même de modéliser le comportement d'un gaz raréfié avec une bonné précision.
+			</p>
+
+			<p>On définit un opérateur de Boltzmann simplifié pour le model : l'opérateur BGK $Q$ définit ci-dessous.</p>
+			<p>A l'état d'équilibre, la distribution des vitesse tends vers la Maxwellienne :</p>
 			<p>
 				On note $\rho$ la densité du fluide, $R$ la constance du gaz, $u$ la vitesse moyenne,
 				$T$ la température, $M$ une mawxellienne et $\tau$ le temps caractéristique décrivant le problème.
 			</p>
+
+<!-- ****************************************************************************************************************** -->
+
 			<header>
 				<h4>Particules numériques et collisions</h4>
 			</header>
@@ -81,10 +136,16 @@ LatexIT.add('p',true);
 			</p>
 			<p><span class="image left"><img src="images/particle.png" alt="" /></span>
 				Chaque particule numérique est implémentée avec sa propre vitesse initiale. Deux particules peuvent donc entrer en collision ce qui modifiera leur vitesse.
-				Il est nécessaire de simuler ce phénomène afin de prendre en compte son impact sur les propriétés de l'écoulement. Pour simplifier cette
-				considération on utilise une approche probabiliste pour modéliser les collisions.
+				Il est nécessaire de simuler ce phénomène afin de prendre en compte son impact sur les propriétés de l'écoulement. Pour simplifier le problème et gagner en temps de calcul,
+				les collisions entre particules ont été simplifiées. En effet, il est compliqué de connaître avec exactitude les trajectoires de toutes
+				les particules pour prendre en compte leurs collisions.
 			</p>
 			<p>
+				Il a donc été choisi d'utiliser un modèle probabiliste : les particules qui collisionnent sont choisies aléatoirement. Cela facilite grandement la résolution.
+				En effet, à chaque pas de temps, les particules se déplacent sans interaction les unes avec les autres, puis de manière probabiliste sont effectuées les collisions.
+				Ainsi, il n'y a pas corrélation entre le déplacement des particules et les collisions, ce qui simplifie la résolution.
+			</p>
+			<!--<p>
 				Un temps caractéristique est fixé pour les collisions, il dépend des caractéristiques du fluide. Il n'a pas été choisi pour ce projet comme dépendant
 				d'une taille caractéristique, cependant il peut être plus réalistique de le faire puisque cela implique un plus grand nombre de collisions, donc une meilleure
 				approche du phénomène réel. C'est une remarque qu'on considèrera dans les perspectives d'amélioration du projet. Pour notre projet on a donc posé : ...
@@ -92,7 +153,43 @@ LatexIT.add('p',true);
 				Si une particule est choisie, on modifie alors sa vitesse en suivant la distribution Maxwellienne autour de la vitesse moyenne de la maille.
 				Dans un soucis de fidélité du modèle, on doit vérifier la conservation de la quantité de mouvement. Ainsi à chaque collision réalisée il est nécessaire
 				d'appliquer une transformation linéaire à la nouvelle vitesse implémentée.
+			</p>-->
+			<p>
+				De plus, lors d'une collision, la grandeur qui est impactée est la vitesse des particules. Les nouvelles vitesses des particules ayant collisionnées seront
+				elles aussi déterminées de façon probabiliste. La nouvelle vitesse sera déterminée selon une maxwellienne centrée autour de la vitesse de la particule avant le choc.
+				(C'est bien ça ? Ou autour de la vitesse moyenne dans la maille ?)
 			</p>
+			<p>
+				Néanmoins, pour être au plus proche des phénomènes physiques, certains paramètres doivent être fixés de la manière suivante :
+			</p>
+			<ul>
+				<li>Les collisions ont lieu tout les 10 pas de temps</li>
+				<li>Dans chaque maille, la proportion de particules qui collisionnent est de 10 %</li>
+			</ul>
+			<p>
+				Lors des collisions, la nouvelle vitesse des particules étant déterminée de manière probabiliste, la vitesse dans la maille ne sera
+				pas la même avant et après les collisions. Ceci ne correspond pas à la réalité physique puisque qu'il n'y a pas conservation de la quantité de mouvement.
+				Ainsi, pour conserver la quantité de mouvement, une transformation linéaire va être faite sur les vitesses des particules.
+				(toutes les particules de la maille ou seulement celles qui ont collisionnées ?)
+			</p>
+			<p>
+				L'objectif de la transformation linéaire est de modifier la vitesse après collision de façon à conserver la quantité de mouvement ainsi que la température dans la maille.
+				On note $X_i$ et $Y_i$ les vitesses de chacune des particules i.La nouvelle vitesse après transformation va s'écrire $Y'_i=aY+b$ avec a et b à déterminer.
+			</p>
+			<p>
+				La conservation de la quantité de mouvement sur l'ensemble des particules d'une maille donne donc :
+			</p>
+			<p align="center">\[E(Y')=aE(Y)+b=E(X).\]</p>
+			<p>
+				De même, la conservation de la température dans la maille donne :
+			</p>
+			<p align="center">\[Var(Y')=a^2 Var(Y)=Var(X).\]</p>
+			<p>
+				Ainsi, avec ces deux conditions, on obtient les coefficients a et b. Cela permet ensuite de calculer des vitesses après impact qui soient cohérentes avec le modèle physique.
+			</p>
+
+<!-- ****************************************************************************************************************** -->
+
 			<header>
 				<h4>Domaine étudié</h4>
 			</header>
@@ -107,6 +204,9 @@ LatexIT.add('p',true);
 				Les particules entrent par un bord libre par où elles peuvent également sortir. Le bord situé à la gauche du domaine est également une condition de sortie.
 				Une condition de type mur est fixée au bord de la navette, où les particules rebondiront à son contact.
 			</p>
+
+<!-- ****************************************************************************************************************** -->
+
 			<header>
 				<h4>Conditions de rebonds</h4>
 			</header>
@@ -118,6 +218,9 @@ LatexIT.add('p',true);
 				Les rebonds spéculaires sont des rebonds "parfaits". On considère la paroi comme completement lisse, ainsi l'angle réflechit est l'inverse de l'angle d'incidence.
 			</p>
 			<!--<a><img src="images/speculaire.png" alt="" /></a>-->
+
+<!-- ****************************************************************************************************************** -->
+
 			<header>
 				<h5>Rebonds maxwelliens</h5>
 			</header>
@@ -126,6 +229,8 @@ LatexIT.add('p',true);
 				En effet ils dependent de multiples facteurs physiques et chimiques. Pour remédier à cela on ajoute un caractère aléatoire aux rebonds,
 				ainsi on implémente des rebonds dépendant d'une gaussienne autour de la vitesse d'incidence.
 			</p>
+
+<!-- ****************************************************************************************************************** -->
 
 			<header>
 				<h3>Modèle numérique</h3>
@@ -139,11 +244,127 @@ LatexIT.add('p',true);
 				résultats ont été obtenus à partir d'un maillage contenant 10 591 éléments. La complexité du code, bien qu'elle dépendent du nombre de mailles, dépends surtout
 				du nombre de particules présentes dans le domaine. Ainsi nos calculs se sont réalisés sur des domaines contentant jusqu'à 600 000 particules.
 			</p>
+
+<!-- ****************************************************************************************************************** -->
+
 			<header>
 				<h4>Architecture du code</h4>
 			</header>
 			<p>
+				Dans cette partie, la structure globale du code sera présentée de manière simplifiée afin d'en faciliter la compréhension.
 			</p>
+			<span class="image right"><img src="images/archi.png" alt="" /></span>
+			<header>
+				<h5>Initialisation</h5>
+			</header>
+			<p>
+				Après la lecture du maillage et la construction des différentes classes géométriques (Edges, Quad ...),
+				le programme doit être initialisé. Certains paramètres importants doivent être calculés tels que les surfaces correspondant
+				à chaque maille, les voisins de chaque maille, le poids numérique $\omega_i$, ou encore la viscosité. De plus,
+				le domaine est initialement vide, un "inflow" de particules doit donc être créé une première fois.
+			</p>
+			<header>
+				<h5>Calcul du pas de temps</h5>
+			</header>
+			<p>
+				Afin que le modèle soit stable et cohérent avec la réalité, le pas de temps doit vérifier deux conditions différentes :
+			</p>
+			<ul>
+				<li>
+					<p>La condition CFL :</p>
+					<p align="center">\[dt\leq \frac{1}{2}\frac{dx_{min}}{Ma\sqrt{\gamma R T}}\]</p>
+					<p>où $dx_{min}$ est la taille de la plus petite arête du maillage, $Ma$ le nombre de Mach, $R$ la constante du gaz et $T$ la température initiale. </p>
+					<p>Cette condition doit être respectée pour que lors de l'intervalle $dt$, une particule ne parcourt pas en moyenne plus de la moitié de la
+					longueur d'une maille. Afin que cette condition soit largement respectée, il a été choisi de prendre: </p>
+					<p align="center">\[ dt_{CFL} = \frac{1}{5}\frac{dx_{min}}{Ma\sqrt{\gamma R T}} \]</p>
+				</li>
+				<li>
+					<p>La condition sur les collisions:</p>
+					<p align="center">\[ \frac{dt}{\tau} \leq 0.1 \]</p>
+					<p>sachant que le temps caractéristique est obtenu par:</p>
+					<p align="center">\[ \tau = \frac{\mu(T)}{p}= \frac{\mu(T)}{\rho R T} \]</p>
+					<p>avec $\mu(T)$ une loi de viscosité dépendant de la température initiale.
+					<br />Pour l'initialisation, le pas de temps est fixé à:</p>
+					<p align="center">\[ dt_{\tau}=0.1\tau\]</p>
+				</li>
+			</ul>
+			<p>
+				Le pas de temps est ensuite fixé en prenant le minimum des deux $dt$ obtenus:
+			</p>
+			<p align="center">\[ dt=min(dt_{CFL},dt_{\tau}) \]</p>
+			<p>
+				Si le minimum des deux est le $dt_{CFL}$, alors le coefficient $\frac{dt}{\tau}$
+				doit être calculé puis stocké en vu du calcul sur les collisions.
+			</p>
+			<p>
+				Une fois ce dernier paramètre fixé, le programme peut rentrer dans la boucle en temps.
+			</p>
+
+			<header>
+				<h5>Calcul des déplacements</h5>
+			</header>
+			<p>
+				Cette fonction calcule, pour chaque particule, les coordonnées de la nouvelle position
+				de celle-ci suite à un déplacement durant un pas de temps $dt$. Par la suite,
+				divers autres fonctions sont appelées afin de mettre à jour la localisation dans le
+				maillage ainsi que, si besoin, les vitesses.
+			</p>
+			<p>
+				Pour commencer, une première fonction teste si la particule se trouve toujours dans le domaine d'étude.
+				Si elle y est, sa position est mise à jour dans le maillage (la particule est sauvegardée dans la maille correspondante),
+				sinon une deuxième fonction est appelée. Celle-ci permet de vérifier si la particule est sortie du domaine par un bord de
+				condition "outflow" ou si elle devrait rebondir sur le bord de condition de symétrie ou sur le bord de condition "wall"
+				correspondant à la navette. Si la particule est sortie par le bord "outflow", elle est supprimée car elle n'aura plus
+				d'influence sur notre domaine de calcul, sinon, la particule doit rebondir et une troisième fonction est appelée afin de
+				calculer sa nouvelle position et sa nouvelle vitesse. Enfin, sa localisation dans le maillage est mise à jour.
+			</p>
+			<p>
+				Lors de cette succession d'appel de fonctions, certains cas sont traités différemment et avec plus de précautions.
+				En effet, les mailles possédant deux bords différents présentent des cas différents:
+			</p>
+			<ul>
+				<li>
+					la maille possédant un bord avec condition de symétrie et un bord avec condition "wall" peut donner
+					lieu à deux rebonds différents pour la particule.
+				</li>
+				<li>
+					la maille possédant un bord avec condition de symétrie et un bord avec condition "outflow" peut donner
+					lieu à un rebond et/ou une sortie de la particule.
+				</li>
+				<li>
+					la maille possédant un bord avec condition "wall" et un bord avec condition "outflow" peut donner lieu à
+					un rebond et/ou une sortie de la particule.
+				</li>
+			</ul>
+			<p>
+				Pour terminer, le respect de la condition CFL est testé avec chaque vitesse correspondante pour chaque particule.
+				Si jamais elle n'est pas respectée, alors le pas de temps est divisé et les calculs sont réalisé à nouveaux.
+				Cette opération peut avoir lieu jusqu'à dix fois, si jamais la condition n'est toujours pas respectée,
+				la particule est supprimée. Ceci arrive de temps en temps pour des particules avec une vitesse vraiment
+				très élevée (due à la génération de vitesse selon une loi de probabilité).
+			</p>
+
+			<header>
+				<h5>Collisions</h5>
+			</header>
+			<p>
+				Une fois toutes les positions mise à jour, le programme s'intéresse aux collisions dans chaque maille comme
+				expliqué précédemment. Si jamais une particule collisionne, sa vitesse est mise à jour suivant la maxwellienne
+				autour de la vitesse moyenne dans la maille.
+			</p>
+
+			<header>
+				<h5>Calcul des paramètres</h5>
+			</header>
+			<p>
+				A la fin de chaque itération, la densité, la vitesse ainsi que la température sont calculés dans chaque maille à
+				l'aide des formules présentées précédemment. De plus, en vu de l'itération suivante, un nouvel "inflow" de particules est créé.
+			</p>
+			<p>
+				Lorsque le temps final est atteint, c'est la fin du programme.
+			</p>
+
+<!-- ****************************************************************************************************************** -->
 
 			<header>
 				<h4>Optimisation</h4>
@@ -152,17 +373,66 @@ LatexIT.add('p',true);
 				<h5>Séquentielle</h5>
 			</header>
 			<p>
-				La première optimisation à réaliser a été sur le code séquentiel. Pour cela on a tout d'abord cherché à minimiser les stockages au sein du code. L'outil -gprof a été utilisé
+				La première optimisation à réaliser a été sur le code séquentiel.
+				Pour cela on a tout d'abord cherché à minimiser les stockages au sein du code. L'outil -gprof a été utilisé
 				afin de déterminer quelle fonction du code était le plus chronophage.
 			</p>
 			<header>
 				<h5>Parallélisation</h5>
 			</header>
 
+<!-- ****************************************************************************************************************** -->
+
 			<header>
 				<h3>Résultats</h3>
 				<p>Présentation des résultats obtenus</p>
 			</header>
+
+			<header>
+				<h4>Validations</h4>
+			</header>
+
+			<header>
+				<h5>Validation sans les collisions</h5>
+			</header>
+			<p align="center"><span><img src="images/density_without_collision.png" alt="" /></span></p>
+			<p>
+				Afin de valider le modèle sans les collisions, le code a été exécuté sur
+				un maillage plus raffiné et jusqu'à ce que la solution semble stabilisée. Les résultats sont présentés sur les
+				figures ci-contre pour la densité, la vitesse et la température.
+			</p>
+			<p>
+				Pour la densité, on remarque une hausse juste à l'avant de la navette due à l'agglomération de particules.
+				Dans le reste du domaine la densité est globalement uniforme et de même valeur qu'initialement. En ce qui concerne
+				la température, on remarque un fort échauffement à l'avant de la navette, jusqu'à plus de 1000 K, alors que la température
+				à la condition "inflow" est de 200 K.
+			</p>
+				<p align="center"><span><img src="images/Temp_without_collision.png" alt="" /></span></p>
+			<p>
+				Pour la vitesse, on peut observer qu'elle est très ralentie, voir quasi nulle, juste devant la navette alors qu'elle
+				semble être plus importante sur le côté de la navette.
+			</p>
+			<p align="center"><span><img src="images/Velo_without_collision.png" alt="" /></span></p>
+			<p>
+				Ces résultats sont proches de ceux à quoi on pouvait s'attendre et sont réalistes.
+			</p>
+
+
+			<header>
+				<h5>Validation avec les collisions</h5>
+			</header>
+			<p>
+				Avec un maillage identique au précédent, le code a été exécuté en tenant compte des collisions. Afin d'avoir un
+				visuel plus lisse de la solution, un moyennage des différentes propriétés affichées a été réalisé une fois la
+				stabilisation de la solution. Les résultats sont présentés à nouveau sur les figures ci-contre.
+			</p>
+			<p>
+				Pour la densité, on remarque également une hausse juste à l'avant de la navette due à l'agglomération de particules
+				et une densité homogène ailleurs. La température est proche des 1000 K à l'avant de la navette et proche des 200 K ailleurs.
+				Enfin la vitesse est quasi nulle devant la navette et plus élevée sur le bord de celle-ci. Encore une fois ces résultats
+				semblent physiquement explicables et proche de ce à quoi on pouvait s'attendre. Néanmoins, il aurait fallu comparer les
+				valeurs obtenus avec des valeurs mesurées expérimentalement afin de les valider précisément.
+			</p>
 
 		</div>
 	</section>
