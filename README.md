@@ -5,13 +5,13 @@ Ce code permet de calculer l'écoulement d'un gaz raréfié lors d'une rentrée 
 
 ## Fichiers
 
-Le projet Rocket est constitué des fichiers suivants:
--Readme.md, le fichier que vous êtes en train de lire
--Un makefile qui permet de compiler Rocket sur Linux
--Un fichier paramètres permettant de modifier les caractéristiques de l'écoulement
--Un fichier .geo permettant de générer le maillage au format .mesh de l'INRIA
--Un fichier .mesh contenant un maillage du domaine
--L'ensemble des fichiers source
+Le projet Rocket est constitué des fichiers suivants:  
+-Readme.md, le fichier que vous êtes en train de lire  
+-Un makefile qui permet de compiler Rocket sur Linux  
+-Un fichier paramètres permettant de modifier les caractéristiques de l'écoulement  
+-Un fichier .geo permettant de générer le maillage au format .mesh de l'INRIA  
+-Un fichier .mesh contenant un maillage du domaine  
+-L'ensemble des fichiers source  
 
 
 ## Compilez-le vous-même
