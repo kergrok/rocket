@@ -9,7 +9,7 @@ Le projet Rocket est constitué des fichiers suivants:
 -Readme.md, le fichier que vous êtes en train de lire  
 -Un makefile qui permet de compiler Rocket sur Linux  
 -Un fichier paramètres permettant de modifier les caractéristiques de l'écoulement  
--Un fichier .geo permettant de générer le maillage au format .mesh de l'INRIA  
+-Un fichier .geo permettant de générer avec GMSH le maillage au format .mesh de l'INRIA  
 -Un fichier .mesh contenant un maillage du domaine  
 -L'ensemble des fichiers source  
 
