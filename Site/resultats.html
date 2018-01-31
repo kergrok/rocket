@@ -1,0 +1,122 @@
+<!DOCTYPE HTML>
+<!--
+Spatial by TEMPLATED
+templated.co @templatedco
+Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+<head>
+	<title>Projet Rocket - Projet</title>
+	<!--<title>Generic - Spatial by TEMPLATED</title>-->
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet" href="assets/css/main.css" />
+</head>
+<script type="text/javascript" src="http://latex.codecogs.com/latexit.js"></script>
+<script type="text/javascript">
+LatexIT.add('p',true);
+</script>
+<body>
+
+	<!-- Header -->
+	<header id="header">
+		<h1><strong><a href="index.html">Projet d'études</a></strong> ENSEIRB-MATMECA</h1>
+		<nav id="nav">
+			<ul>
+				<li><a href="index.html">Accueil</a></li>
+				<li><a href="theorie.html">Theorie</a></li>
+				<li><a href="modelisation.html">Modelisation</a></li>
+				<li><a href="resultats.html">Resultats</a></li>
+				<li><a href="source.html">Sources</a></li>
+			</ul>
+		</nav>
+	</header>
+
+	<a href="#menu" class="navPanelToggle"><span class="fa fa-bars"></span></a>
+
+	<!-- Main -->
+	<section id="main" class="wrapper">
+		<div class="container">
+			<header class="major special">
+				<h2>Rentrée atmosphérique d'un objet en raréfié</h2>
+				<p>Présentation du projet</p>
+			</header>
+
+			<a href="#" class="image fit"><img src="images/pic01.jpg" alt="" /></a>
+
+			<header>
+				<h3>Résultats</h3>
+				<p>Présentation des résultats obtenus</p>
+			</header>
+
+			<header>
+				<h4>Validations</h4>
+			</header>
+
+			<header>
+				<h5>Validation sans les collisions</h5>
+			</header>
+			<p align="center"><span><img src="images/density_without_collision.png" alt="" /></span></p>
+			<p>
+				Afin de valider le modèle sans les collisions, le code a été exécuté sur
+				un maillage plus raffiné et jusqu'à ce que la solution semble stabilisée. Les résultats sont présentés sur les
+				figures ci-contre pour la densité, la vitesse et la température.
+			</p>
+			<p>
+				Pour la densité, on remarque une hausse juste à l'avant de la navette due à l'agglomération de particules.
+				Dans le reste du domaine la densité est globalement uniforme et de même valeur qu'initialement. En ce qui concerne
+				la température, on remarque un fort échauffement à l'avant de la navette, jusqu'à plus de 1000 K, alors que la température
+				à la condition "inflow" est de 200 K.
+			</p>
+				<p align="center"><span><img src="images/Temp_without_collision.png" alt="" /></span></p>
+			<p>
+				Pour la vitesse, on peut observer qu'elle est très ralentie, voir quasi nulle, juste devant la navette alors qu'elle
+				semble être plus importante sur le côté de la navette.
+			</p>
+			<p align="center"><span><img src="images/Velo_without_collision.png" alt="" /></span></p>
+			<p>
+				Ces résultats sont proches de ceux à quoi on pouvait s'attendre et sont réalistes.
+			</p>
+
+
+			<header>
+				<h5>Validation avec les collisions</h5>
+			</header>
+			<p>
+				Avec un maillage identique au précédent, le code a été exécuté en tenant compte des collisions. Afin d'avoir un
+				visuel plus lisse de la solution, un moyennage des différentes propriétés affichées a été réalisé une fois la
+				stabilisation de la solution. Les résultats sont présentés à nouveau sur les figures ci-contre.
+			</p>
+			<p>
+				Pour la densité, on remarque également une hausse juste à l'avant de la navette due à l'agglomération de particules
+				et une densité homogène ailleurs. La température est proche des 1000 K à l'avant de la navette et proche des 200 K ailleurs.
+				Enfin la vitesse est quasi nulle devant la navette et plus élevée sur le bord de celle-ci. Encore une fois ces résultats
+				semblent physiquement explicables et proche de ce à quoi on pouvait s'attendre. Néanmoins, il aurait fallu comparer les
+				valeurs obtenus avec des valeurs mesurées expérimentalement afin de les valider précisément.
+			</p>
+
+		</div>
+	</section>
+
+	<!-- Footer -->
+	<footer id="footer">
+		<div class="container">
+			<!-- <ul class="icons">
+				<li><a href="https://github.com/kergrok/rocket" class="icon fa-github" target="_blank"><span class="label">Github</span></a></a></li>
+			</ul> -->
+			<ul class="copyright">
+				<li>&copy; Untitled</li>
+				<li>Design: <a href="http://templated.co">TEMPLATED</a></li>
+				<li>Images: <a href="http://unsplash.com">Unsplash</a></li>
+			</ul>
+		</div>
+	</footer>
+
+	<!-- Scripts -->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/skel.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
+
+</body>
+</html>
