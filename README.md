@@ -14,17 +14,19 @@ Le projet Rocket est constitué des fichiers suivants:
 -L'ensemble des fichiers source
 
 
-### Compilez-le vous-même
+## Compilez-le vous-même
 
 Le compilateur g++ doit être préalablement installé.
 
 Sous un système Linux, il est alors possible de compiler Rocket à partir du code source avec le Makefile inclus.
 
-#### Ressource pour comprendre les bases du code
+## Ressource pour comprendre les bases du code
 
 Le site du projet "ADRESSE DU SITE" explique en détails les modèles utilisés par Rocket.
 
-##### Lancer les tests
+## Tests disponibles
+
+#### Lancer les tests
 
 Lancez le code avec les paramètres donnés à l'adresse: ADRESSE DU SITE.
 La solution stationnaire pour les paramètres donnés est présentée.
@@ -33,7 +35,7 @@ La solution stationnaire pour les paramètres donnés est présentée.
 
 Ces tests vous permettront de prendre en main le code et de vous assurer que cette utilisation vous mène vers de bons résultats.
 
-####### Auteurs
+## Auteurs
 
 * **Aymeric ANTIMES** 
 
@@ -43,11 +45,11 @@ Ces tests vous permettront de prendre en main le code et de vous assurer que cet
 
 * **Camille GOUIN** 
 
-######### License
+#### Licence
 
 This project is licensed under no License.
 
-########## Remerciements
+### Remerciements
 
 * Julien Mathiaud pour ses conseils avisés
 
